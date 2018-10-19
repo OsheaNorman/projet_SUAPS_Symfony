@@ -1,6 +1,5 @@
-/* recharge rapide du fichier */
+/* recharge rapide des tables pour test */
 
- 
 DROP TABLE IF EXISTS aua_etudiant_unicampus; 
 DROP TABLE IF EXISTS aua_personnel_unicampus; 
 DROP TABLE IF EXISTS aua_autre_unicampus;
@@ -8,61 +7,85 @@ DROP TABLE IF EXISTS aua_exterieur_sport;
 DROP TABLE IF EXISTS aua_presence_seance;
 DROP TABLE IF EXISTS aua_etudiant; 
 DROP TABLE IF EXISTS aua_personnel;
-
+DROP TABLE IF EXISTS aua_liste_seance;
+DROP TABLE IF EXISTS vue_presence;
 
 
 /*--------------------- declaration des tables ---------------------*/
 
 CREATE TABLE IF NOT EXISTS aua_etudiant(
-	no_etudiant integer(8),
-	nom_usuel varchar(40),
-	prenom varchar(20),
+	no_etudiant integer(8) NOT NULL,
+	nom_usuel varchar(40) NOT NULL,
+	prenom varchar(20) NOT NULL,
 	PRIMARY KEY (no_etudiant)
 );
 
+
 CREATE TABLE IF NOT EXISTS aua_personnel(
-        no_individu integer(8),
-        nom_usuel varchar(40),
-	prenom varchar(20),
+        no_individu integer(8) NOT NULL,
+        nom_usuel varchar(40) NOT NULL,
+	prenom varchar(20) NOT NULL,
 	PRIMARY KEY (no_individu)
 );
 
+
 CREATE TABLE IF NOT EXISTS aua_etudiant_unicampus(
-	no_individu integer(8),
-	no_mifare_inverse varchar(30),
+	no_individu integer(8) NOT NULL,
+	no_mifare_inverse varchar(30) NOT NULL,
 	FOREIGN KEY (no_individu) REFERENCES aua_etudiant(no_etudiant)
 	
 );
 
+
 CREATE TABLE IF NOT EXISTS aua_personnel_unicampus(
-	no_individu integer(8),
-	no_mifare_inverse varchar(30),
+	no_individu integer(8) NOT NULL,
+	no_mifare_inverse varchar(30) NOT NULL,
 	FOREIGN KEY (no_individu) REFERENCES aua_personnel(no_individu)
 );
 
-/*clés etrangeres non prise en compte soucis du choix entre aua_etudiant.no_etudiant ou aua_personnel.no_individu */
 
+/*clés etrangeres non prise en compte soucis du choix entre aua_etudiant.no_etudiant ou aua_personnel.no_individu */
 CREATE TABLE IF NOT EXISTS aua_autre_unicampus(
-	no_individu integer(8),
-	no_mifare_inverse varchar(30)
+	no_individu integer(8) NOT NULL,
+	no_mifare_inverse varchar(30) NOT NULL
 );
+
 
 CREATE TABLE IF NOT EXISTS aua_exterieur_sport(
-	no_exterieur varchar(20),
-	nom varchar(30),
-	prenom varchar(20)
+	no_exterieur varchar(20) NOT NULL,
+	nom varchar(30) NOT NULL,
+	prenom varchar(20) NOT NULL
 );
+
+
+CREATE TABLE IF NOT EXISTS aua_liste_seance(
+ 	idSeance integer NOT NULL AUTO_INCREMENT,
+	tempsSeance datetime NOT NULL,
+	limitePersonnes integer NOT NULL,
+	PRIMARY KEY (idSeance)
+);
+
 
 CREATE TABLE IF NOT EXISTS aua_presence_seance(
  	id integer NOT NULL AUTO_INCREMENT,
-	temps datetime,
-	no_mifare_inverse varchar(30),
-	typeBadge integer,
-	PRIMARY KEY (id)
+	no_mifare_inverse varchar(30) NOT NULL,
+	temps datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	entreesSorties varchar(50) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id) REFERENCES aua_liste_seance(idSeance)
+);
+
+
+CREATE TABLE IF NOT EXISTS vue_presence(
+ 	nom varchar(40) NOT NULL,
+	prenom varchar(20) NOT NULL,
+	temps datetime NOT NULL,
+	no_etudiant integer(8),
+	tempsSeance datetime NOT NULL
 );
 	
 
-/*--------------------- insertions ---------------------*/
+/*--------------------- insertions pour test ---------------------*/
 
 INSERT INTO aua_etudiant(no_etudiant,nom_usuel,prenom)
 VALUES
@@ -105,13 +128,6 @@ VALUES
  ('15000922', 'Viaux', 'Kylian'),
  ('15003650', 'Arapari', 'Mateanui'),
  ('17007058', 'Marignale', 'Ian'),
- ('10001000', 'Campos Do Nascimento', 'Daniel');
-	
-
-/*--------------------- trigger ---------------------*/
-
-
-
-	
-
+ ('15002023', 'Campos Do Nascimento', 'Daniel');
+		
 
