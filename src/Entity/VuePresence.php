@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
-
 /**
  * @ApiResource
  * @ORM\Table(name="vue_presence")
@@ -13,6 +12,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class VuePresence
 {
+    /**
+     * @ORM\Id
+     * @ORM\Column(name="idSeance", type="integer")
+     */
+    private $idSeance;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=40)
@@ -41,9 +46,15 @@ class VuePresence
      */
     private $tempsSeance;
 
-    public function getId(): ?int
+    public function getIdSeance(): ?int
     {
-        return $this->id;
+        return $this->idSeance;
+    }
+
+    public function setIdSeance(int $idSeance): self
+    {
+        $this->idSeance = $idSeance;
+        return $this;
     }
 
     public function getNom(): ?string
@@ -98,6 +109,6 @@ class VuePresence
     public function setTempsSeance(\DateTimeInterface $tempsSeance): self
     {
         $this->tempsSeance = $tempsSeance;
-	return $this;
+        return $this;
     }
 }

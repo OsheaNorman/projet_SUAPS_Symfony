@@ -3,25 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
-
 
 /**
- * @ApiResource
+ * AuaPresenceSeance
+ *
  * @ORM\Table(name="aua_presence_seance")
  * @ORM\Entity
  */
 class AuaPresenceSeance
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
     /**
      * @var string
      *
@@ -37,16 +27,23 @@ class AuaPresenceSeance
     private $temps = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="typeBadge", type="integer", nullable=false)
+     * @ORM\Column(name="entreesSorties", type="string", length=30, nullable=false)
      */
-    private $typebadge;
+    private $entreessorties;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @var \AuaListeSeance
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="AuaListeSeance")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idSeance", referencedColumnName="idSeance")
+     * })
+     */
+    private $idseance;
 
     public function getNoMifareInverse(): ?string
     {
@@ -72,14 +69,26 @@ class AuaPresenceSeance
         return $this;
     }
 
-    public function getTypebadge(): ?int
+    public function getEntreessorties(): ?string
     {
-        return $this->typebadge;
+        return $this->entreessorties;
     }
 
-    public function setTypebadge(int $typebadge): self
+    public function setEntreessorties(string $entreessorties): self
     {
-        $this->typebadge = $typebadge;
+        $this->entreessorties = $entreessorties;
+
+        return $this;
+    }
+
+    public function getIdseance(): ?AuaListeSeance
+    {
+        return $this->idseance;
+    }
+
+    public function setIdseance(?AuaListeSeance $idseance): self
+    {
+        $this->idseance = $idseance;
 
         return $this;
     }
