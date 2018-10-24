@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ liste_presence }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        {% set compteur = 0 %}
+        {% set idSeance = 0 %}
+
+        {% for present in presents %}
+            {% set compteur = compteur + 1 %}
+            {% set idSeance = present.idSeance %}
+
+            <div class="row" style="margin-top:10px">
+                <div class="col-lg-1 alert alert-success" style="border:2px solid black">{{ compteur }}</div>
+                <div class="col-lg-8 offset-lg-1">
+                    <div class="row justify-content-around alert alert-success" style="border:2px solid black">
+                        <div class="col-lg-4">{{ present.nom }}</div>
+                        <div class="col-lg-4">{{ present.prenom }}</div>
+                    </div>
+                </div>  
+                <div class="col-lg-1 offset-lg-1 alert alert-success" style="border:2px solid black">{{ present.duree }}</div>
+            </div>
+
+        {% else %}
+            <div class="col-lg-12 alert alert-danger text-center" style="border:2px solid black">NO STUDENTS</div>
+        {% endfor %}
+
+        <footer class="row">
+            <div id="div_horloge" class="col-lg-3 alert alert-success" style="border:2px solid black"></div>
+
+            {% set nbMax = 0 %}
+            {% for limitePersonne in resultLimitePersonnes %}
+                {% if limitePersonne.idSeance == idSeance %}
+                    {% set nbMax = limitePersonne.limitePersonnes %}
+		{% else %}
+			{% set nbMax = limitePersonne.limitePersonnes %}
+                {% endif %}
+            {% endfor %}
+
+            <div class="col-lg-3 offset-lg-6 alert alert-success" style="border:2px solid black">Capacite : {{ compteur }} / {{ nbMax }}</div>
+        </footer>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+        window.onload=function()
+        {
+            horloge('div_horloge');
+        };
+
+        function horloge(el) {
+            if(typeof el=="string") { 
+                el = document.getElementById(el); 
+            }
+        
+            function actualiser() {
+                var date = new Date();
+                var str = date.getHours();
+                str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
+                str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
+                el.innerHTML = str;
+            }
+        
+            actualiser();
+            setInterval(actualiser,1000);
+        }            
+    </script>
+    
+{% endblock %}
