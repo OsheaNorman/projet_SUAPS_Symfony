@@ -4,68 +4,71 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container-fluid text-center">
         {% set compteur = 0 %}
-        {% set idSeance = 0 %}
+        {% set couleur = '' %}
 
-        {% for present in presents %}
+        {% for present in tablePresents %}
             {% set compteur = compteur + 1 %}
             {% set idSeance = present.idSeance %}
 
+            {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+            {% if present.duree > tempsMinimum|date('H:i:s') %}
+                {% set couleur = 'alert alert-danger' %}
+            {% else %}
+                {% set couleur = 'alert alert-success' %}
+            {% endif %}
+
             <div class="row" style="margin-top:10px">
-                <div class="col-lg-1 alert alert-success" style="border:2px solid black">{{ compteur }}</div>
+                <div class="col-lg-1 {{ couleur }}" style="border:2px solid black">{{ compteur }}</div>
                 <div class="col-lg-8 offset-lg-1">
-                    <div class="row justify-content-around alert alert-success" style="border:2px solid black">
+                    <div class="row justify-content-around {{ couleur }}" style="border:2px solid black">
                         <div class="col-lg-4">{{ present.nom }}</div>
                         <div class="col-lg-4">{{ present.prenom }}</div>
                     </div>
                 </div>  
-                <div class="col-lg-1 offset-lg-1 alert alert-success" style="border:2px solid black">{{ present.duree }}</div>
+                <div class="col-lg-1 offset-lg-1 {{ couleur }}" style="border:2px solid black">{{ present.duree }}</div>
             </div>
 
         {% else %}
-            <p>No students</p>
+            <div class="col-lg-12 alert alert-danger" style="border:2px solid black">NO STUDENTS</div>
         {% endfor %}
 
-        <footer class="row">
-            <div class="col-lg-3 alert alert-success" style="border:2px solid black">
-                <div id="div_horloge"></div>
-	 
-	            <script type="text/javascript">
-                    window.onload=function()
-                    {
-                        horloge('div_horloge');
-                    };
-        
-                    function horloge(el) {
-                        if(typeof el=="string") { 
-                            el = document.getElementById(el); 
-                        }
-                    
-                        function actualiser() {
-                            var date = new Date();
-                            var str = date.getHours();
-                            str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
-                            str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
-                            el.innerHTML = str;
-                        }
-                    
-                        actualiser();
-                        setInterval(actualiser,1000);
-                    }
-                    
-                </script>
-            </div>
-
-            {% set nbMax = 0 %}
-            {% for limitePersonne in resultLimitePersonnes %}
-                {% if limitePersonne.idSeance == idSeance %}
-                    {% set nbMax = limitePersonne.limitePersonnes %}
-                {% endif %}
-            {% endfor %}
-
-            <div class="col-lg-3 offset-lg-6 alert alert-success" style="border:2px solid black">Capacite : {{ compteur }} / {{ nbMax }}</div>
+        <footer class="row fixed-bottom" style="margin-left:20px; margin-right:20px">
+            <div id="div_horloge" class="col-lg-2 alert alert-success" style="border:2px solid black"></div>
+            <div class="col-lg-2 offset-lg-8 alert alert-success" style="border:2px solid black">Capacite : {{ compteur }} / {{ capacite }}</div>
         </footer>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        /* ****** Gestion de l'heure actuelle ****** */
+        window.onload=function()
+        {
+            horloge('div_horloge');
+        };
+
+        function horloge(id) {
+            if(typeof id=="string") { 
+                id = document.getElementById(id);
+            }
+        
+            function actualiser() {
+                var date = new Date();
+                var str = date.getHours();
+                str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
+                str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
+                id.innerHTML = str;
+            }
+        
+            actualiser();
+            setInterval(actualiser,1000);
+        }
+
+    </script>
+    
 {% endblock %}

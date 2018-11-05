@@ -54,7 +54,6 @@ class VuePresence
     public function setIdSeance(int $idSeance): self
     {
         $this->idSeance = $idSeance;
-
         return $this;
     }
 
@@ -66,7 +65,6 @@ class VuePresence
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -78,7 +76,6 @@ class VuePresence
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -90,7 +87,6 @@ class VuePresence
     public function setTemps(\DateTimeInterface $temps): self
     {
         $this->temps = $temps;
-
         return $this;
     }
 
@@ -102,7 +98,6 @@ class VuePresence
     public function setNoEtudiant(?int $no_etudiant): self
     {
         $this->no_etudiant = $no_etudiant;
-
         return $this;
     }
 
@@ -114,7 +109,6 @@ class VuePresence
     public function setTempsSeance(\DateTimeInterface $tempsSeance): self
     {
         $this->tempsSeance = $tempsSeance;
-
         return $this;
     }
 }
