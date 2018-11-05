@@ -281,7 +281,8 @@ class ControlleurTestController extends AbstractController
 		$entityManager->flush();
 		
 		return new Response('');
-        }
+	}
+	
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	/**
