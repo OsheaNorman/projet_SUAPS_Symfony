@@ -56,19 +56,19 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 
         // line 6
         echo "
-    <div class=\"container\">
+    <div class=\"container-fluid text-center\">
         ";
         // line 8
         $context["compteur"] = 0;
         // line 9
         echo "        ";
-        $context["idSeance"] = 0;
+        $context["couleur"] = "";
         // line 10
         echo "
         ";
         // line 11
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["presents"]) || array_key_exists("presents", $context) ? $context["presents"] : (function () { throw new Twig_Error_Runtime('Variable "presents" does not exist.', 11, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["tablePresents"]) || array_key_exists("tablePresents", $context) ? $context["tablePresents"] : (function () { throw new Twig_Error_Runtime('Variable "tablePresents" does not exist.', 11, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["present"]) {
             // line 12
@@ -79,25 +79,50 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             $context["idSeance"] = twig_get_attribute($this->env, $this->source, $context["present"], "idSeance", array());
             // line 14
             echo "
-            <div class=\"row\" style=\"margin-top:10px\">
-                <div class=\"col-lg-1 alert alert-success\" style=\"border:2px solid black\">";
+            ";
             // line 16
-            echo twig_escape_filter($this->env, (isset($context["compteur"]) || array_key_exists("compteur", $context) ? $context["compteur"] : (function () { throw new Twig_Error_Runtime('Variable "compteur" does not exist.', 16, $this->source); })()), "html", null, true);
+            echo "            ";
+            if ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_date_format_filter($this->env, (isset($context["tempsMinimum"]) || array_key_exists("tempsMinimum", $context) ? $context["tempsMinimum"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimum" does not exist.', 16, $this->source); })()), "H:i:s"))) {
+                // line 17
+                echo "                ";
+                $context["couleur"] = "alert alert-danger";
+                // line 18
+                echo "            ";
+            } else {
+                // line 19
+                echo "                ";
+                $context["couleur"] = "alert alert-success";
+                // line 20
+                echo "            ";
+            }
+            // line 21
+            echo "
+            <div class=\"row\" style=\"margin-top:10px\">
+                <div class=\"col-lg-1 ";
+            // line 23
+            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 23, $this->source); })()), "html", null, true);
+            echo "\" style=\"border:2px solid black\">";
+            echo twig_escape_filter($this->env, (isset($context["compteur"]) || array_key_exists("compteur", $context) ? $context["compteur"] : (function () { throw new Twig_Error_Runtime('Variable "compteur" does not exist.', 23, $this->source); })()), "html", null, true);
             echo "</div>
                 <div class=\"col-lg-8 offset-lg-1\">
-                    <div class=\"row justify-content-around alert alert-success\" style=\"border:2px solid black\">
+                    <div class=\"row justify-content-around ";
+            // line 25
+            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 25, $this->source); })()), "html", null, true);
+            echo "\" style=\"border:2px solid black\">
                         <div class=\"col-lg-4\">";
-            // line 19
+            // line 26
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["present"], "nom", array()), "html", null, true);
             echo "</div>
                         <div class=\"col-lg-4\">";
-            // line 20
+            // line 27
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["present"], "prenom", array()), "html", null, true);
             echo "</div>
                     </div>
                 </div>  
-                <div class=\"col-lg-1 offset-lg-1 alert alert-success\" style=\"border:2px solid black\">";
-            // line 23
+                <div class=\"col-lg-1 offset-lg-1 ";
+            // line 30
+            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 30, $this->source); })()), "html", null, true);
+            echo "\" style=\"border:2px solid black\">";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()), "html", null, true);
             echo "</div>
             </div>
@@ -106,54 +131,22 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             $context['_iterated'] = true;
         }
         if (!$context['_iterated']) {
-            // line 27
-            echo "            <div class=\"col-lg-12 alert alert-danger text-center\" style=\"border:2px solid black\">NO STUDENTS</div>
+            // line 34
+            echo "            <div class=\"col-lg-12 alert alert-danger\" style=\"border:2px solid black\">NO STUDENTS</div>
         ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['present'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 29
+        // line 36
         echo "
-        <footer class=\"row\">
-            <div id=\"div_horloge\" class=\"col-lg-3 alert alert-success\" style=\"border:2px solid black\"></div>
-
-            ";
-        // line 33
-        $context["nbMax"] = 0;
-        // line 34
-        echo "            ";
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["resultLimitePersonnes"]) || array_key_exists("resultLimitePersonnes", $context) ? $context["resultLimitePersonnes"] : (function () { throw new Twig_Error_Runtime('Variable "resultLimitePersonnes" does not exist.', 34, $this->source); })()));
-        foreach ($context['_seq'] as $context["_key"] => $context["limitePersonne"]) {
-            // line 35
-            echo "                ";
-            if ((twig_get_attribute($this->env, $this->source, $context["limitePersonne"], "idSeance", array()) == (isset($context["idSeance"]) || array_key_exists("idSeance", $context) ? $context["idSeance"] : (function () { throw new Twig_Error_Runtime('Variable "idSeance" does not exist.', 35, $this->source); })()))) {
-                // line 36
-                echo "                    ";
-                $context["nbMax"] = twig_get_attribute($this->env, $this->source, $context["limitePersonne"], "limitePersonnes", array());
-                // line 37
-                echo "\t\t";
-            } else {
-                // line 38
-                echo "\t\t\t";
-                $context["nbMax"] = twig_get_attribute($this->env, $this->source, $context["limitePersonne"], "limitePersonnes", array());
-                // line 39
-                echo "                ";
-            }
-            // line 40
-            echo "            ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['limitePersonne'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 41
-        echo "
-            <div class=\"col-lg-3 offset-lg-6 alert alert-success\" style=\"border:2px solid black\">Capacite : ";
-        // line 42
-        echo twig_escape_filter($this->env, (isset($context["compteur"]) || array_key_exists("compteur", $context) ? $context["compteur"] : (function () { throw new Twig_Error_Runtime('Variable "compteur" does not exist.', 42, $this->source); })()), "html", null, true);
+        <footer class=\"row fixed-bottom\" style=\"margin-left:20px; margin-right:20px\">
+            <div id=\"div_horloge\" class=\"col-lg-2 alert alert-success\" style=\"border:2px solid black\"></div>
+            <div class=\"col-lg-2 offset-lg-8 alert alert-success\" style=\"border:2px solid black\">Capacite : ";
+        // line 39
+        echo twig_escape_filter($this->env, (isset($context["compteur"]) || array_key_exists("compteur", $context) ? $context["compteur"] : (function () { throw new Twig_Error_Runtime('Variable "compteur" does not exist.', 39, $this->source); })()), "html", null, true);
         echo " / ";
-        echo twig_escape_filter($this->env, (isset($context["nbMax"]) || array_key_exists("nbMax", $context) ? $context["nbMax"] : (function () { throw new Twig_Error_Runtime('Variable "nbMax" does not exist.', 42, $this->source); })()), "html", null, true);
+        echo twig_escape_filter($this->env, (isset($context["capacite"]) || array_key_exists("capacite", $context) ? $context["capacite"] : (function () { throw new Twig_Error_Runtime('Variable "capacite" does not exist.', 39, $this->source); })()), "html", null, true);
         echo "</div>
         </footer>
     </div>
@@ -164,23 +157,25 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 
     }
 
-    // line 48
+    // line 45
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 49
+        // line 46
         echo "
     <script type=\"text/javascript\">
+
+        /* ****** Gestion de l'heure actuelle ****** */
         window.onload=function()
         {
             horloge('div_horloge');
         };
 
-        function horloge(el) {
-            if(typeof el==\"string\") { 
-                el = document.getElementById(el); 
+        function horloge(id) {
+            if(typeof id==\"string\") { 
+                id = document.getElementById(id);
             }
         
             function actualiser() {
@@ -188,12 +183,13 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                 var str = date.getHours();
                 str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
                 str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
-                el.innerHTML = str;
+                id.innerHTML = str;
             }
         
             actualiser();
             setInterval(actualiser,1000);
-        }            
+        }
+
     </script>
     
 ";
@@ -214,7 +210,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 
     public function getDebugInfo()
     {
-        return array (  174 => 49,  168 => 48,  154 => 42,  151 => 41,  145 => 40,  142 => 39,  139 => 38,  136 => 37,  133 => 36,  130 => 35,  125 => 34,  123 => 33,  117 => 29,  110 => 27,  101 => 23,  95 => 20,  91 => 19,  85 => 16,  81 => 14,  78 => 13,  75 => 12,  70 => 11,  67 => 10,  64 => 9,  62 => 8,  58 => 6,  52 => 5,  40 => 3,  15 => 1,);
+        return array (  167 => 46,  161 => 45,  147 => 39,  142 => 36,  135 => 34,  124 => 30,  118 => 27,  114 => 26,  110 => 25,  103 => 23,  99 => 21,  96 => 20,  93 => 19,  90 => 18,  87 => 17,  84 => 16,  81 => 14,  78 => 13,  75 => 12,  70 => 11,  67 => 10,  64 => 9,  62 => 8,  58 => 6,  52 => 5,  40 => 3,  15 => 1,);
     }
 
     public function getSourceContext()
@@ -225,42 +221,39 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 
 {% block body %}
 
-    <div class=\"container\">
+    <div class=\"container-fluid text-center\">
         {% set compteur = 0 %}
-        {% set idSeance = 0 %}
+        {% set couleur = '' %}
 
-        {% for present in presents %}
+        {% for present in tablePresents %}
             {% set compteur = compteur + 1 %}
             {% set idSeance = present.idSeance %}
 
+            {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+            {% if present.duree > tempsMinimum|date('H:i:s') %}
+                {% set couleur = 'alert alert-danger' %}
+            {% else %}
+                {% set couleur = 'alert alert-success' %}
+            {% endif %}
+
             <div class=\"row\" style=\"margin-top:10px\">
-                <div class=\"col-lg-1 alert alert-success\" style=\"border:2px solid black\">{{ compteur }}</div>
+                <div class=\"col-lg-1 {{ couleur }}\" style=\"border:2px solid black\">{{ compteur }}</div>
                 <div class=\"col-lg-8 offset-lg-1\">
-                    <div class=\"row justify-content-around alert alert-success\" style=\"border:2px solid black\">
+                    <div class=\"row justify-content-around {{ couleur }}\" style=\"border:2px solid black\">
                         <div class=\"col-lg-4\">{{ present.nom }}</div>
                         <div class=\"col-lg-4\">{{ present.prenom }}</div>
                     </div>
                 </div>  
-                <div class=\"col-lg-1 offset-lg-1 alert alert-success\" style=\"border:2px solid black\">{{ present.duree }}</div>
+                <div class=\"col-lg-1 offset-lg-1 {{ couleur }}\" style=\"border:2px solid black\">{{ present.duree }}</div>
             </div>
 
         {% else %}
-            <div class=\"col-lg-12 alert alert-danger text-center\" style=\"border:2px solid black\">NO STUDENTS</div>
+            <div class=\"col-lg-12 alert alert-danger\" style=\"border:2px solid black\">NO STUDENTS</div>
         {% endfor %}
 
-        <footer class=\"row\">
-            <div id=\"div_horloge\" class=\"col-lg-3 alert alert-success\" style=\"border:2px solid black\"></div>
-
-            {% set nbMax = 0 %}
-            {% for limitePersonne in resultLimitePersonnes %}
-                {% if limitePersonne.idSeance == idSeance %}
-                    {% set nbMax = limitePersonne.limitePersonnes %}
-\t\t{% else %}
-\t\t\t{% set nbMax = limitePersonne.limitePersonnes %}
-                {% endif %}
-            {% endfor %}
-
-            <div class=\"col-lg-3 offset-lg-6 alert alert-success\" style=\"border:2px solid black\">Capacite : {{ compteur }} / {{ nbMax }}</div>
+        <footer class=\"row fixed-bottom\" style=\"margin-left:20px; margin-right:20px\">
+            <div id=\"div_horloge\" class=\"col-lg-2 alert alert-success\" style=\"border:2px solid black\"></div>
+            <div class=\"col-lg-2 offset-lg-8 alert alert-success\" style=\"border:2px solid black\">Capacite : {{ compteur }} / {{ capacite }}</div>
         </footer>
     </div>
 
@@ -269,14 +262,16 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 {% block javascripts %}
 
     <script type=\"text/javascript\">
+
+        /* ****** Gestion de l'heure actuelle ****** */
         window.onload=function()
         {
             horloge('div_horloge');
         };
 
-        function horloge(el) {
-            if(typeof el==\"string\") { 
-                el = document.getElementById(el); 
+        function horloge(id) {
+            if(typeof id==\"string\") { 
+                id = document.getElementById(id);
             }
         
             function actualiser() {
@@ -284,12 +279,13 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                 var str = date.getHours();
                 str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
                 str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
-                el.innerHTML = str;
+                id.innerHTML = str;
             }
         
             actualiser();
             setInterval(actualiser,1000);
-        }            
+        }
+
     </script>
     
 {% endblock %}
