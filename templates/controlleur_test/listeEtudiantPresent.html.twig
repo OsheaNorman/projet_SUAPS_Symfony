@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ liste_presence }}{% endblock %}
+
+{% block body %}
+
+    <div id="conteneurPrincipale" class="container-fluid pt-3 text-left text-capitalize">
+        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage et du debageage #}
+        {% set couleur = '' %} {# variable contenant la couleur lorsque le temps de la séance d'un étudiant est dépassé #}
+
+        {% for present in tablePresents %}
+            {% set compteur = compteur + 1 %}
+            {% set idSeance = present.idSeance %}
+
+            {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+            {% if present.duree > tempsMinimum|date('H:i:s') %}
+                {% set couleur = '#FF0000' %} {# rouge #}
+            {% elseif present.duree > present.orange %}
+                {% set couleur = '#CCCC00' %} {# orange #}
+            {% else %}
+                {% set couleur = '#00BB00' %} {# vert #}
+            {% endif %}
+
+            <div class="d-flex float-left" style="width:33%; height: 60px;">
+                <div class="d-flex align-items-center m-1 pl-2 pr-2 w-100 rounded" style="background-color:#E6E6E6;">
+                    <div class="flex-grow-1" style="color:{{ couleur }}">{{ compteur }}</div>
+                    <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.nom }}</div>
+                    <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.prenom }}</div>
+                    <div><span class="badge p-2" style="color:white; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="col-lg-12 alert alert-danger" style="border:2px solid black">NO STUDENTS</div>
+        {% endfor %}
+
+        <div class="d-flex d-flex justify-content-between align-items-center fixed-bottom ml-1 mr-5">
+            <div> 
+                <iframe style="color:black" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=large&timezone=Europe%2FParis" width="100%" height="130" frameborder="0" seamless></iframe> 
+            </div>
+            <!--<div id="div_horloge" class="col-lg-2 alert alert-success" style="border:2px solid black"></div>-->
+            <div style="color:#181907; font-size:50px">
+                {{ compteur }} / {{ capacite }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        /* ****** Gestion de l'heure actuelle ****** */
+        window.onload=function()
+        {
+            horloge('div_horloge');
+        };
+
+        function horloge(id) {
+            if(typeof id=="string") { 
+                id = document.getElementById(id);
+            }
+        
+            function actualiser() {
+                var date = new Date();
+                var str = date.getHours();
+                str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
+                str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
+                id.innerHTML = str;
+            }
+        
+            actualiser();
+            setInterval(actualiser,1000);
+        }
+
+    </script>
+
+    <script>
+        var h = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+
+        var conteneurPrincipale = document.getElementById("conteneurPrincipale");
+        conteneurPrincipale.style.height = h + "px";
+        //conteneurPrincipale.style.height = "1079px";
+    </script>
+    
+{% endblock %}
