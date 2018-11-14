@@ -42,7 +42,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         // line 8
         echo "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
-        <meta http-equiv=\"Refresh\" content=\"5\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
+        <meta http-equiv=\"Refresh\" content=\"6\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
 \t
         <style>
             body{
@@ -140,7 +140,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         {% block stylesheets %}{% endblock %}
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
-        <meta http-equiv=\"Refresh\" content=\"5\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
+        <meta http-equiv=\"Refresh\" content=\"6\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
 \t
         <style>
             body{
