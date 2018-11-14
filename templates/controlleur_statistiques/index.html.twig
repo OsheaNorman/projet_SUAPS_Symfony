@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello !{% endblock %}
+
+{% block body %}
+
+<div>
+   <span><strong>Statistiques sur les badgeages</strong></span>
+    <br /><br />
+   <form>
+        <input id="date" placeholder="2018-11-09" type="text" value=""/>
+        <input id="nom" placeholder="Nom" type="text" value=""/>
+        <br /> <br />
+        <input id="from" type="text" placeholder="from ex : 2018-11-09 10:25:00" value=""/>
+        <input id="to" type="text" placeholder="to ex : 2018-11-09 10:25:00" value=""/>
+        <br /><br />
+        <input type="button" value="Par jour" onclick="badgeagesJour()"/>
+        <input type="button" value="Par nom" onclick="badgeagesNom()"/>
+        <input type="button" value="Par tranche horaire" onclick="badgeagesTranche()"/>
+   </form>
+   <br /><br />
+</div>
+<div>
+    <span><strong>Résultat</strong></span>
+    <div>
+        {% if nb_badgeages != 0 %}
+        <p>
+            Le nombre de badgeages pour ce jour : {{ nb_badgeages }}
+        </p>
+        {% else %}
+
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function badgeagesJour() {
+        jour = document.getElementById("date").value;
+        if (jour == "") {
+            alert("La date est requise");
+            return;
+        }
+        var url = "/controlleur/statistiques/badgeages/jour/" + jour;
+        window.location = url;
+    }
+    function badgeagesNom() {
+        nom = document.getElementById("nom").value;
+        if (nom == "") {
+            alert("Le nom est requis");
+            return;
+        }
+        var url = "/controlleur/statistiques/badgeages/personne/" + nom;
+        window.location = url;
+    }
+    function badgeagesTranche() {
+        alert("Tranche clicked");
+    }
+</script>
+{% endblock %}
