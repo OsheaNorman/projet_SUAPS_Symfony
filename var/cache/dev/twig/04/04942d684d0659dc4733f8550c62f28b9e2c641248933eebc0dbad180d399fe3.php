@@ -41,6 +41,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         $this->displayBlock('stylesheets', $context, $blocks);
         // line 8
         echo "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
+        <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
         <meta http-equiv=\"Refresh\" content=\"1200\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
 
@@ -57,15 +58,15 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
     <body>
         <div>
             ";
-        // line 24
-        $this->displayBlock('body', $context, $blocks);
         // line 25
+        $this->displayBlock('body', $context, $blocks);
+        // line 26
         echo "        </div>
 
         ";
-        // line 27
-        $this->displayBlock('javascripts', $context, $blocks);
         // line 28
+        $this->displayBlock('javascripts', $context, $blocks);
+        // line 29
         echo "    </body>
 </html>
 
@@ -98,7 +99,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 24
+    // line 25
     public function block_body($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -109,7 +110,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 27
+    // line 28
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -127,7 +128,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     public function getDebugInfo()
     {
-        return array (  113 => 27,  102 => 24,  91 => 7,  79 => 6,  69 => 28,  67 => 27,  63 => 25,  61 => 24,  43 => 8,  41 => 7,  37 => 6,  30 => 1,);
+        return array (  114 => 28,  103 => 25,  92 => 7,  80 => 6,  70 => 29,  68 => 28,  64 => 26,  62 => 25,  43 => 8,  41 => 7,  37 => 6,  30 => 1,);
     }
 
     public function getSourceContext()
@@ -140,6 +141,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
+        <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
         <meta http-equiv=\"Refresh\" content=\"1200\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
 

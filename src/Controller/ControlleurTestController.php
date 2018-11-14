@@ -359,13 +359,18 @@ class ControlleurTestController extends AbstractController
 				- tempsSeance pour stocker le temps minimum d'un étudiant
 		*/
 
-		$capacite = 0;
-		$tempsMinimum = new \DateTime();
-
 		foreach($tableAuaListeSeance as $result){
 			$capacite = $result['limitePersonnes'];
 			$tempsMinimum = $result['tempsSeance'];
 		}
+
+		/*
+			Decoupage de mon tableau $tablePresents en trois tableau selon une limite donnée en brute 
+		*/
+
+		$tab1 = self::Tab($tablePresents,0,11);
+		$tab2 = self::Tab($tablePresents,11,22);
+		$tab3 = self::Tab($tablePresents,22,count($tablePresents));
 		
 		//il y a deux sorties pour cette fonction	
 			//retour = 1 pour l'affichage des données sur l'application android (encoder les données)
@@ -377,15 +382,33 @@ class ControlleurTestController extends AbstractController
 		}
 		else{
         	return $this->render('controlleur_test/listeEtudiantPresent.html.twig', [
-            	'liste_presence' => 'Liste des étudiants',
-				'tablePresents' => $tablePresents,
+				'liste_presence' => 'Liste des étudiants',
+				'premiereColonne' => $tab1,
+				'deuxiemeColonne' => $tab2,
+				'troisiemeColonne' => $tab3,
 				'dateActuelle' => $dateActuelle,
 				'capacite' => $capacite,
 				'tempsMinimum' => $tempsMinimum
         	]);
 		}
 	}
-	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	/* Cette méthode permettant de renvoyer un tableau où dans chaque tableau on stock les données des étudiants selon une limite
+		Cela permet d'afficher trois colonne sur ma page web dont la première colonne contient mon premier tableau et ainsi de suite */
+	public function Tab($tab, $debut, $fin){
+		$result = array();
+
+		if(count($tab)==0)
+			return null;
+
+		if($fin > count($tab))
+			$fin = count($tab); //Ceci permet d'éviter de stocker des éléments vides
+
+		for($i = $debut; $i < $fin; $i++)
+			$result[$i] = $tab[$i];
+
+		return $result;
+	}
 }
 
 /* Desctiption des routes crées 
