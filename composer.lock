@@ -1,16 +1,13 @@
-{
+
     "_readme": [
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< develop
-    "hash": "af34537aa42764141e2dacd3f32f56f6",
-    "content-hash": "74d1c5d7b32821435de203a4fdcacd5d",
-=======
     "hash": "8deeb0a8567bae062a1f85b9fe725ae4",
     "content-hash": "57cd070ea0e6e1e1c12f00098201f18f",
->>>>>>> Controlleur
+    "hash": "643680e7e8de56d4792d6b7a29c0b1c4",
+    "content-hash": "c5d36b247765e3feb6e681359d43018e",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -2798,16 +2795,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v4.1.6",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "d528136617ff24f530e70df9605acc1b788b08d4"
+                "reference": "82d494c1492b0dd24bbc5c2d963fb02eb44491af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/d528136617ff24f530e70df9605acc1b788b08d4",
-                "reference": "d528136617ff24f530e70df9605acc1b788b08d4",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/82d494c1492b0dd24bbc5c2d963fb02eb44491af",
+                "reference": "82d494c1492b0dd24bbc5c2d963fb02eb44491af",
                 "shasum": ""
             },
             "require": {
@@ -2848,7 +2845,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-03 08:48:45"
+            "time": "2018-10-31 09:09:42"
         },
         {
             "name": "symfony/http-kernel",
