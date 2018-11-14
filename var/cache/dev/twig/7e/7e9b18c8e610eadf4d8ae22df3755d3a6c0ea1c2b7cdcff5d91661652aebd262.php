@@ -362,7 +362,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
         conteneurPrincipale.style.height = h + \"px\";
         //conteneurPrincipale.style.height = \"1079px\";
     </script>
-        
+    
 ";
         
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
@@ -520,7 +520,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
         conteneurPrincipale.style.height = h + \"px\";
         //conteneurPrincipale.style.height = \"1079px\";
     </script>
-        
+    
 {% endblock %}
 ", "controlleur_test/listeEtudiantPresent.html.twig", "/home/etudiant/M1/projet/blog/templates/controlleur_test/listeEtudiantPresent.html.twig");
     }
