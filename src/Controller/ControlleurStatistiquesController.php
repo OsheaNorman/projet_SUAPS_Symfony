@@ -15,8 +15,11 @@ class ControlleurStatistiquesController extends AbstractController
     public function index() {
         
         return $this->render('controlleur_statistiques/index.html.twig', [
-            'resultat' => "",
-            'nb_badgeages' => "",
+            'nb_badgeages_par_jour' => 0,
+            'count_nb_badgeages_par_nom' => 0,
+            'nb_badgeages_par_nom' => [],
+            'count_nb_badgeages_par_tranche' => 0,
+            'nb_badgeages_par_tranche' => [],
         ]);
     }
 
@@ -35,9 +38,12 @@ class ControlleurStatistiquesController extends AbstractController
         $resultats = $statement->fetchAll();
 
         //var_dump($resultats);
-        //return new Response("Nombre de badgeage le $date = " . count($resultats));
         return $this->render('controlleur_statistiques/index.html.twig', [
-            'nb_badgeages' => count($resultats),
+            'nb_badgeages_par_jour' => count($resultats),
+            'count_nb_badgeages_par_nom' => 0,
+            'nb_badgeages_par_nom' => [],
+            'count_nb_badgeages_par_tranche' => 0,
+            'nb_badgeages_par_tranche' => [],
         ]);
     }
 
@@ -51,10 +57,16 @@ class ControlleurStatistiquesController extends AbstractController
 
         $statement = $queryNumero->getConnection()->prepare($query);
         $statement->execute();
-        $resultats = $statement->fetchAll();
+        $resultat = $statement->fetchAll();
 
-        var_dump($resultats);
-        return new Response("");
+        //var_dump($resultat);
+        return $this->render('controlleur_statistiques/index.html.twig', [
+            'nb_badgeages_par_jour' => 0,
+            'count_nb_badgeages_par_nom' => 0,
+            'nb_badgeages_par_nom' => [],
+            'count_nb_badgeages_par_tranche' => count($resultat),
+            'nb_badgeages_par_tranche' => $resultat,
+        ]);
     }
 
     /**
@@ -106,7 +118,15 @@ class ControlleurStatistiquesController extends AbstractController
             $resultat = $statement->fetchAll();
         }
 
-        var_dump($resultat);
-        return new Response("");
+        //var_dump($resultat);
+        //var_dump(count($resultat));
+        return $this->render('controlleur_statistiques/index.html.twig', [
+            'nb_badgeages_par_jour' => 0,
+            'count_nb_badgeages_par_nom' => count($resultat),
+            'nb_badgeages_par_nom' => $resultat,
+            'count_nb_badgeages_par_tranche' => 0,
+            'nb_badgeages_par_tranche' => [],
+        ]);
+        //return new Response("");
     }
 }

@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello !{% endblock %}
+{% block title %}Statistiques{% endblock %}
+
+{% block stylesheets %}
+<style>
+.column {
+    margin-right: 10px;
+}
+</style>
+{% endblock %}
 
 {% block body %}
 
@@ -23,12 +31,50 @@
 <div>
     <span><strong>Résultat</strong></span>
     <div>
-        {% if nb_badgeages != 0 %}
-        <p>
-            Le nombre de badgeages pour ce jour : {{ nb_badgeages }}
-        </p>
-        {% else %}
-
+        {% if nb_badgeages_par_jour != 0 %}
+            <p>
+                Le nombre de badgeages pour ce jour : {{ nb_badgeages_par_jour }}
+            </p>
+            {% elseif count_nb_badgeages_par_nom != 0 %}
+                <p>
+                    <span>Total : {{ count_nb_badgeages_par_nom }}</span>
+                    <table>
+                        <tr>
+                            <th class="column">idSeance</th>
+                            <th class="column">no_mifare_inverse</th>
+                            <th class="column">temps</th>
+                            <th class="column">entreesSorties</th>
+                        </tr>
+                        {% for i in 0..(count_nb_badgeages_par_nom -1) %}
+                            <tr>
+                                <td class="column">{{ nb_badgeages_par_nom[i]["idSeance"]}}</td>
+                                <td class="column">{{ nb_badgeages_par_nom[i]["no_mifare_inverse"]}}</td>
+                                <td class="column">{{ nb_badgeages_par_nom[i]["temps"]}}</td>
+                                <td class="column">{{ nb_badgeages_par_nom[i]["entreesSorties"]}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </p>
+            {% elseif count_nb_badgeages_par_tranche != 0 %}
+                <p>
+                    <span>Total : {{ count_nb_badgeages_par_tranche }}</span>
+                    <table>
+                        <tr>
+                            <th class="column">idSeance</th>
+                            <th class="column">no_mifare_inverse</th>
+                            <th class="column">temps</th>
+                            <th class="column">entreesSorties</th>
+                        </tr>
+                        {% for i in 0..(count_nb_badgeages_par_tranche -1) %}
+                            <tr>
+                                <td class="column">{{ nb_badgeages_par_tranche[i]["idSeance"]}}</td>
+                                <td class="column">{{ nb_badgeages_par_tranche[i]["no_mifare_inverse"]}}</td>
+                                <td class="column">{{ nb_badgeages_par_tranche[i]["temps"]}}</td>
+                                <td class="column">{{ nb_badgeages_par_tranche[i]["entreesSorties"]}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </p>
         {% endif %}
     </div>
 </div>
@@ -57,7 +103,14 @@
         window.location = url;
     }
     function badgeagesTranche() {
-        alert("Tranche clicked");
+        from = document.getElementById("from").value;
+        to = document.getElementById("to").value;
+        if ((from == "") || (to == "")) {
+            alert("Renseigner le début et la fin d'une tranche horaire");
+            return;
+        }
+        var url = "/controlleur/statistiques/badgeages/tranche/" + from + "/" + to;
+        window.location = url;
     }
 </script>
 {% endblock %}
