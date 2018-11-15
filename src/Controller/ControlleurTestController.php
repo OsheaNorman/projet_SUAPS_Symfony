@@ -1,22 +1,42 @@
 <?php
 
+<<<<<<< HEAD
 /* une description des routes est fournie en fin de fichier 😱 */ 
 
+=======
+//echo $result[0]['photo'];
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+<<<<<<< HEAD
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\VuePresence;
 
 
+=======
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use App\Entity\VuePresence;
+
+
+
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 class ControlleurTestController extends AbstractController
 {
     //-----------------------------------------------------------------------------------------------------------------------------------------------------   
     /**
+<<<<<<< HEAD
      * @Route("/controlleur/test", name="controlleur_test")
      */
+=======
+     * @Route("/controlleur/test", name="test")
+     */
+	//Cette route ne sert à rien (peut etre supprimée)
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
     public function index()
     {
         return $this->render('controlleur_test/index.html.twig', [
@@ -25,11 +45,25 @@ class ControlleurTestController extends AbstractController
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------
     /**
+<<<<<<< HEAD
      * @Route("/controlleur/badgeage/{no_mifare_inverse}", name="controlleur_badgeage")
      */
     public function badgeage($no_mifare_inverse)
     {
         //On vérifie que le no_mifare_inverse se trouve dans l'un des 3 tables :
+=======
+     * @Route("/controlleur/badgeage", name="badgeage")
+     */
+	//Cette route récupère un no_mifare_inverse et recherche le numéro_individu associé 
+    public function badgeage(Request $request)
+    {
+
+		//recuperation des données depuis l'application android 
+		$no_mifare_inverse = $request->request->get('numeroCarte');
+
+
+        //On vérifie que le no_mifare_inverse se trouve dans l'une des 3 tables :
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
         //aua_etudiant_unicampus, aua_personnel_unicampus, aua_autre_unicampus
         //-> ensuite renvoyer le no_individu correspondant
         //Attention, ces 3 tables ne sont pas des entités, il faut faire une requête SQL brute
@@ -57,13 +91,21 @@ class ControlleurTestController extends AbstractController
     /**
      * @Route("/controlleur/vuePresenceUpdate/{no_individu}", name="vuePresenceUpdate")
      */
+<<<<<<< HEAD
+=======
+	//Cette route met à jour tables+vue en fonction des inscriptions/désinscriptions 
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
     public function vuePresenceUpdate($no_individu)
     {
 		//dans le cas où le numero de carte n'est pas enregistré dans les tables 
 		//on renvoi un message d'erreur à l'android 
 		//et on termine l'execution de la fonction 
 		if($no_individu == 0){
+<<<<<<< HEAD
 			$codeRetour['string']='pas dans la base de données';
+=======
+			$codeRetour['reponse']='pas dans la base de données';
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 			echo json_encode($codeRetour);
 			return new Response('');		
 	    }
@@ -122,6 +164,7 @@ class ControlleurTestController extends AbstractController
 			$isPresent = true;
 		   }
 		}
+<<<<<<< HEAD
 		
 		//pour chaque données recuperées précédemment on les stock dans des variables 
 		foreach($resultPersonne as $result){
@@ -137,6 +180,21 @@ class ControlleurTestController extends AbstractController
 		foreach($resultNumeroMifare as $result){
 			$no_mifare_inverse = $result['no_mifare_inverse'];
 		}
+=======
+
+
+		//pour chaque données recuperées précédemment on les stock dans des variables
+		$prenom = $resultPersonne['0']['prenom'];
+		$nom = $resultPersonne['0']['nom_usuel'];
+		$limite = $resultLimiteTemps['0']['limitePersonnes'];
+		$tempsSeance = $resultLimiteTemps['0']['tempsSeance'];
+
+		//les exterieurs n'ont pas de no_mifare_inverse donc vérifier si il est défini
+		if(isset($resultNumeroMifare['0']['no_mifare_inverse'])){
+			$no_mifare_inverse = $resultNumeroMifare['0']['no_mifare_inverse'];
+		}
+		
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 	
 		//recupération du nombre de personne qu'il y a actuellement dans la vue 
 		$nombreInscrit = count($vuePresenceData);
@@ -150,18 +208,29 @@ class ControlleurTestController extends AbstractController
 
 		if(isset($isPresent)){
 			//echo "fin de la séance";
+<<<<<<< HEAD
 		
+=======
+			
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 			$deletePersonne = $this->getDoctrine()->getManager();
 			$RAW_QUERY = "DELETE FROM vue_presence WHERE no_etudiant = '$no_individu' ";
 			$statement = $queryPersonne->getConnection()->prepare($RAW_QUERY);
 			$statement->execute();
 
+<<<<<<< HEAD
 			if($prenom == '?'){
+=======
+			if(strlen($no_individu)<5){
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 				$deletePersonne = $this->getDoctrine()->getManager();
 				$rawQuery = "DELETE FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu' ";
 				$statement = $queryPersonne->getConnection()->prepare($rawQuery);
 				$statement->execute();
+<<<<<<< HEAD
 			
+=======
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 			}
 			else{
 				$date = new \DateTime();
@@ -170,9 +239,16 @@ class ControlleurTestController extends AbstractController
 				$rawQuery = "INSERT INTO aua_presence_seance(idSeance,no_mifare_inverse,temps,entreesSorties) VALUES ('1','$no_mifare_inverse','$date','OUT')";
 				$statement = $ajoutIN->getConnection()->prepare($rawQuery);
 				$statement->execute();
+<<<<<<< HEAD
 				$codeRetour['string']='désinscription réussie';
 				echo json_encode($codeRetour);
 			}	
+=======
+				$codeRetour['reponse']='désinscription réussie';
+				echo json_encode($codeRetour);
+			}	
+			
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 		}
 
 		//si l'individu n'est pas présent dans la vue
@@ -204,13 +280,21 @@ class ControlleurTestController extends AbstractController
 				$entityManager->persist($Vue);
 				$entityManager->flush();
 			
+<<<<<<< HEAD
 				$codeRetour['string']='inscription réussie';
+=======
+				$codeRetour['reponse']='inscription réussie';
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 				echo json_encode($codeRetour);
 		   	  }
 		 	  else{
 				//echo "la limite de personne pour cette séance à été atteinte";
 
+<<<<<<< HEAD
 				$codeRetour['string']='limite de personne atteinte';
+=======
+				$codeRetour['reponse']='limite de personne atteinte';
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 				echo json_encode($codeRetour);
 		   	  }
 		}
@@ -218,11 +302,25 @@ class ControlleurTestController extends AbstractController
 	}
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
+<<<<<<< HEAD
 	 * @Route("/controlleur/setSeance/{capacity}/{time}/{id}", name="setSeance")
      */ 
 	public function setSeance($capacity,$time,$id){
 	   	
 		//recuperation des données depuis l'application android au format setSeance/10/2:30/1
+=======
+	 * @Route("/controlleur/setSeance", name="setSeance")
+     */ 
+	//Cette route sert à modifier le temps de la seance et la limite de personne definie 
+	public function setSeance(Request $request){
+		
+		//recuperation des données depuis l'application android 
+		$capacity = $request->request->get('capacite');
+		$time = $request->request->get('temps');
+		$id = $request->request->get('id');
+	   	
+		//conversion selon les formats attendus dans la BDD 
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 	   	$capacity = intval($capacity);
 	   	$date = new \DateTime();
 	   	$michaelBay = explode(":",$time);
@@ -235,12 +333,23 @@ class ControlleurTestController extends AbstractController
 	   	$statement = $setSeance->getConnection()->prepare($rawQuery);
 	   	$statement->execute();
 
+<<<<<<< HEAD
+=======
+		//code de retour vers l'android 
+		$codeRetour['reponse']='Paramètres mis à jour';
+		echo json_encode($codeRetour);
+
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 	  	return new Response('');
     }
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * @Route("/controlleur/sendSeance", name="sendSeance")
      */ 
+<<<<<<< HEAD
+=======
+	//Cette route renvoi les informations sur une seance à l'android
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 	public function sendSeance(){
 
 		//récupération de la limite de personnes max et du temps de la seance 
@@ -256,9 +365,23 @@ class ControlleurTestController extends AbstractController
     }
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
+<<<<<<< HEAD
      * @Route("/controlleur/addPersonne/{nom}", name="addPersonne")
      */ 
 	public function addPersonne($nom){
+=======
+     * @Route("/controlleur/addPersonne", name="addPersonne")
+     */ 
+	//Cette route permet d'ajouter une personne manuellement (sans badge)
+	public function addPersonne(Request $request){
+		
+		//recuperation des données depuis l'application android 
+		$nom = $request->request->get('nom');
+		$prenom = $request->request->get('prenom');
+
+		//attribution d'une photo par défault a l'individu 
+		$photo = fopen('/home/etudiant/blog/img/ext.bmp','rb');
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 
 		//récuperation du temps de la séance sur la table aua_liste_seance
 		$queryTemps = $this->getDoctrine()->getManager();
@@ -274,9 +397,16 @@ class ControlleurTestController extends AbstractController
 		$statement->execute();
 		$resultIdentifiant = $statement->fetchAll();
 
+<<<<<<< HEAD
 		//pour chaque données recuperées précédemment on les stock dans des variables
 		foreach($resultTemps as $resultT){$tempsSeance = $resultT['tempsSeance'];}
 		foreach($resultIdentifiant as $result){$numero = $result['no_exterieur'];}
+=======
+
+		//pour chaque données recuperées précédemment on les stock dans des variables
+		$tempsSeance = $resultTemps['0']['tempsSeance'];
+		$numero = $resultIdentifiant['0']['no_exterieur'];
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 
 		
 		//si il n'y a encore personne dans la table
@@ -284,7 +414,11 @@ class ControlleurTestController extends AbstractController
 		if(!isset($numero)){
 			$numero = 1000;
 			$queryAddPersonne = $this->getDoctrine()->getManager();
+<<<<<<< HEAD
 			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom) VALUES ('$numero','$nom','?')";
+=======
+			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom,photo) VALUES ('$numero','$nom','$prenom','$photo')";
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 			$statement = $queryAddPersonne->getConnection()->prepare($rawQuery);
 			$statement->execute();	
 		}
@@ -292,7 +426,11 @@ class ControlleurTestController extends AbstractController
 		else{
 			$numero += 1;
 			$queryAddPersonne = $this->getDoctrine()->getManager();
+<<<<<<< HEAD
 			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom) VALUES ('$numero','$nom','?')";
+=======
+			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom,photo) VALUES ('$numero','$nom','$prenom','$photo')";
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 			$statement = $queryAddPersonne->getConnection()->prepare($rawQuery);
 			$statement->execute();
 		}
@@ -303,12 +441,22 @@ class ControlleurTestController extends AbstractController
 		$Vue = new VuePresence();
 		$Vue->setIdSeance(1);
 		$Vue->setNom($nom);
+<<<<<<< HEAD
 		$Vue->setPrenom('?');
+=======
+		$Vue->setPrenom($prenom);
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 		$Vue->setTemps(new \DateTime());
 		$Vue->setNoEtudiant($numero);
 		$Vue->setTempsSeance(new \DateTime($tempsSeance));
 		$entityManager->persist($Vue);
 		$entityManager->flush();
+<<<<<<< HEAD
+=======
+
+		$codeRetour['reponse']='Personne ajoutée';
+		echo json_encode($codeRetour);
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 		
 		return new Response('');
     }
@@ -335,6 +483,7 @@ class ControlleurTestController extends AbstractController
 			$dateInscrit = new \DateTime($tempsResult);
 			$intervalle = date_diff($dateActuelle,$dateInscrit);
 			$value = $intervalle->format('%H:%I:%S');
+<<<<<<< HEAD
 
 			$targetTime = $result['tempsSeance'];
 			$tempsCouleurOrange = new \DateTime($targetTime);
@@ -344,6 +493,9 @@ class ControlleurTestController extends AbstractController
 			$result['duree'] = $value; //Nouvelle donnée dans le tableau "$tablePresents" qui est la durée de l'étudiant (le temps)
 			$result['orange'] = $minuteCouleurOrange;
 
+=======
+			$result['duree'] = $value; //Nouvelle donnée dans le tableau "$tablePresents" qui est la durée de l'étudiant (le temps)
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 			array_push($tablePresents,$result);
 		}
 
@@ -359,6 +511,7 @@ class ControlleurTestController extends AbstractController
 				- tempsSeance pour stocker le temps minimum d'un étudiant
 		*/
 
+<<<<<<< HEAD
 		foreach($tableAuaListeSeance as $result){
 			$capacite = $result['limitePersonnes'];
 			$tempsMinimum = $result['tempsSeance'];
@@ -372,6 +525,13 @@ class ControlleurTestController extends AbstractController
 		$tab2 = self::Tab($tablePresents,11,22);
 		$tab3 = self::Tab($tablePresents,22,count($tablePresents));
 		
+=======
+		
+		//pour chaque données recuperées précédemment on les stock dans des variables
+		$capacite = $tableAuaListeSeance['0']['limitePersonnes'];
+		$tempsMinimum = $tableAuaListeSeance['0']['tempsSeance'];
+
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 		//il y a deux sorties pour cette fonction	
 			//retour = 1 pour l'affichage des données sur l'application android (encoder les données)
 			//retour != 1 pour l'affichage des données sur l'ecran renvoi un rendu sur un fichier twig
@@ -382,16 +542,22 @@ class ControlleurTestController extends AbstractController
 		}
 		else{
         	return $this->render('controlleur_test/listeEtudiantPresent.html.twig', [
+<<<<<<< HEAD
 				'liste_presence' => 'Liste des étudiants',
 				'premiereColonne' => $tab1,
 				'deuxiemeColonne' => $tab2,
 				'troisiemeColonne' => $tab3,
+=======
+            	'liste_presence' => 'Liste des étudiants',
+				'tablePresents' => $tablePresents,
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
 				'dateActuelle' => $dateActuelle,
 				'capacite' => $capacite,
 				'tempsMinimum' => $tempsMinimum
         	]);
 		}
 	}
+<<<<<<< HEAD
 
 	/* Cette méthode permettant de renvoyer un tableau où dans chaque tableau on stock les données des étudiants selon une limite
 		Cela permet d'afficher trois colonne sur ma page web dont la première colonne contient mon premier tableau et ainsi de suite */
@@ -456,3 +622,7 @@ class ControlleurTestController extends AbstractController
 	Renvoi l'affichage soit vers l'ecran soit ver l'application android 
 
 */
+=======
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+}
+>>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
