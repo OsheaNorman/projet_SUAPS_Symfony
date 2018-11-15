@@ -36,28 +36,33 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         // line 6
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
-        ";
-        // line 7
-        $this->displayBlock('stylesheets', $context, $blocks);
-        // line 8
-        echo "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
+        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
-        <!--<meta http-equiv=\"Refresh\" content=\"6\">-->
+        ";
+        // line 9
+        $this->displayBlock('stylesheets', $context, $blocks);
+        // line 10
+        echo "        <!--<meta http-equiv=\"Refresh\" content=\"6\">-->
 \t
     </head>
-    
+
     <body>
-        <div class=\"container-fluid\" style=\"margin-top:50px;\">
+        <style>
+            .column {
+                margin-right: 10px;
+            }
+        </style>
+        <div class=\"container-fluid\" style=\"margin-top:20px;text-align:center;\">
             ";
-        // line 16
+        // line 21
         $this->displayBlock('body', $context, $blocks);
-        // line 17
+        // line 22
         echo "        </div>
 
         ";
-        // line 19
+        // line 24
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 20
+        // line 25
         echo "    </body>
 </html>
 
@@ -79,7 +84,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 7
+    // line 9
     public function block_stylesheets($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -90,7 +95,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 16
+    // line 21
     public function block_body($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -101,7 +106,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 19
+    // line 24
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -119,7 +124,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     public function getDebugInfo()
     {
-        return array (  105 => 19,  94 => 16,  83 => 7,  71 => 6,  61 => 20,  59 => 19,  55 => 17,  53 => 16,  43 => 8,  41 => 7,  37 => 6,  30 => 1,);
+        return array (  110 => 24,  99 => 21,  88 => 9,  76 => 6,  66 => 25,  64 => 24,  60 => 22,  58 => 21,  45 => 10,  43 => 9,  37 => 6,  30 => 1,);
     }
 
     public function getSourceContext()
@@ -130,15 +135,20 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
     <head>
         <meta charset=\"UTF-8\">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
+        {% block stylesheets %}{% endblock %}
         <!--<meta http-equiv=\"Refresh\" content=\"6\">-->
 \t
     </head>
-    
+
     <body>
-        <div class=\"container-fluid\" style=\"margin-top:50px;\">
+        <style>
+            .column {
+                margin-right: 10px;
+            }
+        </style>
+        <div class=\"container-fluid\" style=\"margin-top:20px;text-align:center;\">
             {% block body %}{% endblock %}
         </div>
 

@@ -4,15 +4,20 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- responsive -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" /> <!-- Bootstrap CDN -->
+        {% block stylesheets %}{% endblock %}
         <!--<meta http-equiv="Refresh" content="6">-->
 	
     </head>
-    
+
     <body>
-        <div class="container-fluid" style="margin-top:50px;">
+        <style>
+            .column {
+                margin-right: 10px;
+            }
+        </style>
+        <div class="container-fluid" style="margin-top:20px;text-align:center;">
             {% block body %}{% endblock %}
         </div>
 

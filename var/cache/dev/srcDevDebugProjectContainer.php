@@ -16,6 +16,6 @@ if (!\class_exists(srcDevDebugProjectContainer::class, false)) {
 
 return new \ContainerSpse3vb\srcDevDebugProjectContainer(array(
     'container.build_hash' => 'Spse3vb',
-    'container.build_id' => 'b5a28d78',
-    'container.build_time' => 1542211504,
+    'container.build_id' => '644e75f1',
+    'container.build_time' => 1542305459,
 ), __DIR__.\DIRECTORY_SEPARATOR.'ContainerSpse3vb');

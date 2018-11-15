@@ -11,10 +11,12 @@ class ControlleurStatistiquesController extends AbstractController
 {
     /**
      * @Route("/controlleur/statistiques/badgeages", name="statistiques_badgeages")
+     * 
+     * Point d'entrée pour tout ce qui concerne les statistiques
      */
     public function index() {
         
-        return $this->render('controlleur_statistiques/index.html.twig', [
+        return $this->render('controlleur_statistiques/statistiques.html.twig', [
             'nb_badgeages_par_jour' => 0,
             'count_nb_badgeages_par_nom' => 0,
             'nb_badgeages_par_nom' => [],
@@ -28,6 +30,7 @@ class ControlleurStatistiquesController extends AbstractController
      */
     public function badgeagesJour($date)
     {
+        // date du type : "YYYY-MM-DD"
         // récupération de la date sans l'heure
         $date_format = $date . "%";
         $queryNumero = $this->getDoctrine()->getManager();
@@ -38,7 +41,7 @@ class ControlleurStatistiquesController extends AbstractController
         $resultats = $statement->fetchAll();
 
         //var_dump($resultats);
-        return $this->render('controlleur_statistiques/index.html.twig', [
+        return $this->render('controlleur_statistiques/statistiques.html.twig', [
             'nb_badgeages_par_jour' => count($resultats),
             'count_nb_badgeages_par_nom' => 0,
             'nb_badgeages_par_nom' => [],
@@ -52,6 +55,8 @@ class ControlleurStatistiquesController extends AbstractController
      */
     public function badgeagesTranchesHoraires($heure_debut, $heure_fin) {
 
+        // heure_debut et heure_fin du type : "AAAA-MM-DD hh:mm:ss"
+
         $queryNumero = $this->getDoctrine()->getManager();
         $query = "SELECT * FROM aua_presence_seance WHERE temps BETWEEN '$heure_debut' AND '$heure_fin'";
 
@@ -60,7 +65,7 @@ class ControlleurStatistiquesController extends AbstractController
         $resultat = $statement->fetchAll();
 
         //var_dump($resultat);
-        return $this->render('controlleur_statistiques/index.html.twig', [
+        return $this->render('controlleur_statistiques/statistiques.html.twig', [
             'nb_badgeages_par_jour' => 0,
             'count_nb_badgeages_par_nom' => 0,
             'nb_badgeages_par_nom' => [],
@@ -120,13 +125,12 @@ class ControlleurStatistiquesController extends AbstractController
 
         //var_dump($resultat);
         //var_dump(count($resultat));
-        return $this->render('controlleur_statistiques/index.html.twig', [
+        return $this->render('controlleur_statistiques/statistiques.html.twig', [
             'nb_badgeages_par_jour' => 0,
             'count_nb_badgeages_par_nom' => count($resultat),
             'nb_badgeages_par_nom' => $resultat,
             'count_nb_badgeages_par_tranche' => 0,
             'nb_badgeages_par_tranche' => [],
         ]);
-        //return new Response("");
     }
 }
