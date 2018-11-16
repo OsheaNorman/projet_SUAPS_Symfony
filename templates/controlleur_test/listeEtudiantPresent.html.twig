@@ -4,10 +4,12 @@
 
 {% block body %}
 
-<<<<<<< HEAD
     <div id="conteneurPrincipale" class="container-fluid pt-3 text-left text-capitalize">
         {% set compteur = 0 %} {# compteur mis à jour lors du badgeage et du debageage #}
         {% set couleur = '' %} {# variable contenant la couleur lorsque le temps de la séance d'un étudiant est dépassé #}
+        {% set rouge = 'rgba(255, 0, 0, 0.7);'%} {# représente la couleur rouge #}
+        {% set orange = 'rgba(255, 165, 0, 0.7)' %} {# représente la couleur orange #}
+        {% set verte = 'rgba(0, 255, 0, 0.7);' %} {# représente la couleur verte #}
 
         <div class="d-flex float-left" style="width:100%;">
             <!-- ######################## -->
@@ -20,19 +22,19 @@
                         {% set compteur = compteur + 1 %}
 
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
-                        {% if present.duree > tempsMinimum|date('H:i:s') %}
-                            {% set couleur = '#FF0000' %} {# rouge #}
+                        {% if present.duree > tempsMinimums|date('H:i:s') %}
+                            {% set couleur = rouge %} {# rouge #}
                         {% elseif present.duree > present.orange %}
-                            {% set couleur = '#CCCC00' %} {# orange #}
+                            {% set couleur = orange %} {# orange #}
                         {% else %}
-                            {% set couleur = '#00BB00' %} {# vert #}
+                            {% set couleur = verte %} {# vert #}
                         {% endif %}
 
-                        <div id="affiche" class="d-flex align-items-center pl-3 pr-3 mb-1 mr-2 rounded" style="height: 70px; background-color:#E6E6E6;">
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ compteur }}</div>
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.nom }}</div>
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:white; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleur }};">
+                            <div class="flex-grow-1">{{ compteur }}</div>
+                            <div class="flex-grow-1">{{ present.nom }}</div>
+                            <div class="flex-grow-1">{{ present.prenom }}</div>
+                            <div><span class="badge p-2" style="color:black; background-color:{{ couleur }}">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -49,19 +51,19 @@
                         {% set compteur = compteur + 1 %}
 
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
-                        {% if present.duree > tempsMinimum|date('H:i:s') %}
-                            {% set couleur = '#FF0000' %} {# rouge #}
+                        {% if present.duree > tempsMinimums|date('H:i:s') %}
+                            {% set couleur = rouge %} {# rouge #}
                         {% elseif present.duree > present.orange %}
-                            {% set couleur = '#CCCC00' %} {# orange #}
+                            {% set couleur = orange %} {# orange #}
                         {% else %}
-                            {% set couleur = '#00BB00' %} {# vert #}
+                            {% set couleur = verte %} {# vert #}
                         {% endif %}
 
-                        <div class="d-flex align-items-center pl-3 pr-3 mb-1 mr-2 rounded" style="height: 70px; background-color:#E6E6E6;">
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ compteur }}</div>
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.nom }}</div>
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:white; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleur }};">
+                            <div class="flex-grow-1">{{ compteur }}</div>
+                            <div class="flex-grow-1">{{ present.nom }}</div>
+                            <div class="flex-grow-1">{{ present.prenom }}</div>
+                            <div><span class="badge p-2" style="color:black; background-color:{{ couleur }}">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -78,19 +80,19 @@
                         {% set compteur = compteur + 1 %}
 
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
-                        {% if present.duree > tempsMinimum|date('H:i:s') %}
-                            {% set couleur = '#FF0000' %} {# rouge #}
+                        {% if present.duree > tempsMinimums|date('H:i:s') %}
+                            {% set couleur = rouge %} {# rouge #}
                         {% elseif present.duree > present.orange %}
-                            {% set couleur = '#CCCC00' %} {# orange #}
+                            {% set couleur = orange %} {# orange #}
                         {% else %}
-                            {% set couleur = '#00BB00' %} {# vert #}
+                            {% set couleur = verte %} {# vert #}
                         {% endif %}
 
-                        <div class="d-flex align-items-center pl-3 pr-3 mb-1 mr-2 rounded" style="height: 70px; background-color:#E6E6E6;">
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ compteur }}</div>
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.nom }}</div>
-                            <div class="flex-grow-1" style="color:{{ couleur }}">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:white; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleur }};">
+                            <div class="flex-grow-1">{{ compteur }}</div>
+                            <div class="flex-grow-1">{{ present.nom }}</div>
+                            <div class="flex-grow-1">{{ present.prenom }}</div>
+                            <div><span class="badge p-2" style="color:black; background-color:{{ couleur }}">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -108,55 +110,18 @@
 
         <div class="d-flex d-flex justify-content-between align-items-center fixed-bottom ml-1 mr-5">
             <div> 
-                <iframe style="color:black" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=large&timezone=Europe%2FParis" width="100%" height="130" frameborder="0" seamless></iframe> 
+                <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=large&timezone=Europe%2FParis" width="100%" height="130" frameborder="0" seamless></iframe> 
             </div>
-            <div style="color:#181907; font-size:50px">
+            <div style="font-size:50px">
                 {{ compteur }} / {{ capacite }}
             </div>
         </div>
-=======
-    <div class="container-fluid text-center">
-        {% set compteur = 0 %}
-        {% set couleur = '' %}
-
-        {% for present in tablePresents %}
-            {% set compteur = compteur + 1 %}
-            {% set idSeance = present.idSeance %}
-
-            {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
-            {% if present.duree > tempsMinimum|date('H:i:s') %}
-                {% set couleur = 'alert alert-danger' %}
-            {% else %}
-                {% set couleur = 'alert alert-success' %}
-            {% endif %}
-
-            <div class="row" style="margin-top:10px">
-                <div class="col-lg-1 {{ couleur }}" style="border:2px solid black">{{ compteur }}</div>
-                <div class="col-lg-8 offset-lg-1">
-                    <div class="row justify-content-around {{ couleur }}" style="border:2px solid black">
-                        <div class="col-lg-4">{{ present.nom }}</div>
-                        <div class="col-lg-4">{{ present.prenom }}</div>
-                    </div>
-                </div>  
-                <div class="col-lg-1 offset-lg-1 {{ couleur }}" style="border:2px solid black">{{ present.duree }}</div>
-            </div>
-
-        {% else %}
-            <div class="col-lg-12 alert alert-danger" style="border:2px solid black">NO STUDENTS</div>
-        {% endfor %}
-
-        <footer class="row fixed-bottom" style="margin-left:20px; margin-right:20px">
-            <div id="div_horloge" class="col-lg-2 alert alert-success" style="border:2px solid black"></div>
-            <div class="col-lg-2 offset-lg-8 alert alert-success" style="border:2px solid black">Capacite : {{ compteur }} / {{ capacite }}</div>
-        </footer>
->>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
 
-<<<<<<< HEAD
     <script src="jquery.js"></script>
 
     <!-- Calcul de la hauteur de la page -->
@@ -169,33 +134,6 @@
         var conteneurPrincipale = document.getElementById("noStudent"); //J'aplique sur la div qui gère 'AUCUN ETUDIANTS'
         conteneurPrincipale.style.height = h + "px";
         //conteneurPrincipale.style.height = "1079px";
-=======
-    <script type="text/javascript">
-
-        /* ****** Gestion de l'heure actuelle ****** */
-        window.onload=function()
-        {
-            horloge('div_horloge');
-        };
-
-        function horloge(id) {
-            if(typeof id=="string") { 
-                id = document.getElementById(id);
-            }
-        
-            function actualiser() {
-                var date = new Date();
-                var str = date.getHours();
-                str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
-                str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
-                id.innerHTML = str;
-            }
-        
-            actualiser();
-            setInterval(actualiser,1000);
-        }
-
->>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
     </script>
     
 {% endblock %}

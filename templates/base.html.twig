@@ -1,4 +1,3 @@
-    </body>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -7,39 +6,36 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- responsive -->
-<<<<<<< HEAD
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" /> <!-- Bootstrap CDN -->
-        <meta http-equiv="Refresh" content="1200"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
+        <meta http-equiv="Refresh" content="6"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
 
         <style>
             body{
                 font-family: "Times New Roman";
                 font-size:1.8em;
                 font-stretch: semi-condensed;
-                background-color:white;
+                color:black;
+                letter-spacing: 2px;
+                font-weight: lighter;
+                font-variant: small-caps;
+                background-color:#FDF5E6;
+            }
+
+            #divEtu{
+                height:70px;
+                border-radius: 15px 50px 30px;
+                box-shadow: 0px 2px 5px grey;
+            }
+
+            #divEtu > div:nth-child(1){
+                font-weight:bold;
             }
         </style>
     </head>
     
     <body>
         <div>
-=======
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" /> <!-- Bootstrap CDN -->
-        <meta http-equiv="Refresh" content="6"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
-	
-        <style>
-            body{
-                background-image: url("/home/etudiant/M1/projet/blog/templates/bodybuilding.jpg");
-                background-color:#610B21;
-            }
-        </style>
-	
-    </head>
-    
-    <body>
-        <div class="container-fluid" style="margin-top:50px;">
->>>>>>> f2a49b0d7e56779b9e2fc5baa29433a1974d6a52
             {% block body %}{% endblock %}
         </div>
 
