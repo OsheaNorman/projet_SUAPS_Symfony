@@ -94,7 +94,7 @@ class ControlleurStatistiquesController extends AbstractController
         // récupération du no_mifare_inverse
         if (count($resultat) > 1) {
             // retour d'erreur
-        } else {
+        } else if (count($resultat) == 1){
             $r = $resultat[count($resultat) - 1];
             if ($r["no_etudiant"]) {
                 $no_individu = $r["no_etudiant"];
@@ -121,6 +121,8 @@ class ControlleurStatistiquesController extends AbstractController
             $statement = $queryNumero->getConnection()->prepare($q_nb_badgeages);
             $statement->execute();
             $resultat = $statement->fetchAll();
+        } else {
+            $resultat = [];
         }
 
         //var_dump($resultat);

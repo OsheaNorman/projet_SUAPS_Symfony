@@ -186,6 +186,6 @@ class __TwigTemplate_78ca408f116c31cd548bc224fb65f18621d447517b8abe381e5236daa59
         {{ include('@Twig/base_js.html.twig') }}
     </body>
 </html>
-", "@Twig/layout.html.twig", "/home/norman/symfony/test/blog/vendor/symfony/twig-bundle/Resources/views/layout.html.twig");
+", "@Twig/layout.html.twig", "/home/etudiant/projet_SUAPS_Symfony/vendor/symfony/twig-bundle/Resources/views/layout.html.twig");
     }
 }
