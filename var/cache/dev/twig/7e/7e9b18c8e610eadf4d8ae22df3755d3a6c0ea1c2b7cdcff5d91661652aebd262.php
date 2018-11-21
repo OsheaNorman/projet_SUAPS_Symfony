@@ -61,11 +61,11 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             font-family: \"Times New Roman\";
             font-size:1.8em;
             font-stretch: semi-condensed;
-            color:black;
             letter-spacing: 2px;
             font-weight: lighter;
             font-variant: small-caps;
-            background-color:#FDF5E6;
+            background-color:white;
+            color:black;
         }
 
         #divEtu{
@@ -99,19 +99,19 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
         echo " ";
         // line 34
         echo "        ";
-        $context["couleur"] = "";
+        $context["couleurBackground"] = "";
         echo " ";
         // line 35
         echo "        ";
-        $context["rouge"] = "rgba(255, 0, 0, 0.7);";
+        $context["rouge"] = "#D62F2F";
         echo " ";
         // line 36
         echo "        ";
-        $context["orange"] = "rgba(255, 165, 0, 0.7)";
+        $context["orange"] = "#FFA500";
         echo " ";
         // line 37
         echo "        ";
-        $context["verte"] = "rgba(0, 255, 0, 0.7);";
+        $context["verte"] = "#00FF00";
         echo " ";
         // line 38
         echo "
@@ -138,21 +138,21 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             if ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 50, $this->source); })()), "H:i:s"))) {
                 // line 51
                 echo "                            ";
-                $context["couleur"] = (isset($context["rouge"]) || array_key_exists("rouge", $context) ? $context["rouge"] : (function () { throw new Twig_Error_Runtime('Variable "rouge" does not exist.', 51, $this->source); })());
+                $context["couleurBackground"] = (isset($context["rouge"]) || array_key_exists("rouge", $context) ? $context["rouge"] : (function () { throw new Twig_Error_Runtime('Variable "rouge" does not exist.', 51, $this->source); })());
                 echo " ";
                 // line 52
                 echo "                        ";
             } elseif (((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array())) || (twig_date_format_filter($this->env, (isset($context["minute15"]) || array_key_exists("minute15", $context) ? $context["minute15"] : (function () { throw new Twig_Error_Runtime('Variable "minute15" does not exist.', 52, $this->source); })()), "H:i:s") > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 52, $this->source); })()), "H:i:s")))) {
                 // line 53
                 echo "                            ";
-                $context["couleur"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 53, $this->source); })());
+                $context["couleurBackground"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 53, $this->source); })());
                 echo " ";
                 // line 54
                 echo "                        ";
             } else {
                 // line 55
                 echo "                            ";
-                $context["couleur"] = (isset($context["verte"]) || array_key_exists("verte", $context) ? $context["verte"] : (function () { throw new Twig_Error_Runtime('Variable "verte" does not exist.', 55, $this->source); })());
+                $context["couleurBackground"] = (isset($context["verte"]) || array_key_exists("verte", $context) ? $context["verte"] : (function () { throw new Twig_Error_Runtime('Variable "verte" does not exist.', 55, $this->source); })());
                 echo " ";
                 // line 56
                 echo "                        ";
@@ -161,7 +161,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             echo "
                         <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:";
             // line 58
-            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 58, $this->source); })()), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["couleurBackground"]) || array_key_exists("couleurBackground", $context) ? $context["couleurBackground"] : (function () { throw new Twig_Error_Runtime('Variable "couleurBackground" does not exist.', 58, $this->source); })()), "html", null, true);
             echo ";\">
                             <div class=\"flex-grow-1\">";
             // line 59
@@ -177,7 +177,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             echo "</div>
                             <div><span class=\"badge p-2\" style=\"color:black; background-color:";
             // line 62
-            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 62, $this->source); })()), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["couleurBackground"]) || array_key_exists("couleurBackground", $context) ? $context["couleurBackground"] : (function () { throw new Twig_Error_Runtime('Variable "couleurBackground" does not exist.', 62, $this->source); })()), "html", null, true);
             echo "\">";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()), "html", null, true);
             echo "</span></div>
@@ -214,21 +214,21 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             if ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 79, $this->source); })()), "H:i:s"))) {
                 // line 80
                 echo "                            ";
-                $context["couleur"] = (isset($context["rouge"]) || array_key_exists("rouge", $context) ? $context["rouge"] : (function () { throw new Twig_Error_Runtime('Variable "rouge" does not exist.', 80, $this->source); })());
+                $context["couleurBackground"] = (isset($context["rouge"]) || array_key_exists("rouge", $context) ? $context["rouge"] : (function () { throw new Twig_Error_Runtime('Variable "rouge" does not exist.', 80, $this->source); })());
                 echo " ";
                 // line 81
                 echo "                        ";
             } elseif (((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array())) || (twig_date_format_filter($this->env, (isset($context["minute15"]) || array_key_exists("minute15", $context) ? $context["minute15"] : (function () { throw new Twig_Error_Runtime('Variable "minute15" does not exist.', 81, $this->source); })()), "H:i:s") > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 81, $this->source); })()), "H:i:s")))) {
                 // line 82
                 echo "                            ";
-                $context["couleur"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 82, $this->source); })());
+                $context["couleurBackground"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 82, $this->source); })());
                 echo " ";
                 // line 83
                 echo "                        ";
             } else {
                 // line 84
                 echo "                            ";
-                $context["couleur"] = (isset($context["verte"]) || array_key_exists("verte", $context) ? $context["verte"] : (function () { throw new Twig_Error_Runtime('Variable "verte" does not exist.', 84, $this->source); })());
+                $context["couleurBackground"] = (isset($context["verte"]) || array_key_exists("verte", $context) ? $context["verte"] : (function () { throw new Twig_Error_Runtime('Variable "verte" does not exist.', 84, $this->source); })());
                 echo " ";
                 // line 85
                 echo "                        ";
@@ -237,7 +237,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             echo "
                         <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:";
             // line 87
-            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 87, $this->source); })()), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["couleurBackground"]) || array_key_exists("couleurBackground", $context) ? $context["couleurBackground"] : (function () { throw new Twig_Error_Runtime('Variable "couleurBackground" does not exist.', 87, $this->source); })()), "html", null, true);
             echo ";\">
                             <div class=\"flex-grow-1\">";
             // line 88
@@ -253,7 +253,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             echo "</div>
                             <div><span class=\"badge p-2\" style=\"color:black; background-color:";
             // line 91
-            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 91, $this->source); })()), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["couleurBackground"]) || array_key_exists("couleurBackground", $context) ? $context["couleurBackground"] : (function () { throw new Twig_Error_Runtime('Variable "couleurBackground" does not exist.', 91, $this->source); })()), "html", null, true);
             echo "\">";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()), "html", null, true);
             echo "</span></div>
@@ -290,21 +290,21 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             if ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 108, $this->source); })()), "H:i:s"))) {
                 // line 109
                 echo "                            ";
-                $context["couleur"] = (isset($context["rouge"]) || array_key_exists("rouge", $context) ? $context["rouge"] : (function () { throw new Twig_Error_Runtime('Variable "rouge" does not exist.', 109, $this->source); })());
+                $context["couleurBackground"] = (isset($context["rouge"]) || array_key_exists("rouge", $context) ? $context["rouge"] : (function () { throw new Twig_Error_Runtime('Variable "rouge" does not exist.', 109, $this->source); })());
                 echo " ";
                 // line 110
                 echo "                        ";
             } elseif (((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array())) || (twig_date_format_filter($this->env, (isset($context["minute15"]) || array_key_exists("minute15", $context) ? $context["minute15"] : (function () { throw new Twig_Error_Runtime('Variable "minute15" does not exist.', 110, $this->source); })()), "H:i:s") > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 110, $this->source); })()), "H:i:s")))) {
                 // line 111
                 echo "                            ";
-                $context["couleur"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 111, $this->source); })());
+                $context["couleurBackground"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 111, $this->source); })());
                 echo " ";
                 // line 112
                 echo "                        ";
             } else {
                 // line 113
                 echo "                            ";
-                $context["couleur"] = (isset($context["verte"]) || array_key_exists("verte", $context) ? $context["verte"] : (function () { throw new Twig_Error_Runtime('Variable "verte" does not exist.', 113, $this->source); })());
+                $context["couleurBackground"] = (isset($context["verte"]) || array_key_exists("verte", $context) ? $context["verte"] : (function () { throw new Twig_Error_Runtime('Variable "verte" does not exist.', 113, $this->source); })());
                 echo " ";
                 // line 114
                 echo "                        ";
@@ -313,7 +313,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             echo "
                         <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:";
             // line 116
-            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 116, $this->source); })()), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["couleurBackground"]) || array_key_exists("couleurBackground", $context) ? $context["couleurBackground"] : (function () { throw new Twig_Error_Runtime('Variable "couleurBackground" does not exist.', 116, $this->source); })()), "html", null, true);
             echo ";\">
                             <div class=\"flex-grow-1\">";
             // line 117
@@ -329,7 +329,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             echo "</div>
                             <div><span class=\"badge p-2\" style=\"color:black; background-color:";
             // line 120
-            echo twig_escape_filter($this->env, (isset($context["couleur"]) || array_key_exists("couleur", $context) ? $context["couleur"] : (function () { throw new Twig_Error_Runtime('Variable "couleur" does not exist.', 120, $this->source); })()), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["couleurBackground"]) || array_key_exists("couleurBackground", $context) ? $context["couleurBackground"] : (function () { throw new Twig_Error_Runtime('Variable "couleurBackground" does not exist.', 120, $this->source); })()), "html", null, true);
             echo "\">";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()), "html", null, true);
             echo "</span></div>
@@ -350,7 +350,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
         echo "
         ";
         // line 130
-        if (((isset($context["compteur"]) || array_key_exists("compteur", $context) ? $context["compteur"] : (function () { throw new Twig_Error_Runtime('Variable "compteur" does not exist.', 130, $this->source); })()) == 0)) {
+        if (((isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 130, $this->source); })()) == 0)) {
             // line 131
             echo "            <div id=\"noStudent\" class=\"d-flex align-items-center justify-content-center\">
                 <div class=\"font-weight-bold\" style=\"font-size:200%; text-color:black;\">AUCUN ETUDIANT</div>
@@ -366,7 +366,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             <div style=\"font-size:50px\">
                 ";
         // line 141
-        echo twig_escape_filter($this->env, (isset($context["compteur"]) || array_key_exists("compteur", $context) ? $context["compteur"] : (function () { throw new Twig_Error_Runtime('Variable "compteur" does not exist.', 141, $this->source); })()), "html", null, true);
+        echo twig_escape_filter($this->env, (isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 141, $this->source); })()), "html", null, true);
         echo " / ";
         echo twig_escape_filter($this->env, (isset($context["capacite"]) || array_key_exists("capacite", $context) ? $context["capacite"] : (function () { throw new Twig_Error_Runtime('Variable "capacite" does not exist.', 141, $this->source); })()), "html", null, true);
         echo "
@@ -435,11 +435,11 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
             font-family: \"Times New Roman\";
             font-size:1.8em;
             font-stretch: semi-condensed;
-            color:black;
             letter-spacing: 2px;
             font-weight: lighter;
             font-variant: small-caps;
-            background-color:#FDF5E6;
+            background-color:white;
+            color:black;
         }
 
         #divEtu{
@@ -457,11 +457,11 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 {% block body %}
 
     <div id=\"conteneurPrincipale\" class=\"container-fluid pt-3 text-left text-capitalize\">
-        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage et du debageage #}
-        {% set couleur = '' %} {# variable contenant la couleur lorsque le temps de la séance d'un étudiant est dépassé #}
-        {% set rouge = 'rgba(255, 0, 0, 0.7);'%} {# représente la couleur rouge #}
-        {% set orange = 'rgba(255, 165, 0, 0.7)' %} {# représente la couleur orange #}
-        {% set verte = 'rgba(0, 255, 0, 0.7);' %} {# représente la couleur verte #}
+        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
+        {% set couleurBackground = '' %} {# variable contenant la couleurBackground lorsque le temps de la séance d'un étudiant est dépassé #}
+        {% set rouge = '#D62F2F' %} {# représente la couleurBackground rouge #}
+        {% set orange = '#FFA500' %} {# représente la couleurBackground orange #}
+        {% set verte = '#00FF00' %} {# représente la couleurBackground verte #}
 
         <div class=\"d-flex float-left\" style=\"width:100%;\">
             <!-- ######################## -->
@@ -473,20 +473,20 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                     {% for present in premiereColonne %}
                         {% set compteur = compteur + 1 %}
 
-                        {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = rouge %} {# rouge #}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
                         {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = orange %} {# orange #}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
-                            {% set couleur = verte %} {# vert #}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:{{ couleur }};\">
+                        <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:{{ couleurBackground }};\">
                             <div class=\"flex-grow-1\">{{ compteur }}</div>
                             <div class=\"flex-grow-1\">{{ present.nom }}</div>
                             <div class=\"flex-grow-1\">{{ present.prenom }}</div>
-                            <div><span class=\"badge p-2\" style=\"color:black; background-color:{{ couleur }}\">{{ present.duree }}</span></div>
+                            <div><span class=\"badge p-2\" style=\"color:black; background-color:{{ couleurBackground }}\">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -502,20 +502,20 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                     {% for present in deuxiemeColonne %}
                         {% set compteur = compteur + 1 %}
 
-                        {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = rouge %} {# rouge #}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
                         {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = orange %} {# orange #}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
-                            {% set couleur = verte %} {# vert #}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:{{ couleur }};\">
+                        <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:{{ couleurBackground }};\">
                             <div class=\"flex-grow-1\">{{ compteur }}</div>
                             <div class=\"flex-grow-1\">{{ present.nom }}</div>
                             <div class=\"flex-grow-1\">{{ present.prenom }}</div>
-                            <div><span class=\"badge p-2\" style=\"color:black; background-color:{{ couleur }}\">{{ present.duree }}</span></div>
+                            <div><span class=\"badge p-2\" style=\"color:black; background-color:{{ couleurBackground }}\">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -531,20 +531,20 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                     {% for present in troisiemeColonne %}
                         {% set compteur = compteur + 1 %}
 
-                        {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = rouge %} {# rouge #}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
                         {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = orange %} {# orange #}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
-                            {% set couleur = verte %} {# vert #}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:{{ couleur }};\">
+                        <div id=\"divEtu\" class=\"d-flex align-items-center pl-3 pr-3 mb-2 mr-2\" style=\"background-color:{{ couleurBackground }};\">
                             <div class=\"flex-grow-1\">{{ compteur }}</div>
                             <div class=\"flex-grow-1\">{{ present.nom }}</div>
                             <div class=\"flex-grow-1\">{{ present.prenom }}</div>
-                            <div><span class=\"badge p-2\" style=\"color:black; background-color:{{ couleur }}\">{{ present.duree }}</span></div>
+                            <div><span class=\"badge p-2\" style=\"color:black; background-color:{{ couleurBackground }}\">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -554,7 +554,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
 
         {# S'il n'y a pas d'étudiant, je met un petit affichage : AUCUN ETUDIANTS #}
 
-        {% if compteur == 0 %}
+        {% if tailleDuTableauPresent == 0 %}
             <div id=\"noStudent\" class=\"d-flex align-items-center justify-content-center\">
                 <div class=\"font-weight-bold\" style=\"font-size:200%; text-color:black;\">AUCUN ETUDIANT</div>
             </div>
@@ -565,7 +565,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                 <iframe src=\"https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=large&timezone=Europe%2FParis\" width=\"100%\" height=\"130\" frameborder=\"0\" seamless></iframe> 
             </div>
             <div style=\"font-size:50px\">
-                {{ compteur }} / {{ capacite }}
+                {{ tailleDuTableauPresent }} / {{ capacite }}
             </div>
         </div>
     </div>

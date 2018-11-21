@@ -368,7 +368,7 @@ class ControlleurTestController extends AbstractController
 		$capacite = $tableAuaListeSeance['0']['limitePersonnes'];
 		$tempsMinimum = $tableAuaListeSeance['0']['tempsSeance'];
 
-		//représenta la durée des 15 minutes pour la couleur orange
+		//représente la durée des 15 minutes pour la couleur orange
 		$minute15 = new \DateTime('00:15:00');
 
 		//Calcul du temps de la séance de l'étudiant
@@ -394,9 +394,11 @@ class ControlleurTestController extends AbstractController
 			Decoupage de mon tableau $tablePresents en trois tableau selon une limite donnée en brute 
 		*/
 
-		$tab1 = self::Tab($tablePresents,0,12);
-		$tab2 = self::Tab($tablePresents,12,24);
-		$tab3 = self::Tab($tablePresents,24,count($tablePresents));
+		$tab1 = self::Tab($tablePresents,0,10);
+		$tab2 = self::Tab($tablePresents,10,20);
+		$tab3 = self::Tab($tablePresents,20,30);
+
+		$tailleDuTableauPresent = count($tablePresents); /* besoin pour afficher sur la page */
 		
 		//il y a deux sorties pour cette fonction
 			//retour = 1 pour l'affichage des données sur l'application android (encoder les données)
@@ -415,7 +417,8 @@ class ControlleurTestController extends AbstractController
 				'dateActuelle' => $dateActuelle,
 				'capacite' => $capacite,
 				'tempsMinimums' => $tempsMinimum,
-				'minute15' => $minute15
+				'minute15' => $minute15,
+				'tailleDuTableauPresent' => $tailleDuTableauPresent
         	]);
 		}
 	}

@@ -8,11 +8,11 @@
             font-family: "Times New Roman";
             font-size:1.8em;
             font-stretch: semi-condensed;
-            color:black;
             letter-spacing: 2px;
             font-weight: lighter;
             font-variant: small-caps;
-            background-color:#FDF5E6;
+            background-color:white;
+            color:black;
         }
 
         #divEtu{
@@ -30,11 +30,11 @@
 {% block body %}
 
     <div id="conteneurPrincipale" class="container-fluid pt-3 text-left text-capitalize">
-        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage et du debageage #}
-        {% set couleur = '' %} {# variable contenant la couleur lorsque le temps de la séance d'un étudiant est dépassé #}
-        {% set rouge = 'rgba(255, 0, 0, 0.7);'%} {# représente la couleur rouge #}
-        {% set orange = 'rgba(255, 165, 0, 0.7)' %} {# représente la couleur orange #}
-        {% set verte = 'rgba(0, 255, 0, 0.7);' %} {# représente la couleur verte #}
+        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
+        {% set couleurBackground = '' %} {# variable contenant la couleurBackground lorsque le temps de la séance d'un étudiant est dépassé #}
+        {% set rouge = '#D62F2F' %} {# représente la couleurBackground rouge #}
+        {% set orange = '#FFA500' %} {# représente la couleurBackground orange #}
+        {% set verte = '#00FF00' %} {# représente la couleurBackground verte #}
 
         <div class="d-flex float-left" style="width:100%;">
             <!-- ######################## -->
@@ -46,20 +46,20 @@
                     {% for present in premiereColonne %}
                         {% set compteur = compteur + 1 %}
 
-                        {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = rouge %} {# rouge #}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
                         {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = orange %} {# orange #}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
-                            {% set couleur = verte %} {# vert #}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleur }};">
+                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
                             <div class="flex-grow-1">{{ compteur }}</div>
                             <div class="flex-grow-1">{{ present.nom }}</div>
                             <div class="flex-grow-1">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:black; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                            <div><span class="badge p-2" style="color:black; background-color:{{ couleurBackground }}">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -75,20 +75,20 @@
                     {% for present in deuxiemeColonne %}
                         {% set compteur = compteur + 1 %}
 
-                        {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = rouge %} {# rouge #}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
                         {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = orange %} {# orange #}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
-                            {% set couleur = verte %} {# vert #}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleur }};">
+                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
                             <div class="flex-grow-1">{{ compteur }}</div>
                             <div class="flex-grow-1">{{ present.nom }}</div>
                             <div class="flex-grow-1">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:black; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                            <div><span class="badge p-2" style="color:black; background-color:{{ couleurBackground }}">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -104,20 +104,20 @@
                     {% for present in troisiemeColonne %}
                         {% set compteur = compteur + 1 %}
 
-                        {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = rouge %} {# rouge #}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
                         {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
-                            {% set couleur = orange %} {# orange #}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
-                            {% set couleur = verte %} {# vert #}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleur }};">
+                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
                             <div class="flex-grow-1">{{ compteur }}</div>
                             <div class="flex-grow-1">{{ present.nom }}</div>
                             <div class="flex-grow-1">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:black; background-color:{{ couleur }}">{{ present.duree }}</span></div>
+                            <div><span class="badge p-2" style="color:black; background-color:{{ couleurBackground }}">{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -127,7 +127,7 @@
 
         {# S'il n'y a pas d'étudiant, je met un petit affichage : AUCUN ETUDIANTS #}
 
-        {% if compteur == 0 %}
+        {% if tailleDuTableauPresent == 0 %}
             <div id="noStudent" class="d-flex align-items-center justify-content-center">
                 <div class="font-weight-bold" style="font-size:200%; text-color:black;">AUCUN ETUDIANT</div>
             </div>
@@ -138,7 +138,7 @@
                 <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=large&timezone=Europe%2FParis" width="100%" height="130" frameborder="0" seamless></iframe> 
             </div>
             <div style="font-size:50px">
-                {{ compteur }} / {{ capacite }}
+                {{ tailleDuTableauPresent }} / {{ capacite }}
             </div>
         </div>
     </div>
