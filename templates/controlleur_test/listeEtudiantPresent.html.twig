@@ -49,7 +49,7 @@
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
                             {% set couleur = rouge %} {# rouge #}
-                        {% elseif present.duree > present.orange %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
                             {% set couleur = orange %} {# orange #}
                         {% else %}
                             {% set couleur = verte %} {# vert #}
@@ -78,7 +78,7 @@
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
                             {% set couleur = rouge %} {# rouge #}
-                        {% elseif present.duree > present.orange %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
                             {% set couleur = orange %} {# orange #}
                         {% else %}
                             {% set couleur = verte %} {# vert #}
@@ -107,7 +107,7 @@
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
                             {% set couleur = rouge %} {# rouge #}
-                        {% elseif present.duree > present.orange %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
                             {% set couleur = orange %} {# orange #}
                         {% else %}
                             {% set couleur = verte %} {# vert #}

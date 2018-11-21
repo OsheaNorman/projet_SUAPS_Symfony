@@ -142,7 +142,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                 echo " ";
                 // line 52
                 echo "                        ";
-            } elseif ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array()))) {
+            } elseif (((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array())) || (twig_date_format_filter($this->env, (isset($context["minute15"]) || array_key_exists("minute15", $context) ? $context["minute15"] : (function () { throw new Twig_Error_Runtime('Variable "minute15" does not exist.', 52, $this->source); })()), "H:i:s") > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 52, $this->source); })()), "H:i:s")))) {
                 // line 53
                 echo "                            ";
                 $context["couleur"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 53, $this->source); })());
@@ -218,7 +218,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                 echo " ";
                 // line 81
                 echo "                        ";
-            } elseif ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array()))) {
+            } elseif (((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array())) || (twig_date_format_filter($this->env, (isset($context["minute15"]) || array_key_exists("minute15", $context) ? $context["minute15"] : (function () { throw new Twig_Error_Runtime('Variable "minute15" does not exist.', 81, $this->source); })()), "H:i:s") > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 81, $this->source); })()), "H:i:s")))) {
                 // line 82
                 echo "                            ";
                 $context["couleur"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 82, $this->source); })());
@@ -294,7 +294,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                 echo " ";
                 // line 110
                 echo "                        ";
-            } elseif ((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array()))) {
+            } elseif (((twig_get_attribute($this->env, $this->source, $context["present"], "duree", array()) > twig_get_attribute($this->env, $this->source, $context["present"], "orange", array())) || (twig_date_format_filter($this->env, (isset($context["minute15"]) || array_key_exists("minute15", $context) ? $context["minute15"] : (function () { throw new Twig_Error_Runtime('Variable "minute15" does not exist.', 110, $this->source); })()), "H:i:s") > twig_date_format_filter($this->env, (isset($context["tempsMinimums"]) || array_key_exists("tempsMinimums", $context) ? $context["tempsMinimums"] : (function () { throw new Twig_Error_Runtime('Variable "tempsMinimums" does not exist.', 110, $this->source); })()), "H:i:s")))) {
                 // line 111
                 echo "                            ";
                 $context["couleur"] = (isset($context["orange"]) || array_key_exists("orange", $context) ? $context["orange"] : (function () { throw new Twig_Error_Runtime('Variable "orange" does not exist.', 111, $this->source); })());
@@ -476,7 +476,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
                             {% set couleur = rouge %} {# rouge #}
-                        {% elseif present.duree > present.orange %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
                             {% set couleur = orange %} {# orange #}
                         {% else %}
                             {% set couleur = verte %} {# vert #}
@@ -505,7 +505,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
                             {% set couleur = rouge %} {# rouge #}
-                        {% elseif present.duree > present.orange %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
                             {% set couleur = orange %} {# orange #}
                         {% else %}
                             {% set couleur = verte %} {# vert #}
@@ -534,7 +534,7 @@ class __TwigTemplate_8954a19da831f425953613755fe98fdc096faa387f44beb444fb6e39ce3
                         {# Changement de couleur lorsque l'étudiant dépasse le temps minimum de la séance #}
                         {% if present.duree > tempsMinimums|date('H:i:s') %}
                             {% set couleur = rouge %} {# rouge #}
-                        {% elseif present.duree > present.orange %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
                             {% set couleur = orange %} {# orange #}
                         {% else %}
                             {% set couleur = verte %} {# vert #}

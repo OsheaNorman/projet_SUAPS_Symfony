@@ -368,6 +368,9 @@ class ControlleurTestController extends AbstractController
 		$capacite = $tableAuaListeSeance['0']['limitePersonnes'];
 		$tempsMinimum = $tableAuaListeSeance['0']['tempsSeance'];
 
+		//représenta la durée des 15 minutes pour la couleur orange
+		$minute15 = new \DateTime('00:15:00');
+
 		//Calcul du temps de la séance de l'étudiant
 		//temps_seance = date_actuelle - date_inscription
 		foreach($tableVuePresence as $result){
@@ -378,7 +381,7 @@ class ControlleurTestController extends AbstractController
 
 			$targetTime = $tempsMinimum;
 			$tempsCouleurOrange = new \DateTime($targetTime);
-			$dateCouleurOrange = date_diff($tempsCouleurOrange,new \DateTime('00:15:00'));
+			$dateCouleurOrange = date_diff($tempsCouleurOrange,$minute15);
 			$minuteCouleurOrange = $dateCouleurOrange->format('%H:%I:%S');
 
 			$result['duree'] = $value; //Nouvelle donnée dans le tableau "$tablePresents" qui est la durée de l'étudiant (le temps)
@@ -411,7 +414,8 @@ class ControlleurTestController extends AbstractController
 				'troisiemeColonne' => $tab3,
 				'dateActuelle' => $dateActuelle,
 				'capacite' => $capacite,
-				'tempsMinimums' => $tempsMinimum
+				'tempsMinimums' => $tempsMinimum,
+				'minute15' => $minute15
         	]);
 		}
 	}
