@@ -5,112 +5,101 @@
 {% block stylesheets %}
 
     <style>
-        .titre {
-            font-size: 25px;
-        }
-        .column {
-            margin-right: 10px;
-        }
-        table {
-            margin: 0 auto;
-        }
-        table tr th td {
-            margin-right: 10px;
-            border: 1px solid black;
-        }
-
         .statistiques {
             text-align:center;
         }
+
+        #navbarSupportedContent {
+            padding-left: 80%;
+        }
+
+        #tab1 {
+            margin-top: 30px;
+        }
+
     </style>
 
 {% endblock %}
 
 {% block body %}
 
-    <div class="statistiques" style="margin: 0 auto;">
-    <span class="titre"><strong>Statistiques sur les badgeages</strong></span>
-        <br /><br />
-    <form>
-            <input id="date" placeholder="2018-11-09" type="text" value=""/>
-            <input id="nom" placeholder="Nom" type="text" value=""/>
-            <br /> <br />
-            <input id="from" type="text" placeholder="from ex : 2018-11-09 10:25:00" value=""/>
-            <input id="to" type="text" placeholder="to ex : 2018-11-09 10:25:00" value=""/>
-            <br /><br />
-            <input type="button" value="Par jour" onclick="badgeagesJour()"/>
-            <input type="button" value="Par nom" onclick="badgeagesNom()"/>
-            <input type="button" value="Par tranche horaire" onclick="badgeagesTranche()"/>
-    </form>
-    <br /><br />
-
-        <div>
-            <span class="titre"><strong>Résultat</strong></span>
-            <div>
-                {% if nb_badgeages_par_jour != 0 %}
-                    <p>
-                        Le nombre de badgeages pour ce jour : {{ nb_badgeages_par_jour }}
-                    </p>
-                    {% elseif count_nb_badgeages_par_nom != 0 %}
-                        <p>
-                            <span>Total : {{ count_nb_badgeages_par_nom }}</span>
-                            <table id="table">
-                                <thead>
-                                    <tr>
-                                        <th class="column">idSeance</th>
-                                        <th class="column">no_mifare_inverse</th>
-                                        <th class="column">temps</th>
-                                        <th class="column">entreesSorties</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for i in 0..(count_nb_badgeages_par_nom -1) %}
-                                        <tr>
-                                            <td class="column">{{ nb_badgeages_par_nom[i]["idSeance"]}}</td>
-                                            <td class="column">{{ nb_badgeages_par_nom[i]["no_mifare_inverse"]}}</td>
-                                            <td class="column">{{ nb_badgeages_par_nom[i]["temps"]}}</td>
-                                            <td class="column">{{ nb_badgeages_par_nom[i]["entreesSorties"]}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </p>
-                    {% elseif count_nb_badgeages_par_tranche != 0 %}
-                        <p>
-                            <span>Total : {{ count_nb_badgeages_par_tranche }}</span>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="column">idSeance</th>
-                                        <th class="column">no_mifare_inverse</th>
-                                        <th class="column">temps</th>
-                                        <th class="column">entreesSorties</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for i in 0..(count_nb_badgeages_par_tranche -1) %}
-                                        <tr>
-                                            <td class="column">{{ nb_badgeages_par_tranche[i]["idSeance"]}}</td>
-                                            <td class="column">{{ nb_badgeages_par_tranche[i]["no_mifare_inverse"]}}</td>
-                                            <td class="column">{{ nb_badgeages_par_tranche[i]["temps"]}}</td>
-                                            <td class="column">{{ nb_badgeages_par_tranche[i]["entreesSorties"]}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </p>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/controlleur/statistiques/badgeages">SUAPS</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="form-inline my-2 my-lg-0" id="formulaire">
+                    <input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value=""/>
+                    <button class="btn btn-outline-success my-2 my-sm-0" onclick="badgeagesJour()">Résultat</button>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div id="jumbotron-en-tete" class="jumbotron">
+                <h1 class="display-4">Statistiques</h1>
+                <p class="lead"> Statistiques sur la fréquentation de la salle de musculation du SUAPS - Université d'Angers</p>
+                <hr class="my-4">
+                <p>Vous avez <strong>{{ resultat_creneau|length }}</strong> badgeage(s) pour la journée <span><strong id="jour">d'aujourd'hui</strong></span>. <br/>
+                Vous pouvez toute fois changer de date pour visualiser la fréquentation par plages horaires de la salle pour une autre journée.</p>
+                <p>La durée d'une plage horaire est fixée à <strong>{{ plage_min }}</strong> minute(s).</p>
+                {% if ("now"|date("Y-m-d")) !=  date %}
+                    <a class="btn btn-primary btn-lg" href="/controlleur/statistiques/badgeages" role="button">Revenir à la date du jour</a>
                 {% endif %}
             </div>
         </div>
-    </div>
 
+        <div class="container">
+            <div class="col">
+            {% if (resultat_creneau|length) != 0 %}
+                <h2 class="display-4 text-center">Taux de présence sur les plages horaires</h2>
+                <div class="table-responsive">
+                    <table id="tab1" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Début plage</th>
+                                <th>Fin plage</th>
+                                <th>Taux de présence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in 0..(resultat_creneau|length - 1)%}
+                                <tr>
+                                    <td>{{ resultat_creneau[i]["h_debut"] }}h{{ resultat_creneau[i]["min_debut"]}}</td>
+                                    <td>{{ resultat_creneau[i]["h_fin"] }}h{{ resultat_creneau[i]["min_fin"]}}</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]|length }} badgeages</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
 
     <script>
+        twig_date = {{ date|json_encode()|raw }};
+
+        // Récupération de la date du jours, au format ISO. ex : 2018-11-09T21:24:56.629Z
+        var d = new Date(twig_date).toISOString().split("T")[0]; // Extraction de la date seulement : 2018-11-09
+        document.getElementById("date_jour").value = d;
+
+        if (new Date().toISOString().split("T")[0] == twig_date) {
+            // la date récupéré c'est la date du jour courant
+            document.getElementById("jour").innerHTML = "d'aujourd'hui";
+        } else {
+            d_str = new Date(twig_date).toLocaleDateString("fr-FR");
+            document.getElementById("jour").innerHTML = "du " + d_str;
+        }
+
         function badgeagesJour() {
-            jour = document.getElementById("date").value;
+            jour = document.getElementById("date_jour").value;
             if (jour == "") {
                 alert("La date est requise");
                 return;
@@ -118,7 +107,7 @@
             var url = "/controlleur/statistiques/badgeages/jour/" + jour;
             window.location = url;
         }
-        function badgeagesNom() {
+        /*function badgeagesNom() {
             nom = document.getElementById("nom").value;
             if (nom == "") {
                 alert("Le nom est requis");
@@ -136,7 +125,7 @@
             }
             var url = "/controlleur/statistiques/badgeages/tranche/" + from + "/" + to;
             window.location = url;
-        }
+        }*/
     </script>
 
 {% endblock %}

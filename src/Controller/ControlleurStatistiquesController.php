@@ -16,13 +16,10 @@ class ControlleurStatistiquesController extends AbstractController
      */
     public function index() {
         
-        return $this->render('controlleur_statistiques/statistiques.html.twig', [
-            'nb_badgeages_par_jour' => 0,
-            'count_nb_badgeages_par_nom' => 0,
-            'nb_badgeages_par_nom' => [],
-            'count_nb_badgeages_par_tranche' => 0,
-            'nb_badgeages_par_tranche' => [],
-        ]);
+        $date_du_jour = new \DateTime();
+        $date_du_jour_str = $date_du_jour->format("Y-m-d");
+        var_dump($date_du_jour_str);
+        return $this->redirectToRoute("badgeages_jours", array("date" => $date_du_jour_str));
     }
 
     /**
@@ -30,23 +27,64 @@ class ControlleurStatistiquesController extends AbstractController
      */
     public function badgeagesJour($date)
     {
-        // date du type : "YYYY-MM-DD"
+        // $date du type : "YYYY-MM-DD"
+
         // récupération de la date sans l'heure
+        $a = array(); // Le résultat final à retourner
+
+        $plage_min = "30";
+
         $date_format = $date . "%";
         $queryNumero = $this->getDoctrine()->getManager();
-        $query = "SELECT * FROM aua_presence_seance WHERE temps LIKE '$date_format'";
+        $query = "SELECT * FROM aua_presence_seance WHERE temps LIKE '$date_format' AND entreesSorties LIKE 'IN' ORDER BY temps";
 
         $statement = $queryNumero->getConnection()->prepare($query);
         $statement->execute();
         $resultats = $statement->fetchAll();
 
-        //var_dump($resultats);
+        if (count($resultats) != 0) {
+            $debut_seance = new \DateTime($resultats[0]["temps"]);
+            $fin_seance = new \DateTime($resultats[count($resultats) - 1]["temps"]);
+
+            $debut = date_format($debut_seance, "H:i");
+            $fin = date_format($fin_seance, "H:i");
+
+            $debut_heure = preg_split("/[:]/",$debut)[0];
+            $fin_heure = preg_split("/[:]/",$fin)[0] + 1;
+
+            $debut_seance = $debut_seance->setTime($debut_heure, 0);
+            $fin_seance = $fin_seance->setTime($fin_heure, 0);
+
+            while ($debut_seance < $fin_seance) {
+                $resultat_creneau = array();
+
+                $start_str = $debut_seance->format("Y-m-d H:i:s");
+
+                $h_start = $debut_seance->format("H");
+                $min_start = $debut_seance->format("i");
+
+                $end = $debut_seance->add(new \DateInterval("P0Y0M0DT0H" . $plage_min . "M0S"));
+                $end_str = $end->format("Y-m-d H:i:s");
+
+                $h_end = $end->format("H");
+                $min_end = $end->format("i");
+
+                $resultat_creneau["h_debut"] = $h_start;
+                $resultat_creneau["min_debut"] = $min_start;
+                $resultat_creneau["h_fin"] = $h_end;
+                $resultat_creneau["min_fin"] = $min_end;
+                $resultat_creneau["array_result"] = $this->badgeagesTranchesHoraires($start_str, $end_str);
+
+                array_push($a, $resultat_creneau);
+
+                $debut_heure += 1;
+                $debut_seance = $end;
+            }            
+        }
         return $this->render('controlleur_statistiques/statistiques.html.twig', [
-            'nb_badgeages_par_jour' => count($resultats),
-            'count_nb_badgeages_par_nom' => 0,
-            'nb_badgeages_par_nom' => [],
-            'count_nb_badgeages_par_tranche' => 0,
-            'nb_badgeages_par_tranche' => [],
+            'plage_min' => $plage_min,
+            'date' => $date,
+            'resultat_creneau' => $a,
         ]);
     }
 
@@ -55,23 +93,16 @@ class ControlleurStatistiquesController extends AbstractController
      */
     public function badgeagesTranchesHoraires($heure_debut, $heure_fin) {
 
-        // heure_debut et heure_fin du type : "AAAA-MM-DD hh:mm:ss"
+        // $heure_debut et $heure_fin du type : "AAAA-MM-DD hh:mm:ss"
 
         $queryNumero = $this->getDoctrine()->getManager();
-        $query = "SELECT * FROM aua_presence_seance WHERE temps BETWEEN '$heure_debut' AND '$heure_fin'";
+        $query = "SELECT * FROM aua_presence_seance WHERE entreesSorties LIKE 'IN' AND temps BETWEEN '$heure_debut' AND '$heure_fin'";
 
         $statement = $queryNumero->getConnection()->prepare($query);
         $statement->execute();
         $resultat = $statement->fetchAll();
 
-        //var_dump($resultat);
-        return $this->render('controlleur_statistiques/statistiques.html.twig', [
-            'nb_badgeages_par_jour' => 0,
-            'count_nb_badgeages_par_nom' => 0,
-            'nb_badgeages_par_nom' => [],
-            'count_nb_badgeages_par_tranche' => count($resultat),
-            'nb_badgeages_par_tranche' => $resultat,
-        ]);
+        return $resultat;
     }
 
     /**
@@ -125,8 +156,6 @@ class ControlleurStatistiquesController extends AbstractController
             $resultat = [];
         }
 
-        //var_dump($resultat);
-        //var_dump(count($resultat));
         return $this->render('controlleur_statistiques/statistiques.html.twig', [
             'nb_badgeages_par_jour' => 0,
             'count_nb_badgeages_par_nom' => count($resultat),
