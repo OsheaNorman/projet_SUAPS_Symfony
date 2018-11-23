@@ -13,8 +13,24 @@
             padding-left: 80%;
         }
 
-        #tab1 {
+        #tab1, #durees {
             margin-top: 30px;
+        }
+
+        table {
+            text-align: center;
+        }
+
+        .row {
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 400%;
+        }
+
+        #durees {
+            margin-bottom: 7%;
         }
 
     </style>
@@ -32,7 +48,7 @@
             
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="form-inline my-2 my-lg-0" id="formulaire">
-                    <input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value=""/>
+                    <input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
                     <button class="btn btn-outline-success my-2 my-sm-0" onclick="badgeagesJour()">Résultat</button>
                 </div>
             </div>
@@ -42,7 +58,7 @@
                 <h1 class="display-4">Statistiques</h1>
                 <p class="lead"> Statistiques sur la fréquentation de la salle de musculation du SUAPS - Université d'Angers</p>
                 <hr class="my-4">
-                <p>Vous avez <strong>{{ resultat_creneau|length }}</strong> badgeage(s) pour la journée <span><strong id="jour">d'aujourd'hui</strong></span>. <br/>
+                <p>Vous avez <strong>{{ nb_badgeages }}</strong> badgeage(s) d'entrées pour la journée <span><strong id="jour">d'aujourd'hui</strong></span>. <br/>
                 Vous pouvez toute fois changer de date pour visualiser la fréquentation par plages horaires de la salle pour une autre journée.</p>
                 <p>La durée d'une plage horaire est fixée à <strong>{{ plage_min }}</strong> minute(s).</p>
                 {% if ("now"|date("Y-m-d")) !=  date %}
@@ -52,8 +68,8 @@
         </div>
 
         <div class="container">
-            <div class="col">
             {% if (resultat_creneau|length) != 0 %}
+            <div class="container">
                 <h2 class="display-4 text-center">Taux de présence sur les plages horaires</h2>
                 <div class="table-responsive">
                     <table id="tab1" class="table table-striped">
@@ -69,19 +85,112 @@
                                 <tr>
                                     <td>{{ resultat_creneau[i]["h_debut"] }}h{{ resultat_creneau[i]["min_debut"]}}</td>
                                     <td>{{ resultat_creneau[i]["h_fin"] }}h{{ resultat_creneau[i]["min_fin"]}}</td>
-                                    <td>{{ resultat_creneau[i]["array_result"]|length }} badgeages</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]|length }} personnes</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            {% endif %}
             </div>
+
+            {# Représentation graphique #}
+            <div class="container">
+                <canvas id="graphique"></canvas>
+            </div>
+            {% endif %}
+        </div>
+
+        <div id="durees" class="container">
+        {% if (temps_seance|length) != 0 %}
+            
+            {# Variable qui contiendra la durée moyenne d'une séance #}
+            {% set somme = 0 %}
+            {% for i in 0..(temps_seance|length - 1) %}
+                {% set somme = somme + temps_seance[i] %} 
+            {% endfor %}
+            {% set moyenne = somme / (temps_seance|length) %}
+
+            <h2 class="display-4 text-center">Durées d'une séance</h2>
+            <div id="durees" class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Durée minimum</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
+                                <p class="card-text">{{ min(temps_seance) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Durée moyenne</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
+                                <p class="card-text">{{ moyenne|round(2, 'floor') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Durée maximum</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
+                                <p class="card-text">{{ max(temps_seance) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    {# Librairie Chart.js pour les graphiques #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+    <script>
+        var etiquettes = []; // contiendra les étiquettes du graphique - ex : 16h30-17h00
+        var donnees = []; // les données correspondantes aux étiquettes - tableau d'entiers
+        var total_results = {{ resultat_creneau|length }};
+        var resultat_creneau = {{ resultat_creneau|json_encode()|raw }};
+
+        for (var i = 0 ; i < total_results ; i++) {
+            var etiquette_str = resultat_creneau[i].h_debut + "h" + resultat_creneau[i].min_debut;
+            etiquette_str = etiquette_str + "-" + resultat_creneau[i].h_fin + "h" + resultat_creneau[i].min_fin;
+            etiquettes.push(etiquette_str);
+
+            donnees.push(resultat_creneau[i].array_result.length);
+        }
+
+        var ctx = document.getElementById('graphique').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: etiquettes,
+                datasets: [{
+                    label: "Nombre de personnes présentes sur plage horaire",
+                    backgroundColor: 'rgb(0, 120, 120)',
+                    borderColor: 'rgb(0, 120, 120)',
+                    data: donnees,
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                title: {
+                    display: true,
+                    text: "Vue graphique du taux de présence sur les plages horaires"
+                }
+            }
+        });
+    </script>
 
     <script>
         twig_date = {{ date|json_encode()|raw }};
@@ -107,25 +216,6 @@
             var url = "/controlleur/statistiques/badgeages/jour/" + jour;
             window.location = url;
         }
-        /*function badgeagesNom() {
-            nom = document.getElementById("nom").value;
-            if (nom == "") {
-                alert("Le nom est requis");
-                return;
-            }
-            var url = "/controlleur/statistiques/badgeages/personne/" + nom;
-            window.location = url;
-        }
-        function badgeagesTranche() {
-            from = document.getElementById("from").value;
-            to = document.getElementById("to").value;
-            if ((from == "") || (to == "")) {
-                alert("Renseigner le début et la fin d'une tranche horaire");
-                return;
-            }
-            var url = "/controlleur/statistiques/badgeages/tranche/" + from + "/" + to;
-            window.location = url;
-        }*/
     </script>
 
 {% endblock %}
