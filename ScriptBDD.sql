@@ -7,27 +7,6 @@ DROP TABLE IF EXISTS aua_presence_seance;
 DROP TABLE IF EXISTS aua_etudiant; 
 DROP TABLE IF EXISTS aua_personnel;
 DROP TABLE IF EXISTS aua_liste_seance;
-DROP TABLE IF EXISTS vue_presence;
-
-/*--------------------- declaration de la vue  ---------------------*/
-
-CREATE VIEW test AS
-SELECT s.idSeance, s.tempsSeance,e.nom,e.prenom,NOW() as temps,e.no_etudiant FROM aua_liste_seance s, 
-(SELECT nom_usuel as nom,prenom as prenom,no_etudiant as no_etudiant,se.entreesSorties 
-	FROM aua_presence_seance se 
-	INNER JOIN aua_etudiant_unicampus etuCamp ON etuCamp.no_mifare_inverse= se.no_mifare_inverse
-	INNER JOIN aua_etudiant etud ON etuCamp.no_individu=etud.no_etudiant
-	UNION
-	SELECT DISTINCT nom_usuel as nom,prenom as prenom,per.no_individu as no_etudiant,se.entreesSorties
-	FROM aua_presence_seance se 
-	INNER JOIN aua_personnel_unicampus perCamp ON perCamp.no_mifare_inverse= se.no_mifare_inverse
-	INNER JOIN aua_personnel per ON perCamp.no_individu=per.no_individu
-	UNION
-	SELECT nom as nom,prenom as prenom,no_exterieur as no_etudiant,se.entreesSorties
-	FROM aua_presence_seance se 
-	INNER JOIN aua_exterieur_sport perExt ON perExt.no_exterieur= se.no_mifare_inverse
-) e
-where e.entreesSorties like "IN";
 
 /*--------------------- declaration des tables ---------------------*/
 
@@ -96,18 +75,6 @@ CREATE TABLE IF NOT EXISTS aua_presence_seance(
 	FOREIGN KEY (idSeance) REFERENCES aua_liste_seance(idSeance)
 );
 
-
-CREATE TABLE IF NOT EXISTS vue_presence(
-	idSeance integer NOT NULL,
-	photo BLOB,
- 	nom varchar(40) NOT NULL,
-	prenom varchar(20) NOT NULL,
-	temps datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	no_etudiant integer(8),
-	tempsSeance datetime NOT NULL
-);
-	
-
 /*--------------------- insertions pour test ---------------------*/
 
 INSERT INTO aua_etudiant(no_etudiant,nom_usuel,prenom,photo)
@@ -157,6 +124,6 @@ VALUES
 
 INSERT INTO aua_liste_seance(idSeance,tempsSeance,limitePersonnes)
 VALUES
-('1','0000-00-00 00:00:00','0');
+('1','2018-10-10 00:01:30','10');
 
 

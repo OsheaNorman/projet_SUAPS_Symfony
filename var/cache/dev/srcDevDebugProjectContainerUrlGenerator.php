@@ -20,10 +20,6 @@ class srcDevDebugProjectContainerUrlGenerator extends Symfony\Component\Routing\
         $this->defaultLocale = $defaultLocale;
         if (null === self::$declaredRoutes) {
             self::$declaredRoutes = array(
-        'statistiques_badgeages' => array(array(), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), array(), array(array('text', '/controlleur/statistiques/badgeages')), array(), array()),
-        'badgeages_jours' => array(array('date'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array(), array(array('variable', '/', '[^/]++', 'date'), array('text', '/controlleur/statistiques/badgeages/jour')), array(), array()),
-        'badgeages_tranche_horaire' => array(array('heure_debut', 'heure_fin'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesTranchesHoraires'), array(), array(array('variable', '/', '[^/]++', 'heure_fin'), array('variable', '/', '[^/]++', 'heure_debut'), array('text', '/controlleur/statistiques/badgeages/tranche')), array(), array()),
-        'badgeages_nom' => array(array('nom'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesPersonne'), array(), array(array('variable', '/', '[^/]++', 'nom'), array('text', '/controlleur/statistiques/badgeages/personne')), array(), array()),
         'test' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::index'), array(), array(array('text', '/controlleur/test')), array(), array()),
         'badgeage' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::badgeage'), array(), array(array('text', '/controlleur/badgeage')), array(), array()),
         'vuePresenceUpdate' => array(array('no_individu'), array('_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array(), array(array('variable', '/', '[^/]++', 'no_individu'), array('text', '/controlleur/vuePresenceUpdate')), array(), array()),
