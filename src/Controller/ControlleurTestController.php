@@ -10,48 +10,134 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\VuePresence;
 
 
+
 class ControlleurTestController extends AbstractController
 {
+
+	//Les fonctions 
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------  
+	/** 
+	 * Permet de renvoyer un tableau où dans chaque tableau on stock les données des étudiants selon une limite
+	 * Cela permet d'afficher trois colonne sur la page web dont la première colonne contient le premier tableau et ainsi de suite 
+	 * Utilisé dans la route "Liste_etudiant_present"
+	 */
+	public function Tab($tab, $debut, $fin){
+		$result = array();
+
+		if(count($tab)==0)
+			return null;
+
+		if($fin > count($tab))
+			$fin = count($tab);
+
+		for($i = $debut; $i < $fin; $i++)
+			$result[$i] = $tab[$i];
+
+		return $result;
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------------------------- 
+	/**
+	 * La logique interne agit comme une vue sur toutes les tables
+	 * Elle affiche toutes les personne actuellement présentes dans la séance 
+	 * Utilisée dans les routes "vuePresenceUpdate" & "Liste_etudiant_present"
+	 */
+	public function LogiqueInterne(){
+		$queryVuePresence = $this->getDoctrine()->getManager();
+		$rawQuery = "SELECT s.idSeance,s.tempsSeance,e.nom,e.prenom,e.temps,e.no_etudiant,e.photo
+					FROM aua_liste_seance s, 
+					(	SELECT nom_usuel as nom,prenom as prenom,no_etudiant as no_etudiant,se.entreesSorties,se.temps,photo
+						FROM aua_presence_seance se 
+						INNER JOIN aua_etudiant_unicampus etuCamp ON etuCamp.no_mifare_inverse= se.no_mifare_inverse
+						INNER JOIN aua_etudiant etud ON etuCamp.no_individu=etud.no_etudiant
+						UNION
+						SELECT DISTINCT nom_usuel as nom,prenom as prenom,per.no_individu as no_etudiant,se.entreesSorties,se.temps,photo
+						FROM aua_presence_seance se 
+						INNER JOIN aua_personnel_unicampus perCamp ON perCamp.no_mifare_inverse= se.no_mifare_inverse
+						INNER JOIN aua_personnel per ON perCamp.no_individu=per.no_individu
+						UNION
+						SELECT nom as nom,prenom as prenom,no_exterieur as no_etudiant,se.entreesSorties,se.temps,photo
+						FROM aua_presence_seance se 
+						INNER JOIN aua_exterieur_sport perExt ON perExt.no_exterieur= se.no_mifare_inverse
+					) e
+					LEFT JOIN 
+					(	SELECT nom_usuel as nom,prenom as prenom,no_etudiant as no_etudiant,se.entreesSorties,se.temps,photo
+						FROM aua_presence_seance se 
+						INNER JOIN aua_etudiant_unicampus etuCamp ON etuCamp.no_mifare_inverse= se.no_mifare_inverse
+						INNER JOIN aua_etudiant etud ON etuCamp.no_individu=etud.no_etudiant
+						UNION
+						SELECT DISTINCT nom_usuel as nom,prenom as prenom,per.no_individu as no_etudiant,se.entreesSorties,se.temps,photo
+						FROM aua_presence_seance se 
+						INNER JOIN aua_personnel_unicampus perCamp ON perCamp.no_mifare_inverse= se.no_mifare_inverse
+						INNER JOIN aua_personnel per ON perCamp.no_individu=per.no_individu
+						UNION
+						SELECT nom as nom,prenom as prenom,no_exterieur as no_etudiant,se.entreesSorties,se.temps,photo
+						FROM aua_presence_seance se 
+						INNER JOIN aua_exterieur_sport perExt ON perExt.no_exterieur= se.no_mifare_inverse
+					) f
+					ON (e.no_etudiant = f.no_etudiant AND e.temps < f.temps)
+					where e.entreesSorties like \"IN\" AND f.temps IS NULL
+					ORDER BY e.temps ASC"; //oui, cette requête fonctionne xD
+		$statement = $queryVuePresence->getConnection()->prepare($rawQuery);
+		$statement->execute();
+		$vuePresenceData = $statement->fetchAll();
+
+		return $vuePresenceData;
+	}
+	
+
+
+
+
+
+	//Les routes 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------   
     /**
      * @Route("/controlleur/test", name="test")
      */
-	//Cette route ne sert à rien (peut etre supprimée)
+	//Cette route ne sert à rien pour l'instant(peut etre supprimée)
     public function index()
     {
+		
         return $this->render('controlleur_test/index.html.twig', [
             'controller_name' => 'ControlleurTestController',
         ]);
+    }
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------   
+    /**
+     * @Route("/controlleur/connexion", name="connexion")
+     */
+	//Cette route sert à confirmer à l'application Android qu'elle est bien connectée au serveur  
+    public function connexion()
+    {
+        $codeRetour['reponse']='Connexion réussi.';
+		echo json_encode($codeRetour);
+		return new Response('');	
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------
     /**
      * @Route("/controlleur/badgeage", name="badgeage")
      */
-	//Cette route récupère un no_mifare_inverse et recherche le numéro_individu associé 
+	//Cette route récupère un no_mifare_inverse et recherche le numero_individu associé 
     public function badgeage(Request $request)
     {
-
-		//recuperation des données depuis l'application android 
+		//récuperation des données depuis l'application android 
 		$no_mifare_inverse = $request->request->get('numeroCarte');
-
 
         //On vérifie que le no_mifare_inverse se trouve dans l'une des 3 tables :
         //aua_etudiant_unicampus, aua_personnel_unicampus, aua_autre_unicampus
         //-> ensuite renvoyer le no_individu correspondant
-        //Attention, ces 3 tables ne sont pas des entités, il faut faire une requête SQL brute
 
         $queryNumero = $this->getDoctrine()->getManager();
         $queryEtud = "SELECT no_individu FROM aua_etudiant_unicampus WHERE no_mifare_inverse = '$no_mifare_inverse'";
         $queryPers = "SELECT no_individu FROM aua_personnel_unicampus WHERE no_mifare_inverse = '$no_mifare_inverse'";
         $queryAutre = "SELECT no_individu FROM aua_autre_unicampus WHERE no_mifare_inverse = '$no_mifare_inverse'";
         $rawQuery = "( ". $queryEtud . " ) UNION ( " . $queryPers . " ) UNION ( " . $queryAutre . " )";
-
         $statement = $queryNumero->getConnection()->prepare($rawQuery);
         $statement->execute();
         $result = $statement->fetchAll();
         //exemple : print_r($result['0']) --> Array ( [no_individu] => 14003792 ) 
 
-		//return le numéro d'étudiant si celui ci a été trouvé 
+		//return le numéro d'étudiant si celui-ci à été trouvé 
 		//sinon return valeur 0 pour dire que cette carte n'est pas enregistrée dans les tables 
         if (sizeof($result) != 0) {
             return $this->redirectToRoute('vuePresenceUpdate', $result[0]);
@@ -63,45 +149,37 @@ class ControlleurTestController extends AbstractController
     /**
      * @Route("/controlleur/vuePresenceUpdate/{no_individu}", name="vuePresenceUpdate")
      */
-	//Cette route met à jour tables+vue en fonction des inscriptions/désinscriptions 
+	//Cette route met à jour la table aua_presence_seance en fonction des inscriptions/désinscriptions 
     public function vuePresenceUpdate($no_individu)
     {
 		//dans le cas où le numero de carte n'est pas enregistré dans les tables 
 		//on renvoi un message d'erreur à l'android 
 		//et on termine l'execution de la fonction 
 		if($no_individu == 0){
-			$codeRetour['reponse']='pas dans la base de données';
+			$codeRetour['reponse']='Personne non inscrite.';
 			echo json_encode($codeRetour);
 			return new Response('');		
 	    }
 	//---------------------------------------------------------- Récupérations des données sur 
 
+		//la logique interne 
+		$vuePresenceData = self::LogiqueInterne();
+
+
 		//no_mifare_inverse à partir de no_individu
-		//ne peut pas être récuperé depuis badgeage 
 		$queryNumeroMifare = $this->getDoctrine()->getManager();
 		$queryEtud = "SELECT no_mifare_inverse FROM aua_etudiant_unicampus WHERE no_individu = '$no_individu'";
 		$queryPers = "SELECT no_mifare_inverse FROM aua_personnel_unicampus WHERE no_individu = '$no_individu'";
 		$queryAutre = "SELECT no_mifare_inverse FROM aua_autre_unicampus WHERE no_individu = '$no_individu'";
 		$rawQuery = "( ". $queryEtud . " ) UNION ( " . $queryPers . " ) UNION ( " . $queryAutre . " )";
-
 		$statement = $queryNumeroMifare->getConnection()->prepare($rawQuery);
 		$statement->execute();
 		$resultNumeroMifare = $statement->fetchAll();
 		
-
-		//la table vue_presence 
-		$vuePresenceData = $this->getDoctrine()
-		           ->getRepository(VuePresence::class)
-		           ->createQueryBuilder('v')
-		           ->select('v')
-		           ->getQuery()
-		           ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
-	
-
+		
 		//la limite de personnes max et le temps de la seance 
 		$queryLimiteTemps = $this->getDoctrine()->getManager();
 		$rawQuery = "SELECT limitePersonnes,tempsSeance FROM aua_liste_seance";
-
 		$statement = $queryLimiteTemps->getConnection()->prepare($rawQuery);
 		$statement->execute();
         $resultLimiteTemps = $statement->fetchAll();
@@ -109,11 +187,10 @@ class ControlleurTestController extends AbstractController
 	
 		//nom,prenom de l'individu a partir de no_individu
 		$queryPersonne = $this->getDoctrine()->getManager();
-		$queryEtud = "SELECT nom_usuel,prenom FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
-        $queryPers = "SELECT nom_usuel,prenom FROM aua_personnel WHERE no_individu = '$no_individu'";
-		$queryExte = "SELECT nom,prenom FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu'";
+		$queryEtud = "SELECT nom_usuel,prenom,photo FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
+        $queryPers = "SELECT nom_usuel,prenom,photo FROM aua_personnel WHERE no_individu = '$no_individu'";
+		$queryExte = "SELECT nom,prenom,photo FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu'";
         $rawQuery = "( ". $queryEtud . " ) UNION ( " . $queryPers . " ) UNION ( " . $queryExte . " ) ";
-
 		$statement = $queryPersonne->getConnection()->prepare($rawQuery);
         $statement->execute();
         $resultPersonne = $statement->fetchAll();
@@ -122,7 +199,7 @@ class ControlleurTestController extends AbstractController
 		//---------------------------------------------------------- Traitement des données 
 	
 		//si le numero de l'etudiant est present dans la vue
-		//càd si l'etudiant a déjà badgé une fois dans la journée  
+		//càd si l'etudiant à déjà badgé une fois dans la journée  
 		//on déclare une variable isPresent qui est initialisée a true
 		foreach($vuePresenceData as $vue){
 		   if(in_array($no_individu,$vue)){
@@ -133,6 +210,7 @@ class ControlleurTestController extends AbstractController
 		//pour chaque données recuperées précédemment on les stock dans des variables
 		$prenom = $resultPersonne['0']['prenom'];
 		$nom = $resultPersonne['0']['nom_usuel'];
+		$photo = $resultPersonne['0']['photo'];
 		$limite = $resultLimiteTemps['0']['limitePersonnes'];
 		$tempsSeance = $resultLimiteTemps['0']['tempsSeance'];
 
@@ -140,42 +218,36 @@ class ControlleurTestController extends AbstractController
 		if(isset($resultNumeroMifare['0']['no_mifare_inverse'])){
 			$no_mifare_inverse = $resultNumeroMifare['0']['no_mifare_inverse'];
 		}
-
+		
+	
 		//recupération du nombre de personne qu'il y a actuellement dans la vue 
 		$nombreInscrit = count($vuePresenceData);
 
 		//---------------------------------------------------------- Maj de la vue 
 
 		//si l'individu est présent dans la vue 
-			//on le supprime de celle-ci
-				//si c'est quelqu'un qui à été ajouté manuellement on le supprime de aua_exterieur_sport
-				//si c'est quelqu'un qui à badgé on l'ajoute dans aua_presence_seance en OUT 
+				//si c'est quelqu'un qui à été ajouté manuellement on l'ajoute en OUT dans aua_presence_seance avec le numero qui lui a été attribué
+				//si c'est quelqu'un qui à badgé on l'ajoute dans aua_presence_seance en OUT avec son no_mifare_inverse
 
 		if(isset($isPresent)){
 			//echo "fin de la séance";
 
-			$deletePersonne = $this->getDoctrine()->getManager();
-			$RAW_QUERY = "DELETE FROM vue_presence WHERE no_etudiant = '$no_individu' ";
-			$statement = $queryPersonne->getConnection()->prepare($RAW_QUERY);
-			$statement->execute();
+			$date = new \DateTime();
+			$date = date_format($date, 'Y-m-d H:i:s') . "\n";
+			$ajoutOUT = $this->getDoctrine()->getManager();
 
 			if(strlen($no_individu)<5){
-				$deletePersonne = $this->getDoctrine()->getManager();
-				$rawQuery = "DELETE FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu' ";
-				$statement = $queryPersonne->getConnection()->prepare($rawQuery);
-				$statement->execute();
+				$rawQuery = "INSERT INTO aua_presence_seance(idSeance,no_mifare_inverse,temps,entreesSorties) VALUES ('1','$no_individu','$date','OUT')";
 			}
 			else{
-				$date = new \DateTime();
-				$date = date_format($date, 'Y-m-d H:i:s') . "\n";
-				$ajoutIN = $this->getDoctrine()->getManager();
 				$rawQuery = "INSERT INTO aua_presence_seance(idSeance,no_mifare_inverse,temps,entreesSorties) VALUES ('1','$no_mifare_inverse','$date','OUT')";
-				$statement = $ajoutIN->getConnection()->prepare($rawQuery);
-				$statement->execute();
-				$codeRetour['reponse']='désinscription réussie';
-				echo json_encode($codeRetour);
 			}	
 
+			$statement = $ajoutOUT->getConnection()->prepare($rawQuery);
+			$statement->execute();
+			$codeRetour['reponse']='Désinscription réussie.';
+			echo json_encode($codeRetour);
+			
 		}
 
 		//si l'individu n'est pas présent dans la vue
@@ -194,26 +266,14 @@ class ControlleurTestController extends AbstractController
 				$ajoutIN = $this->getDoctrine()->getManager();
 				$rawQuery = "INSERT INTO aua_presence_seance(idSeance,no_mifare_inverse,temps,entreesSorties) VALUES ('1','$no_mifare_inverse','$date','IN')";
 				$statement = $ajoutIN->getConnection()->prepare($rawQuery);
-				$statement->execute();
-		
-				$entityManager = $this->getDoctrine()->getManager();
-				$Vue = new VuePresence();
-				$Vue->setIdSeance(1);
-				$Vue->setNom($nom);
-				$Vue->setPrenom($prenom);
-				$Vue->setTemps(new \DateTime());
-				$Vue->setNoEtudiant($no_individu);
-				$Vue->setTempsSeance(new \DateTime($tempsSeance));
-				$entityManager->persist($Vue);
-				$entityManager->flush();
-
-				$codeRetour['reponse']='inscription réussie';
+				$statement->execute();	
+				$codeRetour['reponse']='Inscription réussie.';
 				echo json_encode($codeRetour);
 		   	  }
 		 	  else{
 				//echo "la limite de personne pour cette séance à été atteinte";
 
-				$codeRetour['reponse']='limite de personne atteinte';
+				$codeRetour['reponse']='Limite de personne atteinte.';
 				echo json_encode($codeRetour);
 		   	  }
 		}
@@ -280,7 +340,7 @@ class ControlleurTestController extends AbstractController
 		$prenom = $request->request->get('prenom');
 
 		//attribution d'une photo par défault a l'individu 
-		//$photo = fopen('/home/etudiant/blog/img/ext.bmp','rb');
+		$photo = fopen('/home/etudiant/blog/img/etud.png','rb');
 
 		//récuperation du temps de la séance sur la table aua_liste_seance
 		$queryTemps = $this->getDoctrine()->getManager();
@@ -296,46 +356,45 @@ class ControlleurTestController extends AbstractController
 		$statement->execute();
 		$resultIdentifiant = $statement->fetchAll();
 
+		$date = new \DateTime();
+		$date = date_format($date, 'Y-m-d H:i:s');
+
+
 		//pour chaque données recuperées précédemment on les stock dans des variables
 		$tempsSeance = $resultTemps['0']['tempsSeance'];
-		if(isset($resultIdentifiant['0']['no_exterieur'])){
-			$numero = $resultIdentifiant['0']['no_exterieur'];
-		}
-		else{
-			$numero = 1000;
-		}
 
-		
-		//si il n'y a encore personne dans la table
-		//on met à la personne qu'on ajoute no_exterieur = 1000
-		if(!isset($numero)){
-			$numero = 1000;
+
+
+		//si il y a déjà des gens dans la table on met à la nouvelle personne 
+		//le dernier identifiant + 1 (no_exterieur + 1)
+		if(isset($resultIdentifiant['0']['no_exterieur'])){
+			$numero = $resultIdentifiant['0']['no_exterieur'] + 1;
+
 			$queryAddPersonne = $this->getDoctrine()->getManager();
-			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom,photo) VALUES ('$numero','$nom','$prenom','1')";
+			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom,photo) VALUES ('$numero','$nom','$prenom','$photo')";
+			$statement = $queryAddPersonne->getConnection()->prepare($rawQuery);
+			$statement->execute();
+
+			$queryAddPersonne = $this->getDoctrine()->getManager();
+			$rawQuery = "INSERT INTO aua_presence_seance(idSeance,no_mifare_inverse,temps,entreesSorties) VALUES ('1','$numero','$date','IN')";
 			$statement = $queryAddPersonne->getConnection()->prepare($rawQuery);
 			$statement->execute();	
 		}
-		//sinon on lui met le dernier identifiant + 1 (no_exterieur + 1)
+		//sinon la personne est la première inscrite et on lui attribu le no_exterieur = 1000
 		else{
-			$numero += 1;
+			$numero = 1000;
+			
 			$queryAddPersonne = $this->getDoctrine()->getManager();
-			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom,photo) VALUES ('$numero','$nom','$prenom','1')";
+			$rawQuery = "INSERT INTO aua_exterieur_sport(no_exterieur,nom,prenom,photo) VALUES ('$numero','$nom','$prenom','$photo')";
 			$statement = $queryAddPersonne->getConnection()->prepare($rawQuery);
-			$statement->execute();
+			$statement->execute();	
+
+			$queryAddPersonne = $this->getDoctrine()->getManager();
+			$rawQuery = "INSERT INTO aua_presence_seance(idSeance,no_mifare_inverse,temps,entreesSorties) VALUES ('1','$numero','$date','IN')";
+			$statement = $queryAddPersonne->getConnection()->prepare($rawQuery);
+			$statement->execute();	
 		}
-
-
-		//ajout dans la vue peut importe la limite de personnes définie pour la séance  		
-		$entityManager = $this->getDoctrine()->getManager();
-		$Vue = new VuePresence();
-		$Vue->setIdSeance(1);
-		$Vue->setNom($nom);
-		$Vue->setPrenom($prenom);
-		$Vue->setTemps(new \DateTime());
-		$Vue->setNoEtudiant($numero);
-		$Vue->setTempsSeance(new \DateTime($tempsSeance));
-		$entityManager->persist($Vue);
-		$entityManager->flush();
+		
 
 		$codeRetour['reponse']='Personne ajoutée';
 		echo json_encode($codeRetour);
@@ -346,13 +405,11 @@ class ControlleurTestController extends AbstractController
 	/**
      * @Route("/controlleur/listePersonne/{retour}",name="Liste_etudiant_present")
 	*/
+	//Cette route permet de réaliser l'affichage sur l'écran et l'application android 
    	public function printScreen($retour)
     {
-		//Récupération des données de la Vue "vue_presence" directement dans la base de données
-		$vuePresence = "SELECT idSeance,nom,prenom,temps,no_etudiant,tempsSeance FROM vue_presence";
-		$etatPresence = $this->getDoctrine()->getManager()->getConnection()->prepare($vuePresence);
-		$etatPresence->execute();
-		$tableVuePresence = $etatPresence->fetchAll(); //Stocke dans un tableau "$tableVuePresence" notre vue "vue_presence"
+		//on appelle la logique Interne 
+		$tableVuePresence = self::LogiqueInterne();
 
 		//variable pour stocker la date actuelle (NOW)
 		$dateActuelle = new \DateTime();
@@ -368,18 +425,21 @@ class ControlleurTestController extends AbstractController
 		$capacite = $tableAuaListeSeance['0']['limitePersonnes'];
 		$tempsMinimum = $tableAuaListeSeance['0']['tempsSeance'];
 
+		//représente la durée des 15 minutes pour la couleur orange
+		$minute15 = new \DateTime('00:16:00');
+
 		//Calcul du temps de la séance de l'étudiant
 		//temps_seance = date_actuelle - date_inscription
 		foreach($tableVuePresence as $result){
 			$tempsResult = $result['temps'];
 			$dateInscrit = new \DateTime($tempsResult);
 			$intervalle = date_diff($dateActuelle,$dateInscrit);
-			$value = $intervalle->format('%H:%I:%S');
+			$value = $intervalle->format('%H:%I');
 
 			$targetTime = $tempsMinimum;
 			$tempsCouleurOrange = new \DateTime($targetTime);
-			$dateCouleurOrange = date_diff($tempsCouleurOrange,new \DateTime('00:15:00'));
-			$minuteCouleurOrange = $dateCouleurOrange->format('%H:%I:%S');
+			$dateCouleurOrange = date_diff($tempsCouleurOrange,$minute15);
+			$minuteCouleurOrange = $dateCouleurOrange->format('%H:%I');
 
 			$result['duree'] = $value; //Nouvelle donnée dans le tableau "$tablePresents" qui est la durée de l'étudiant (le temps)
 			$result['orange'] = $minuteCouleurOrange;
@@ -391,9 +451,11 @@ class ControlleurTestController extends AbstractController
 			Decoupage de mon tableau $tablePresents en trois tableau selon une limite donnée en brute 
 		*/
 
-		$tab1 = self::Tab($tablePresents,0,12);
-		$tab2 = self::Tab($tablePresents,12,24);
-		$tab3 = self::Tab($tablePresents,24,count($tablePresents));
+		$tab1 = self::Tab($tablePresents,0,10);
+		$tab2 = self::Tab($tablePresents,10,20);
+		$tab3 = self::Tab($tablePresents,20,30);
+
+		$tailleDuTableauPresent = count($tablePresents); /* besoin pour afficher sur la page */
 		
 		//il y a deux sorties pour cette fonction
 			//retour = 1 pour l'affichage des données sur l'application android (encoder les données)
@@ -411,26 +473,11 @@ class ControlleurTestController extends AbstractController
 				'troisiemeColonne' => $tab3,
 				'dateActuelle' => $dateActuelle,
 				'capacite' => $capacite,
-				'tempsMinimums' => $tempsMinimum
+				'tempsMinimums' => $tempsMinimum,
+				'minute15' => $minute15,
+				'tailleDuTableauPresent' => $tailleDuTableauPresent
         	]);
 		}
-	}
-
-	/* Cette méthode permettant de renvoyer un tableau où dans chaque tableau on stock les données des étudiants selon une limite
-		Cela permet d'afficher trois colonne sur ma page web dont la première colonne contient mon premier tableau et ainsi de suite */
-	public function Tab($tab, $debut, $fin){
-		$result = array();
-
-		if(count($tab)==0)
-			return null;
-
-		if($fin > count($tab))
-			$fin = count($tab); //Ceci permet d'éviter de stocker des éléments vides
-
-		for($i = $debut; $i < $fin; $i++)
-			$result[$i] = $tab[$i];
-
-		return $result;
 	}
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 }

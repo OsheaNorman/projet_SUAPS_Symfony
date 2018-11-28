@@ -66,6 +66,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 $routes = array(
                     '/controlleur/statistiques/badgeages' => array(array('_route' => 'statistiques_badgeages', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), null, null, null),
                     '/controlleur/test' => array(array('_route' => 'test', '_controller' => 'App\\Controller\\ControlleurTestController::index'), null, null, null),
+                    '/controlleur/connexion' => array(array('_route' => 'connexion', '_controller' => 'App\\Controller\\ControlleurTestController::connexion'), null, null, null),
                     '/controlleur/badgeage' => array(array('_route' => 'badgeage', '_controller' => 'App\\Controller\\ControlleurTestController::badgeage'), null, null, null),
                     '/controlleur/setSeance' => array(array('_route' => 'setSeance', '_controller' => 'App\\Controller\\ControlleurTestController::setSeance'), null, null, null),
                     '/controlleur/sendSeance' => array(array('_route' => 'sendSeance', '_controller' => 'App\\Controller\\ControlleurTestController::sendSeance'), null, null, null),

@@ -7,27 +7,6 @@ DROP TABLE IF EXISTS aua_presence_seance;
 DROP TABLE IF EXISTS aua_etudiant; 
 DROP TABLE IF EXISTS aua_personnel;
 DROP TABLE IF EXISTS aua_liste_seance;
-DROP TABLE IF EXISTS vue_presence;
-
-/*--------------------- declaration de la vue  ---------------------*/
-
-CREATE VIEW test AS
-SELECT s.idSeance, s.tempsSeance,e.nom,e.prenom,NOW() as temps,e.no_etudiant FROM aua_liste_seance s, 
-(SELECT nom_usuel as nom,prenom as prenom,no_etudiant as no_etudiant,se.entreesSorties 
-	FROM aua_presence_seance se 
-	INNER JOIN aua_etudiant_unicampus etuCamp ON etuCamp.no_mifare_inverse= se.no_mifare_inverse
-	INNER JOIN aua_etudiant etud ON etuCamp.no_individu=etud.no_etudiant
-	UNION
-	SELECT DISTINCT nom_usuel as nom,prenom as prenom,per.no_individu as no_etudiant,se.entreesSorties
-	FROM aua_presence_seance se 
-	INNER JOIN aua_personnel_unicampus perCamp ON perCamp.no_mifare_inverse= se.no_mifare_inverse
-	INNER JOIN aua_personnel per ON perCamp.no_individu=per.no_individu
-	UNION
-	SELECT nom as nom,prenom as prenom,no_exterieur as no_etudiant,se.entreesSorties
-	FROM aua_presence_seance se 
-	INNER JOIN aua_exterieur_sport perExt ON perExt.no_exterieur= se.no_mifare_inverse
-) e
-where e.entreesSorties like "IN";
 
 /*--------------------- declaration des tables ---------------------*/
 
@@ -96,29 +75,18 @@ CREATE TABLE IF NOT EXISTS aua_presence_seance(
 	FOREIGN KEY (idSeance) REFERENCES aua_liste_seance(idSeance)
 );
 
-
-CREATE TABLE IF NOT EXISTS vue_presence(
-	idSeance integer NOT NULL,
-	photo BLOB,
- 	nom varchar(40) NOT NULL,
-	prenom varchar(20) NOT NULL,
-	temps datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	no_etudiant integer(8),
-	tempsSeance datetime NOT NULL
-);
-	
-
 /*--------------------- insertions pour test ---------------------*/
 
 INSERT INTO aua_etudiant(no_etudiant,nom_usuel,prenom,photo)
 VALUES
- ('15000922', 'Viaux', 'Kylian','/home/etudiant/blog/img/etud.png'),
- ('14003792', 'Deramaix', 'Jonathan','/home/etudiant/blog/img/etud.png'),
- ('15005493', 'Ndayishima', 'Divin','/home/etudiant/blog/img/etud.png'),
- ('16008930', 'Roger', 'Victoria','/home/etudiant/blog/img/etud2.png'),
- ('15003650', 'Arapari', 'Mateanui','/home/etudiant/blog/img/etud.png'),
- ('17007058', 'Marignale', 'Ian','/home/etudiant/blog/img/etud.png'),
- ('15002023', 'Campos Do Nascimento', 'Daniel','/home/etudiant/blog/img/etud.png');
+ (16007142,'o''shea','norman'),
+ (15000922,'viaux','kylian'),
+ (14003792,'deramaix','jonathan'),
+ (15005493,'ndayishima','divin'),
+ (16008930,'roger','victoria'),
+ (15003650,'arapari','mateanui'),
+ (17007058,'marignale','ian'),
+ (15002023,'campos do nascimento');
 		
 
 
@@ -131,13 +99,14 @@ VALUES
 
 INSERT INTO aua_etudiant_unicampus(no_individu,no_mifare_inverse)
 VALUES
- ('15000922', '04391b8a813a80'),
- ('14003792', '042d87ca253980'),
- ('15005493', '04598ec2983b80'),
- ('16008930', '046c3a4a734380'),
- ('15003650', '0427858a813a80'),
- ('17007058', '0454797afe4280'),
- ('15002023', '0419282aa73a80');
+ (16007142,'04671DC2983B80'),
+ (15000922,'04391b8a813a80'),
+ (14003792,'042d87ca253980'),
+ (15005493,'04598ec2983b80'),
+ (16008930,'046c3a4a734380'),
+ (15003650,'0427858a813a80'),
+ (17007058,'0454797afe4280'),
+ (15002023,'0419282aa73a80');
 
 
 INSERT INTO aua_personnel_unicampus(no_individu,no_mifare_inverse)
@@ -157,6 +126,6 @@ VALUES
 
 INSERT INTO aua_liste_seance(idSeance,tempsSeance,limitePersonnes)
 VALUES
-('1','0000-00-00 00:00:00','0');
+('1','2018-10-10 00:01:30','10');
 
 
