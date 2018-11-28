@@ -12,14 +12,21 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class VuePresence
 {
+
     /**
-     * @ORM\Id
+	 * @ORM\Id
      * @ORM\Column(name="idSeance", type="integer")
      */
     private $idSeance;
 
     /**
-     * @ORM\Id
+	 * @ORM\Id
+     * @ORM\Column(type="blob", nullable=true)
+     */
+    private $photo;
+
+    /**
+	 * @ORM\Id
      * @ORM\Column(type="string", length=40)
      */
     private $nom;
@@ -42,9 +49,14 @@ class VuePresence
     private $no_etudiant;
 
     /**
-     * @ORM\Column(name="tempsSeance", type="datetime")
+     * @ORM\Column(name="tempsSeance",type="datetime")
      */
     private $tempsSeance;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getIdSeance(): ?int
     {
@@ -54,6 +66,19 @@ class VuePresence
     public function setIdSeance(int $idSeance): self
     {
         $this->idSeance = $idSeance;
+
+        return $this;
+    }
+
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto($photo): self
+    {
+        $this->photo = $photo;
+
         return $this;
     }
 
@@ -65,6 +90,7 @@ class VuePresence
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
         return $this;
     }
 
@@ -76,6 +102,7 @@ class VuePresence
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
         return $this;
     }
 
@@ -87,6 +114,7 @@ class VuePresence
     public function setTemps(\DateTimeInterface $temps): self
     {
         $this->temps = $temps;
+
         return $this;
     }
 
@@ -98,6 +126,7 @@ class VuePresence
     public function setNoEtudiant(?int $no_etudiant): self
     {
         $this->no_etudiant = $no_etudiant;
+
         return $this;
     }
 
@@ -109,6 +138,7 @@ class VuePresence
     public function setTempsSeance(\DateTimeInterface $tempsSeance): self
     {
         $this->tempsSeance = $tempsSeance;
+
         return $this;
     }
 }

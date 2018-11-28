@@ -56,9 +56,9 @@
                         {% set compteur = compteur + 1 %}
 
                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
-                        {% if present.duree > tempsMinimums|date('H:i:s') %}
+                        {% if present.duree > tempsMinimums|date('H:i') %}
                             {% set couleurBackground = rouge %} {# couleur du background en rouge #}
-                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
                             {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
                             {% set couleurBackground = verte %} {# couleur du background en vert #}
@@ -74,14 +74,7 @@
                                 {% set padding_left = 'pl-4' %}
                             {% endif %}
 
-                            {# Si le nom et prenom dépasse la div, on le découpe et rajoute des 3 points à la place du nom complet #}
-                            {% set nomPrenom = present.nom ~ ' ' ~ present.prenom %}
-
-                            {% if nomPrenom|length > 24 %}
-                                {% set nomPrenom = nomPrenom[:22] ~ '...' %}
-                            {% endif %}
-
-                            <div class="{{ padding_left }} flex-grow-1">{{ nomPrenom }}</div>
+                            <div class="{{ padding_left }} flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
                             <div>{{ present.duree }}</span></div>
                         </div>
 
@@ -99,9 +92,9 @@
                         {% set compteur = compteur + 1 %}
 
                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
-                        {% if present.duree > tempsMinimums|date('H:i:s') %}
+                        {% if present.duree > tempsMinimums|date('H:i') %}
                             {% set couleurBackground = rouge %} {# couleur du background en rouge #}
-                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
                             {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
                             {% set couleurBackground = verte %} {# couleur du background en vert #}
@@ -109,14 +102,7 @@
 
                         <div id="div_etudiant_2" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
                             <div>{{ compteur }}</div>
-
-                            {% set nomPrenom = present.nom ~ ' ' ~ present.prenom %}
-
-                            {% if nomPrenom|length > 24 %}
-                                {% set nomPrenom = nomPrenom[:22] ~ '...' %}
-                            {% endif %}
-
-                            <div class="pl-3 flex-grow-1">{{ nomPrenom }}</div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
                             <div>{{ present.duree }}</span></div>
                         </div>
 
@@ -134,24 +120,17 @@
                         {% set compteur = compteur + 1 %}
 
                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
-                        {% if present.duree > tempsMinimums|date('H:i:s') %}
+                        {% if present.duree > tempsMinimums|date('H:i') %}
                             {% set couleurBackground = rouge %} {# couleur du background en rouge #}
-                        {% elseif present.duree > present.orange or minute15|date('H:i:s') > tempsMinimums|date('H:i:s') %}
+                        {% elseif present.duree > present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
                             {% set couleurBackground = orange %} {# couleur du background en orange #}
                         {% else %}
                             {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
                         <div id="div_etudiant_3" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
-                            <div>{{ compteur }}</div>
-
-                            {% set nomPrenom = present.nom ~ ' ' ~ present.prenom %}
-
-                            {% if nomPrenom|length > 24 %}
-                                {% set nomPrenom = nomPrenom[:22] ~ '...' %}
-                            {% endif %}
-                            
-                            <div class="pl-3 flex-grow-1">{{ nomPrenom }}</div>
+                            <div>{{ compteur }}</div>                            
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
                             <div>{{ present.duree }}</span></div>
                         </div>
 
