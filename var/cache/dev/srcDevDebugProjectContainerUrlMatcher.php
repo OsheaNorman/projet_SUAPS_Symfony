@@ -64,7 +64,6 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         switch ($pathinfo) {
             default:
                 $routes = array(
-                    '/controlleur/statistiques/badgeages' => array(array('_route' => 'statistiques_badgeages', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), null, null, null),
                     '/controlleur/test' => array(array('_route' => 'test', '_controller' => 'App\\Controller\\ControlleurTestController::index'), null, null, null),
                     '/controlleur/badgeage' => array(array('_route' => 'badgeage', '_controller' => 'App\\Controller\\ControlleurTestController::badgeage'), null, null, null),
                     '/controlleur/setSeance' => array(array('_route' => 'setSeance', '_controller' => 'App\\Controller\\ControlleurTestController::setSeance'), null, null, null),
@@ -96,33 +95,36 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         $regexList = array(
             0 => '{^(?'
                     .'|/controlleur/(?'
-                        .'|statistiques/badgeages/jour/([^/]++)(*:59)'
-                        .'|vuePresenceUpdate/([^/]++)(*:92)'
-                        .'|listePersonne/([^/]++)(*:121)'
+                        .'|statistiques/badgeages/(?'
+                            .'|([^/]++)(*:57)'
+                            .'|jour/([^/]++)/([^/]++)(*:86)'
+                        .')'
+                        .'|vuePresenceUpdate/([^/]++)(*:120)'
+                        .'|listePersonne/([^/]++)(*:150)'
                     .')'
                     .'|/api(?'
-                        .'|(?:/(index)(?:\\.([^/]++))?)?(*:165)'
+                        .'|(?:/(index)(?:\\.([^/]++))?)?(*:194)'
                         .'|/(?'
-                            .'|docs(?:\\.([^/]++))?(*:196)'
-                            .'|contexts/(.+)(?:\\.([^/]++))?(*:232)'
+                            .'|docs(?:\\.([^/]++))?(*:225)'
+                            .'|contexts/(.+)(?:\\.([^/]++))?(*:261)'
                             .'|vue_presences(?'
                                 .'|(?:\\.([^/]++))?(?'
-                                    .'|(*:274)'
+                                    .'|(*:303)'
                                 .')'
                                 .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                    .'|(*:312)'
+                                    .'|(*:341)'
                                 .')'
                             .')'
                         .')'
                     .')'
-                    .'|/_error/(\\d+)(?:\\.([^/]++))?(*:352)'
+                    .'|/_error/(\\d+)(?:\\.([^/]++))?(*:381)'
                 .')$}sD',
         );
 
         foreach ($regexList as $offset => $regex) {
             while (preg_match($regex, $matchedPathinfo, $matches)) {
                 switch ($m = (int) $matches['MARK']) {
-                    case 274:
+                    case 303:
                         $matches = array('_format' => $matches[1] ?? null);
 
                         // api_vue_presences_get_collection
@@ -146,7 +148,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         not_api_vue_presences_post_collection:
 
                         break;
-                    case 312:
+                    case 341:
                         $matches = array('id' => $matches[1] ?? null, '_format' => $matches[2] ?? null);
 
                         // api_vue_presences_get_item
@@ -182,13 +184,14 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         break;
                     default:
                         $routes = array(
-                            59 => array(array('_route' => 'badgeages_jours', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array('date'), null, null),
-                            92 => array(array('_route' => 'vuePresenceUpdate', '_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array('no_individu'), null, null),
-                            121 => array(array('_route' => 'Liste_etudiant_present', '_controller' => 'App\\Controller\\ControlleurTestController::printScreen'), array('retour'), null, null),
-                            165 => array(array('_route' => 'api_entrypoint', '_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => '1', 'index' => 'index'), array('index', '_format'), null, null),
-                            196 => array(array('_route' => 'api_doc', '_controller' => 'api_platform.action.documentation', '_api_respond' => '1', '_format' => ''), array('_format'), null, null),
-                            232 => array(array('_route' => 'api_jsonld_context', '_controller' => 'api_platform.jsonld.action.context', '_api_respond' => '1', '_format' => 'jsonld'), array('shortName', '_format'), null, null),
-                            352 => array(array('_route' => '_twig_error_test', '_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'), array('code', '_format'), null, null),
+                            57 => array(array('_route' => 'statistiques_badgeages', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), array('plage'), null, null),
+                            86 => array(array('_route' => 'badgeages_jours', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array('date', 'plage'), null, null),
+                            120 => array(array('_route' => 'vuePresenceUpdate', '_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array('no_individu'), null, null),
+                            150 => array(array('_route' => 'Liste_etudiant_present', '_controller' => 'App\\Controller\\ControlleurTestController::printScreen'), array('retour'), null, null),
+                            194 => array(array('_route' => 'api_entrypoint', '_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => '1', 'index' => 'index'), array('index', '_format'), null, null),
+                            225 => array(array('_route' => 'api_doc', '_controller' => 'api_platform.action.documentation', '_api_respond' => '1', '_format' => ''), array('_format'), null, null),
+                            261 => array(array('_route' => 'api_jsonld_context', '_controller' => 'api_platform.jsonld.action.context', '_api_respond' => '1', '_format' => 'jsonld'), array('shortName', '_format'), null, null),
+                            381 => array(array('_route' => '_twig_error_test', '_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'), array('code', '_format'), null, null),
                         );
 
                         list($ret, $vars, $requiredMethods, $requiredSchemes) = $routes[$m];
@@ -214,7 +217,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         return $ret;
                 }
 
-                if (352 === $m) {
+                if (381 === $m) {
                     break;
                 }
                 $regex = substr_replace($regex, 'F', $m - $offset, 1 + strlen($m));

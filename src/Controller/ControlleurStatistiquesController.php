@@ -10,29 +10,29 @@ use App\Entity\AuaPresenceSeance;
 class ControlleurStatistiquesController extends AbstractController
 {
     /**
-     * @Route("/controlleur/statistiques/badgeages", name="statistiques_badgeages")
+     * @Route("/controlleur/statistiques/badgeages/{plage}", name="statistiques_badgeages")
      * 
      * Point d'entrée pour tout ce qui concerne les statistiques
      * Par défaut cette fonction redirige vers les statistiques du jours courant
      */
-    public function index() {
+    public function index($plage) {
         
         $date_du_jour = new \DateTime();
         $date_du_jour_str = $date_du_jour->format("Y-m-d");
-        return $this->redirectToRoute("badgeages_jours", array("date" => $date_du_jour_str));
+        return $this->redirectToRoute("badgeages_jours", array("date" => $date_du_jour_str, "plage" => $plage));
     }
 
     /**
-     * @Route("/controlleur/statistiques/badgeages/jour/{date}", name="badgeages_jours")
+     * @Route("/controlleur/statistiques/badgeages/jour/{date}/{plage}", name="badgeages_jours")
      */
-    public function badgeagesJour($date)
+    public function badgeagesJour($date, $plage)
     {
         // $date du type : "YYYY-MM-DD"
 
         // récupération de la date sans l'heure
         $data_array = array(); // Le résultat final à retourner
 
-        $plage_min = "30";
+        $plage_min = $plage;
 
         $date_format = $date . "%";
         $manager = $this->getDoctrine()->getManager();

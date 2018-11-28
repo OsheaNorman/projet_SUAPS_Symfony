@@ -20,8 +20,8 @@ class srcDevDebugProjectContainerUrlGenerator extends Symfony\Component\Routing\
         $this->defaultLocale = $defaultLocale;
         if (null === self::$declaredRoutes) {
             self::$declaredRoutes = array(
-        'statistiques_badgeages' => array(array(), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), array(), array(array('text', '/controlleur/statistiques/badgeages')), array(), array()),
-        'badgeages_jours' => array(array('date'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array(), array(array('variable', '/', '[^/]++', 'date'), array('text', '/controlleur/statistiques/badgeages/jour')), array(), array()),
+        'statistiques_badgeages' => array(array('plage'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), array(), array(array('variable', '/', '[^/]++', 'plage'), array('text', '/controlleur/statistiques/badgeages')), array(), array()),
+        'badgeages_jours' => array(array('date', 'plage'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array(), array(array('variable', '/', '[^/]++', 'plage'), array('variable', '/', '[^/]++', 'date'), array('text', '/controlleur/statistiques/badgeages/jour')), array(), array()),
         'test' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::index'), array(), array(array('text', '/controlleur/test')), array(), array()),
         'badgeage' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::badgeage'), array(), array(array('text', '/controlleur/badgeage')), array(), array()),
         'vuePresenceUpdate' => array(array('no_individu'), array('_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array(), array(array('variable', '/', '[^/]++', 'no_individu'), array('text', '/controlleur/vuePresenceUpdate')), array(), array()),
