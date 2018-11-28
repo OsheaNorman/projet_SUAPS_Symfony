@@ -377,7 +377,7 @@ class ControlleurTestController extends AbstractController
 			$tempsResult = $result['temps'];
 			$dateInscrit = new \DateTime($tempsResult);
 			$intervalle = date_diff($dateActuelle,$dateInscrit);
-			$value = $intervalle->format('%H:%I:%S');
+			$value = $intervalle->format('%H:%I');
 
 			$targetTime = $tempsMinimum;
 			$tempsCouleurOrange = new \DateTime($targetTime);

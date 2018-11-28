@@ -3,7 +3,9 @@
 {% block title %}{{ liste_presence }}{% endblock %}
 
 {% block stylesheets %}
+
     <style>
+
         body{
             font-family: "Times New Roman";
             font-size:1.8em;
@@ -15,26 +17,33 @@
             color:black;
         }
 
-        #divEtu{
+        #div_etudiant_1, #div_etudiant_2, #div_etudiant_3{
             height:70px;
-            border-radius: 15px 50px 30px;
+            border-radius: 15px;/* 50px 30px;*/
             box-shadow: 0px 2px 5px grey;
         }
 
-        #divEtu > div:nth-child(1){
+        #div_etudiant_1 > div:nth-child(1), #div_etudiant_2 > div:nth-child(1), #div_etudiant_3 > div:nth-child(1){
             font-weight:bold;
         }
+
+        #colonne1, #colonne2, #colonne3{
+            color:#ECEEEF;
+        }
+
     </style>
+
 {% endblock %}
 
 {% block body %}
 
-    <div id="conteneurPrincipale" class="container-fluid pt-3 text-left text-capitalize">
+    <div class="container-fluid pt-3 text-left text-capitalize">
         {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
         {% set couleurBackground = '' %} {# variable contenant la couleurBackground lorsque le temps de la séance d'un étudiant est dépassé #}
-        {% set rouge = '#D62F2F' %} {# représente la couleurBackground rouge #}
-        {% set orange = '#FFA500' %} {# représente la couleurBackground orange #}
-        {% set verte = '#00FF00' %} {# représente la couleurBackground verte #}
+        {% set rouge = 'rgb(217,83,79)' %} {# représente la couleurBackground rouge #}
+        {% set orange = 'rgb(240,173,78)' %} {# représente la couleurBackground orange #}
+        {% set verte = 'rgb(75,191,115)' %} {# représente la couleurBackground verte #}
+        {% set padding_left = '' %} {# avoir le même décalage pour toutes les div nom et prenom #}
 
         <div class="d-flex float-left" style="width:100%;">
             <!-- ######################## -->
@@ -42,7 +51,7 @@
             <!-- ######################## -->
 
             <div class="d-flex w-100">
-                <div class="d-flex flex-column" style="width:100%;">
+                <div id="colonne1" class="d-flex flex-column">
                     {% for present in premiereColonne %}
                         {% set compteur = compteur + 1 %}
 
@@ -55,11 +64,25 @@
                             {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
-                            <div class="flex-grow-1">{{ compteur }}</div>
-                            <div class="flex-grow-1">{{ present.nom }}</div>
-                            <div class="flex-grow-1">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:black; background-color:{{ couleurBackground }}">{{ present.duree }}</span></div>
+                        <div id="div_etudiant_1" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div>{{ compteur }}</div>
+
+                            {# permet d'avoir le même décalage de la div nom et prenom #}
+                            {% if compteur > 9 %}
+                                {% set padding_left = 'pl-1' %}
+                            {% else %}
+                                {% set padding_left = 'pl-4' %}
+                            {% endif %}
+
+                            {# Si le nom et prenom dépasse la div, on le découpe et rajoute des 3 points à la place du nom complet #}
+                            {% set nomPrenom = present.nom ~ ' ' ~ present.prenom %}
+
+                            {% if nomPrenom|length > 24 %}
+                                {% set nomPrenom = nomPrenom[:22] ~ '...' %}
+                            {% endif %}
+
+                            <div class="{{ padding_left }} flex-grow-1">{{ nomPrenom }}</div>
+                            <div>{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -71,7 +94,7 @@
             <!-- ######################## -->
 
             <div class="d-flex w-100">
-                <div class="d-flex flex-column" style="width:100%;">
+                <div id="colonne2" class="d-flex flex-column">
                     {% for present in deuxiemeColonne %}
                         {% set compteur = compteur + 1 %}
 
@@ -84,11 +107,17 @@
                             {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
-                            <div class="flex-grow-1">{{ compteur }}</div>
-                            <div class="flex-grow-1">{{ present.nom }}</div>
-                            <div class="flex-grow-1">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:black; background-color:{{ couleurBackground }}">{{ present.duree }}</span></div>
+                        <div id="div_etudiant_2" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div>{{ compteur }}</div>
+
+                            {% set nomPrenom = present.nom ~ ' ' ~ present.prenom %}
+
+                            {% if nomPrenom|length > 24 %}
+                                {% set nomPrenom = nomPrenom[:22] ~ '...' %}
+                            {% endif %}
+
+                            <div class="pl-3 flex-grow-1">{{ nomPrenom }}</div>
+                            <div>{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -100,7 +129,7 @@
             <!-- ######################## -->
 
             <div class="d-flex w-100">
-                <div class="d-flex flex-column" style="width:100%;">
+                <div id="colonne3" class="d-flex flex-column">
                     {% for present in troisiemeColonne %}
                         {% set compteur = compteur + 1 %}
 
@@ -113,11 +142,17 @@
                             {% set couleurBackground = verte %} {# couleur du background en vert #}
                         {% endif %}
 
-                        <div id="divEtu" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
-                            <div class="flex-grow-1">{{ compteur }}</div>
-                            <div class="flex-grow-1">{{ present.nom }}</div>
-                            <div class="flex-grow-1">{{ present.prenom }}</div>
-                            <div><span class="badge p-2" style="color:black; background-color:{{ couleurBackground }}">{{ present.duree }}</span></div>
+                        <div id="div_etudiant_3" class="d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div>{{ compteur }}</div>
+
+                            {% set nomPrenom = present.nom ~ ' ' ~ present.prenom %}
+
+                            {% if nomPrenom|length > 24 %}
+                                {% set nomPrenom = nomPrenom[:22] ~ '...' %}
+                            {% endif %}
+                            
+                            <div class="pl-3 flex-grow-1">{{ nomPrenom }}</div>
+                            <div>{{ present.duree }}</span></div>
                         </div>
 
                     {% endfor %}
@@ -129,7 +164,7 @@
 
         {% if tailleDuTableauPresent == 0 %}
             <div id="noStudent" class="d-flex align-items-center justify-content-center">
-                <div class="font-weight-bold" style="font-size:200%; text-color:black;">AUCUN ETUDIANT</div>
+                <div class="font-weight-bold" style="font-size:200%;">AUCUN ETUDIANT</div>
             </div>
         {% endif %}
 
@@ -149,16 +184,23 @@
 
     <script src="jquery.js"></script>
 
-    <!-- Calcul de la hauteur de la page -->
+    <!-- Calcul de la hauteur et la largeur de la page en fonction du redimensionnement du screen -->
 
     <script>
-        var h = window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight;
+        var Lscreen=document.body.offsetWidth; //Prend la largeur du screen selon son redimenssionnement
+        var screenDivise = Lscreen / 3; //permet de les partager en 3 colonnes
+        var screenReduit = screenDivise - 10;
 
-        var conteneurPrincipale = document.getElementById("noStudent"); //J'aplique sur la div qui gère 'AUCUN ETUDIANTS'
-        conteneurPrincipale.style.height = h + "px";
-        //conteneurPrincipale.style.height = "1079px";
+        /* J'applique sur chaque ddiv des colonnes la largeurs screenReduit */
+
+        var colonne1 = document.getElementById("colonne1");
+        colonne1.style.width = screenReduit + "px";
+
+        var colonne2 = document.getElementById("colonne2");
+        colonne2.style.width = screenReduit + "px";
+
+        var colonne3 = document.getElementById("colonne3");
+        colonne3.style.width = screenReduit + "px";
     </script>
     
 {% endblock %}

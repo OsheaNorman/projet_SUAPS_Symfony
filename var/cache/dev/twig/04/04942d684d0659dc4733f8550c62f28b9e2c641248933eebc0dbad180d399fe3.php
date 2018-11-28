@@ -39,7 +39,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
         <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
-        <meta http-equiv=\"Refresh\" content=\"6\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
+        <meta http-equiv=\"Refresh\" content=\"6000\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         ";
         // line 11
         $this->displayBlock('stylesheets', $context, $blocks);
@@ -133,7 +133,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
         <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
         <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
-        <meta http-equiv=\"Refresh\" content=\"6\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
+        <meta http-equiv=\"Refresh\" content=\"6000\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         {% block stylesheets %}{% endblock %}
     </head>
     
