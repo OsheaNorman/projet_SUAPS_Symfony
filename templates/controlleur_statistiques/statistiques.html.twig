@@ -67,7 +67,7 @@
                 Vous pouvez toute fois changer de date pour visualiser la fréquentation par plages horaires de la salle pour une autre journée.</p>
                 <p>La durée d'une plage horaire est fixée à <strong>{{ plage_min }}</strong> minute(s).</p>
                 {% if ("now"|date("Y-m-d")) !=  date %}
-                    <a class="btn btn-primary btn-lg" href="/controlleur/statistiques/badgeages" role="button">Revenir à la date du jour</a>
+                    <a class="btn btn-primary btn-lg" href="#" onclick="statistiquesAccueil()" role="button">Revenir à la date du jour</a>
                 {% endif %}
             </div>
         </div>
@@ -150,7 +150,7 @@
 
             <div class="container">
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-secondary btn-lg">Importer les données au format csv</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="dataToCSV()">Importer les données au format csv</button>
                 </div>
             </div>
         {% endif %}
@@ -173,9 +173,9 @@
         for (var i = 0 ; i < total_results ; i++) {
             var etiquette_str = resultat_creneau[i].h_debut + "h" + resultat_creneau[i].min_debut;
             etiquette_str = etiquette_str + "-" + resultat_creneau[i].h_fin + "h" + resultat_creneau[i].min_fin;
-            etiquettes.push(etiquette_str);
+            etiquettes.push(etiquette_str); // ces étiquettes figureront sur dans le fichier csv
 
-            donnees.push(resultat_creneau[i].array_result.length);
+            donnees.push(resultat_creneau[i].array_result.length); // ces données figureront dans le fichier csv
         }
 
         if (donnees.length !== 0) {
@@ -205,6 +205,46 @@
                     }
                 }
             });
+        }
+
+        // Gestion du téléchargement des données au format csv
+        
+        // https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
+
+        function dataToCSV() { // content, filename, mimetype
+            var csvContent = ""; // sera remplie à partir de donnees et etiquettes (qui ont une même taille)
+            for (var i = 0 ; i < (donnees.length) ; i++) {
+                if (i != donnees.length - 1) {
+                    csvContent = csvContent + etiquettes[i] + ";" + donnees[i] + "\n";
+                } else {
+                    csvContent = csvContent + etiquettes[i] + ";" + donnees[i];
+                }
+            };
+
+            // Nom du fichier à télécharger
+            var twig_date = {{ date|json_encode()|raw }};
+            var yyyy_mm_dd = new Date(twig_date).toISOString().split("T")[0];
+            var fileName = "taux-de-presence-" + yyyy_mm_dd + ".csv";
+
+            // téléchargement
+            var a = document.createElement("a");
+            var mimeType = "text/csv;encoding:utf-8";
+
+            if (navigator.msSaveBlob) { // IE10
+                navigator.msSaveBlob(new Blob([csvContent], {
+                type: mimeType
+                }), fileName);
+            } else if (URL && 'download' in a) { //html5 A[download]
+                a.href = URL.createObjectURL(new Blob([csvContent], {
+                type: mimeType
+                }));
+                a.setAttribute('download', fileName);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                location.href = 'data:application/octet-stream,' + encodeURIComponent(csvContent); // only this mime type is supported
+            }
         }
     </script>
 
@@ -237,7 +277,6 @@
 
         function changePlage(value) {
             if (plage.value == "" || isNaN(parseInt(plage.value))) {
-                alert("Il est nécessaire de renseigner la plage en minutes !");
                 return;
             }
             plage.value = value;
