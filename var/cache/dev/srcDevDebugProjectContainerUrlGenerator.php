@@ -20,6 +20,8 @@ class srcDevDebugProjectContainerUrlGenerator extends Symfony\Component\Routing\
         $this->defaultLocale = $defaultLocale;
         if (null === self::$declaredRoutes) {
             self::$declaredRoutes = array(
+        'controlleur_affichage' => array(array(), array('_controller' => 'App\\Controller\\ControlleurAffichageController::index'), array(), array(array('text', '/controlleur/affichage')), array(), array()),
+        'Liste_etudiant_present' => array(array('retour'), array('_controller' => 'App\\Controller\\ControlleurAffichageController::printScreen'), array(), array(array('variable', '/', '[^/]++', 'retour'), array('text', '/controlleur/listePersonne')), array(), array()),
         'statistiques_badgeages' => array(array(), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), array(), array(array('text', '/controlleur/statistiques/badgeages')), array(), array()),
         'badgeages_jours' => array(array('date'), array('_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array(), array(array('variable', '/', '[^/]++', 'date'), array('text', '/controlleur/statistiques/badgeages/jour')), array(), array()),
         'test' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::index'), array(), array(array('text', '/controlleur/test')), array(), array()),
@@ -29,7 +31,6 @@ class srcDevDebugProjectContainerUrlGenerator extends Symfony\Component\Routing\
         'setSeance' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::setSeance'), array(), array(array('text', '/controlleur/setSeance')), array(), array()),
         'sendSeance' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::sendSeance'), array(), array(array('text', '/controlleur/sendSeance')), array(), array()),
         'addPersonne' => array(array(), array('_controller' => 'App\\Controller\\ControlleurTestController::addPersonne'), array(), array(array('text', '/controlleur/addPersonne')), array(), array()),
-        'Liste_etudiant_present' => array(array('retour'), array('_controller' => 'App\\Controller\\ControlleurTestController::printScreen'), array(), array(array('variable', '/', '[^/]++', 'retour'), array('text', '/controlleur/listePersonne')), array(), array()),
         'api_entrypoint' => array(array('index', '_format'), array('_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => '1', 'index' => 'index'), array('index' => 'index'), array(array('variable', '.', '[^/]++', '_format'), array('variable', '/', 'index', 'index'), array('text', '/api')), array(), array()),
         'api_doc' => array(array('_format'), array('_controller' => 'api_platform.action.documentation', '_api_respond' => '1', '_format' => ''), array(), array(array('variable', '.', '[^/]++', '_format'), array('text', '/api/docs')), array(), array()),
         'api_jsonld_context' => array(array('shortName', '_format'), array('_controller' => 'api_platform.jsonld.action.context', '_api_respond' => '1', '_format' => 'jsonld'), array('shortName' => '.+'), array(array('variable', '.', '[^/]++', '_format'), array('variable', '/', '.+', 'shortName'), array('text', '/api/contexts')), array(), array()),

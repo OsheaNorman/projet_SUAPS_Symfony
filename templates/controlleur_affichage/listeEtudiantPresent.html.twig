@@ -1,0 +1,246 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ liste_presence }}{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+
+        body{
+            font-family: "Times New Roman";
+            font-size:180%;
+            font-stretch: semi-condensed;
+            letter-spacing: 2px;
+            font-weight: lighter;
+            font-variant: small-caps;
+            background-color:white;
+            color:black;
+        }
+
+        .div_etudiant{
+            /*height:73px;*/
+            border-radius: 15px;/* 50px 30px;*/
+            box-shadow: 0px 2px 5px grey;
+        }
+
+        .div_etudiant > div:nth-child(1){
+            font-weight:bold;
+        }
+
+        .colonne{
+            color:#ECEEEF;
+        }
+
+        #noStudent{
+            font-size:250%;
+            color:rgb(68, 68, 68);
+            font-family:;
+            font-weight:bold;
+            text-align: center;
+            margin-top:20%;
+        }
+
+        #noStudent .letter {
+            display: inline-block;
+            line-height: 1em;
+        }
+
+        img{
+            max-height:70px;
+            max-width:70px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid pt-3 text-left text-capitalize">
+        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
+        {% set couleurBackground = '' %} {# variable contenant la couleurBackground lorsque le temps de la séance d'un étudiant est dépassé #}
+        {% set rouge = 'rgb(217,83,79)' %} {# représente la couleurBackground rouge #}
+        {% set orange = 'rgb(240,173,78)' %} {# représente la couleurBackground orange #}
+        {% set verte = 'rgb(75,191,115)' %} {# représente la couleurBackground verte #}
+        {% set padding_left = '' %} {# avoir le même décalage pour toutes les div nom et prenom #}
+
+        <div class="d-flex float-left" style="width:100%;">
+            <!-- ######################## -->
+            <!-- Première colonne affiché -->
+            <!-- ######################## -->
+
+            <div class="d-flex w-100">
+                <div class="colonne d-flex flex-column">
+                    {% for present in premiereColonne %}
+                        {% set compteur = compteur + 1 %}
+
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {% if present.duree >= tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
+                        {% elseif present.duree >= present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
+                        {% else %}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
+                        {% endif %}
+
+                        <div class="div_etudiant d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div>{{ compteur }}</div>
+
+                            {# permet d'avoir le même décalage de la div nom et prenom #}
+                            {% if compteur > 9 %}
+                                {% set padding_left = 'pl-1' %}
+                            {% else %}
+                                {% set padding_left = 'pl-4' %}
+                            {% endif %}
+
+                            <div class="{{ padding_left }}"><img class="photo" src="data:image/png;base64, {{ present.photo }}" alt="Phot"></div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
+                            <div class="mr-1 ml-2">{{ present.duree }}</span></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- ######################## -->
+            <!-- Deuxieme colonne affiché -->
+            <!-- ######################## -->
+
+            <div class="d-flex w-100">
+                <div class="colonne d-flex flex-column">
+                    {% for present in deuxiemeColonne %}
+                        {% set compteur = compteur + 1 %}
+
+                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {% if present.duree >= tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
+                        {% elseif present.duree >= present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
+                        {% else %}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
+                        {% endif %}
+
+                        <div class="div_etudiant d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div>{{ compteur }}</div>
+                            <div class="pl-3 pt-1"><img class="photo" src="data:image/png;base64, {{ present.photo }}" alt="Phot"></div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
+                            <div class="mr-1 ml-2">{{ present.duree }}</span></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- ######################## -->
+            <!-- Troisieme colonne affiché -->
+            <!-- ######################## -->
+
+            <div class="d-flex w-100">
+                <div class="colonne d-flex flex-column">
+                    {% for present in troisiemeColonne %}
+                        {% set compteur = compteur + 1 %}
+
+                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {% if present.duree >= tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
+                        {% elseif present.duree >= present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
+                        {% else %}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
+                        {% endif %}
+
+                        <div class="div_etudiant d-flex align-items-center pl-3 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div>{{ compteur }}</div>
+                            <div class="pl-3 pt-1"><img class="photo" src="data:image/png;base64, {{ present.photo }}" alt="Phot"></div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
+                            <div class="mr-1 ml-2">{{ present.duree }}</span></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {# S'il n'y a pas d'étudiant, je met un petit affichage : AUCUN ETUDIANTS #}
+
+        {% if tailleDuTableauPresent == 0 %}
+            <div id="noStudent">AUCUN ETUDIANT</div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+        {% endif %}
+
+        <div class="d-flex justify-content-between align-items-center fixed-bottom ml-1 mr-5" style="margin-bottom:-30px">
+            <div> 
+                <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=large&timezone=Europe%2FParis" width="100%" height="130%" frameborder="0" seamless></iframe> 
+            </div>
+            <div style="font-size:250%">
+                {{ tailleDuTableauPresent }} / {{ capacite }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="jquery.js"></script>
+
+    <!-- Calcul de la hauteur et la largeur de la page en fonction du redimensionnement du screen -->
+
+    <script>
+        var Lscreen=document.body.offsetWidth; //Prend la largeur du screen selon son redimenssionnement
+        var screenLDivise = Lscreen / 3; //permet de les partager en 3 colonnes
+        var screenReduitL = screenLDivise - 10;
+
+        /* J'applique sur chaque div des colonnes la largeurs screenReduitL */
+
+        var colonne =  document.getElementsByClassName("colonne");
+        
+        /* On parcour toutes les classes colonne et on applique le redimensionnement des divs sur chaque div */
+        if(colonne.length > 0){
+            for (var i = 0; i < colonne.length; i++) {
+                colonne[i].style.width = screenReduitL + "px";
+            }
+        }
+
+        var Hscreen = window.scrollMaxY + document.documentElement.clientHeight; //Prend la hauteur du screen et du scroll
+        var screenHDivise = Hscreen / 13; //chiffre permettant de partager la hauteur de chaque div des étudiants en essayant de ne pas dépasser le bas de la page
+        var div_etudiant =  document.getElementsByClassName("div_etudiant");
+        var photo = document.getElementsByClassName("photo");
+
+        /* On parcour toutes les classes div_etudiant et on applique le redimensionnement des divs sur chaque div */
+         
+        if(div_etudiant.length > 0){
+            for (var i = 0; i < div_etudiant.length; i++) {
+                div_etudiant[i].style.height = screenHDivise + "px";
+            }
+        }
+
+    </script>
+
+    <!-- Script récupérer sur le site : http://tobiasahlin.com/moving-letters/ -->
+    <!-- Permet d'animer le text lorsqu'il n'y plus d'étudiant -->
+    <script>
+        // Wrap every letter in a span
+        $('#noStudent').each(function(){
+        $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+        });
+
+        anime.timeline({loop: true})
+        .add({
+            targets: '#noStudent .letter',
+            translateY: [-100,0],
+            easing: "easeOutExpo",
+            duration: 3000,
+            delay: function(el, i) {
+            return 30 * i;
+            }
+        }).add({
+            targets: '#noStudent',
+            opacity: 0,
+            duration: 1000,
+            easing: "easeOutExpo",
+            delay: 3000
+        });
+    </script>
+    
+{% endblock %}

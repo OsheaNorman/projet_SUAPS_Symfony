@@ -64,6 +64,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         switch ($pathinfo) {
             default:
                 $routes = array(
+                    '/controlleur/affichage' => array(array('_route' => 'controlleur_affichage', '_controller' => 'App\\Controller\\ControlleurAffichageController::index'), null, null, null),
                     '/controlleur/statistiques/badgeages' => array(array('_route' => 'statistiques_badgeages', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), null, null, null),
                     '/controlleur/test' => array(array('_route' => 'test', '_controller' => 'App\\Controller\\ControlleurTestController::index'), null, null, null),
                     '/controlleur/connexion' => array(array('_route' => 'connexion', '_controller' => 'App\\Controller\\ControlleurTestController::connexion'), null, null, null),
@@ -97,9 +98,9 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         $regexList = array(
             0 => '{^(?'
                     .'|/controlleur/(?'
-                        .'|statistiques/badgeages/jour/([^/]++)(*:59)'
-                        .'|vuePresenceUpdate/([^/]++)(*:92)'
-                        .'|listePersonne/([^/]++)(*:121)'
+                        .'|listePersonne/([^/]++)(*:45)'
+                        .'|statistiques/badgeages/jour/([^/]++)(*:88)'
+                        .'|vuePresenceUpdate/([^/]++)(*:121)'
                     .')'
                     .'|/api(?'
                         .'|(?:/(index)(?:\\.([^/]++))?)?(*:165)'
@@ -183,9 +184,9 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         break;
                     default:
                         $routes = array(
-                            59 => array(array('_route' => 'badgeages_jours', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array('date'), null, null),
-                            92 => array(array('_route' => 'vuePresenceUpdate', '_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array('no_individu'), null, null),
-                            121 => array(array('_route' => 'Liste_etudiant_present', '_controller' => 'App\\Controller\\ControlleurTestController::printScreen'), array('retour'), null, null),
+                            45 => array(array('_route' => 'Liste_etudiant_present', '_controller' => 'App\\Controller\\ControlleurAffichageController::printScreen'), array('retour'), null, null),
+                            88 => array(array('_route' => 'badgeages_jours', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array('date'), null, null),
+                            121 => array(array('_route' => 'vuePresenceUpdate', '_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array('no_individu'), null, null),
                             165 => array(array('_route' => 'api_entrypoint', '_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => '1', 'index' => 'index'), array('index', '_format'), null, null),
                             196 => array(array('_route' => 'api_doc', '_controller' => 'api_platform.action.documentation', '_api_respond' => '1', '_format' => ''), array('_format'), null, null),
                             232 => array(array('_route' => 'api_jsonld_context', '_controller' => 'api_platform.jsonld.action.context', '_api_respond' => '1', '_format' => 'jsonld'), array('shortName', '_format'), null, null),
