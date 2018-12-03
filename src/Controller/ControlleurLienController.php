@@ -136,7 +136,6 @@ class ControlleurLienController extends AbstractController
 		//on renvoi un message d'erreur à l'android 
 		//et on termine l'execution de la fonction 
 		if($no_individu == 0){
-			var_dump($no_individu);
 			$codeRetour['reponse']='0Personne non inscrite.';
 			return new Response(json_encode($codeRetour));		
 	    }
