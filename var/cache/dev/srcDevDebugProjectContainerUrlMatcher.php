@@ -65,13 +65,13 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             default:
                 $routes = array(
                     '/controlleur/affichage' => array(array('_route' => 'controlleur_affichage', '_controller' => 'App\\Controller\\ControlleurAffichageController::index'), null, null, null),
+                    '/controlleur/test' => array(array('_route' => 'test', '_controller' => 'App\\Controller\\ControlleurLienController::index'), null, null, null),
+                    '/controlleur/connexion' => array(array('_route' => 'connexion', '_controller' => 'App\\Controller\\ControlleurLienController::connexion'), null, null, null),
+                    '/controlleur/badgeage' => array(array('_route' => 'badgeage', '_controller' => 'App\\Controller\\ControlleurLienController::badgeage'), null, null, null),
+                    '/controlleur/setSeance' => array(array('_route' => 'setSeance', '_controller' => 'App\\Controller\\ControlleurLienController::setSeance'), null, null, null),
+                    '/controlleur/sendSeance' => array(array('_route' => 'sendSeance', '_controller' => 'App\\Controller\\ControlleurLienController::sendSeance'), null, null, null),
+                    '/controlleur/addPersonne' => array(array('_route' => 'addPersonne', '_controller' => 'App\\Controller\\ControlleurLienController::addPersonne'), null, null, null),
                     '/controlleur/statistiques/badgeages' => array(array('_route' => 'statistiques_badgeages', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::index'), null, null, null),
-                    '/controlleur/test' => array(array('_route' => 'test', '_controller' => 'App\\Controller\\ControlleurTestController::index'), null, null, null),
-                    '/controlleur/connexion' => array(array('_route' => 'connexion', '_controller' => 'App\\Controller\\ControlleurTestController::connexion'), null, null, null),
-                    '/controlleur/badgeage' => array(array('_route' => 'badgeage', '_controller' => 'App\\Controller\\ControlleurTestController::badgeage'), null, null, null),
-                    '/controlleur/setSeance' => array(array('_route' => 'setSeance', '_controller' => 'App\\Controller\\ControlleurTestController::setSeance'), null, null, null),
-                    '/controlleur/sendSeance' => array(array('_route' => 'sendSeance', '_controller' => 'App\\Controller\\ControlleurTestController::sendSeance'), null, null, null),
-                    '/controlleur/addPersonne' => array(array('_route' => 'addPersonne', '_controller' => 'App\\Controller\\ControlleurTestController::addPersonne'), null, null, null),
                 );
 
                 if (!isset($routes[$pathinfo])) {
@@ -99,98 +99,166 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             0 => '{^(?'
                     .'|/controlleur/(?'
                         .'|listePersonne/([^/]++)(*:45)'
-                        .'|statistiques/badgeages/jour/([^/]++)(*:88)'
-                        .'|vuePresenceUpdate/([^/]++)(*:121)'
+                        .'|vuePresenceUpdate/([^/]++)(*:78)'
+                        .'|statistiques/badgeages/jour/([^/]++)(*:121)'
                     .')'
                     .'|/api(?'
                         .'|(?:/(index)(?:\\.([^/]++))?)?(*:165)'
                         .'|/(?'
                             .'|docs(?:\\.([^/]++))?(*:196)'
                             .'|contexts/(.+)(?:\\.([^/]++))?(*:232)'
-                            .'|vue_presences(?'
-                                .'|(?:\\.([^/]++))?(?'
-                                    .'|(*:274)'
+                            .'|aua_(?'
+                                .'|exterieur_sports(?'
+                                    .'|(?:\\.([^/]++))?(?'
+                                        .'|(*:284)'
+                                    .')'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
+                                        .'|(*:322)'
+                                    .')'
                                 .')'
-                                .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                    .'|(*:312)'
+                                .'|presence_seances(?'
+                                    .'|(?:\\.([^/]++))?(?'
+                                        .'|(*:369)'
+                                    .')'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
+                                        .'|(*:407)'
+                                    .')'
                                 .')'
                             .')'
                         .')'
                     .')'
-                    .'|/_error/(\\d+)(?:\\.([^/]++))?(*:352)'
+                    .'|/_error/(\\d+)(?:\\.([^/]++))?(*:448)'
                 .')$}sD',
         );
 
         foreach ($regexList as $offset => $regex) {
             while (preg_match($regex, $matchedPathinfo, $matches)) {
                 switch ($m = (int) $matches['MARK']) {
-                    case 274:
+                    case 284:
                         $matches = array('_format' => $matches[1] ?? null);
 
-                        // api_vue_presences_get_collection
-                        $ret = $this->mergeDefaults(array('_route' => 'api_vue_presences_get_collection') + $matches, array('_controller' => 'api_platform.action.get_collection', '_format' => null, '_api_resource_class' => 'App\\Entity\\VuePresence', '_api_collection_operation_name' => 'get'));
+                        // api_aua_exterieur_sports_get_collection
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_exterieur_sports_get_collection') + $matches, array('_controller' => 'api_platform.action.get_collection', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaExterieurSport', '_api_collection_operation_name' => 'get'));
                         if (!isset(($a = array('GET' => 0))[$canonicalMethod])) {
                             $allow += $a;
-                            goto not_api_vue_presences_get_collection;
+                            goto not_api_aua_exterieur_sports_get_collection;
                         }
 
                         return $ret;
-                        not_api_vue_presences_get_collection:
+                        not_api_aua_exterieur_sports_get_collection:
 
-                        // api_vue_presences_post_collection
-                        $ret = $this->mergeDefaults(array('_route' => 'api_vue_presences_post_collection') + $matches, array('_controller' => 'api_platform.action.post_collection', '_format' => null, '_api_resource_class' => 'App\\Entity\\VuePresence', '_api_collection_operation_name' => 'post'));
+                        // api_aua_exterieur_sports_post_collection
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_exterieur_sports_post_collection') + $matches, array('_controller' => 'api_platform.action.post_collection', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaExterieurSport', '_api_collection_operation_name' => 'post'));
                         if (!isset(($a = array('POST' => 0))[$requestMethod])) {
                             $allow += $a;
-                            goto not_api_vue_presences_post_collection;
+                            goto not_api_aua_exterieur_sports_post_collection;
                         }
 
                         return $ret;
-                        not_api_vue_presences_post_collection:
+                        not_api_aua_exterieur_sports_post_collection:
 
                         break;
-                    case 312:
+                    case 322:
                         $matches = array('id' => $matches[1] ?? null, '_format' => $matches[2] ?? null);
 
-                        // api_vue_presences_get_item
-                        $ret = $this->mergeDefaults(array('_route' => 'api_vue_presences_get_item') + $matches, array('_controller' => 'api_platform.action.get_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\VuePresence', '_api_item_operation_name' => 'get'));
+                        // api_aua_exterieur_sports_get_item
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_exterieur_sports_get_item') + $matches, array('_controller' => 'api_platform.action.get_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaExterieurSport', '_api_item_operation_name' => 'get'));
                         if (!isset(($a = array('GET' => 0))[$canonicalMethod])) {
                             $allow += $a;
-                            goto not_api_vue_presences_get_item;
+                            goto not_api_aua_exterieur_sports_get_item;
                         }
 
                         return $ret;
-                        not_api_vue_presences_get_item:
+                        not_api_aua_exterieur_sports_get_item:
 
-                        // api_vue_presences_delete_item
-                        $ret = $this->mergeDefaults(array('_route' => 'api_vue_presences_delete_item') + $matches, array('_controller' => 'api_platform.action.delete_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\VuePresence', '_api_item_operation_name' => 'delete'));
+                        // api_aua_exterieur_sports_delete_item
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_exterieur_sports_delete_item') + $matches, array('_controller' => 'api_platform.action.delete_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaExterieurSport', '_api_item_operation_name' => 'delete'));
                         if (!isset(($a = array('DELETE' => 0))[$requestMethod])) {
                             $allow += $a;
-                            goto not_api_vue_presences_delete_item;
+                            goto not_api_aua_exterieur_sports_delete_item;
                         }
 
                         return $ret;
-                        not_api_vue_presences_delete_item:
+                        not_api_aua_exterieur_sports_delete_item:
 
-                        // api_vue_presences_put_item
-                        $ret = $this->mergeDefaults(array('_route' => 'api_vue_presences_put_item') + $matches, array('_controller' => 'api_platform.action.put_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\VuePresence', '_api_item_operation_name' => 'put'));
+                        // api_aua_exterieur_sports_put_item
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_exterieur_sports_put_item') + $matches, array('_controller' => 'api_platform.action.put_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaExterieurSport', '_api_item_operation_name' => 'put'));
                         if (!isset(($a = array('PUT' => 0))[$requestMethod])) {
                             $allow += $a;
-                            goto not_api_vue_presences_put_item;
+                            goto not_api_aua_exterieur_sports_put_item;
                         }
 
                         return $ret;
-                        not_api_vue_presences_put_item:
+                        not_api_aua_exterieur_sports_put_item:
+
+                        break;
+                    case 369:
+                        $matches = array('_format' => $matches[1] ?? null);
+
+                        // api_aua_presence_seances_get_collection
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_presence_seances_get_collection') + $matches, array('_controller' => 'api_platform.action.get_collection', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaPresenceSeance', '_api_collection_operation_name' => 'get'));
+                        if (!isset(($a = array('GET' => 0))[$canonicalMethod])) {
+                            $allow += $a;
+                            goto not_api_aua_presence_seances_get_collection;
+                        }
+
+                        return $ret;
+                        not_api_aua_presence_seances_get_collection:
+
+                        // api_aua_presence_seances_post_collection
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_presence_seances_post_collection') + $matches, array('_controller' => 'api_platform.action.post_collection', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaPresenceSeance', '_api_collection_operation_name' => 'post'));
+                        if (!isset(($a = array('POST' => 0))[$requestMethod])) {
+                            $allow += $a;
+                            goto not_api_aua_presence_seances_post_collection;
+                        }
+
+                        return $ret;
+                        not_api_aua_presence_seances_post_collection:
+
+                        break;
+                    case 407:
+                        $matches = array('id' => $matches[1] ?? null, '_format' => $matches[2] ?? null);
+
+                        // api_aua_presence_seances_get_item
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_presence_seances_get_item') + $matches, array('_controller' => 'api_platform.action.get_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaPresenceSeance', '_api_item_operation_name' => 'get'));
+                        if (!isset(($a = array('GET' => 0))[$canonicalMethod])) {
+                            $allow += $a;
+                            goto not_api_aua_presence_seances_get_item;
+                        }
+
+                        return $ret;
+                        not_api_aua_presence_seances_get_item:
+
+                        // api_aua_presence_seances_delete_item
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_presence_seances_delete_item') + $matches, array('_controller' => 'api_platform.action.delete_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaPresenceSeance', '_api_item_operation_name' => 'delete'));
+                        if (!isset(($a = array('DELETE' => 0))[$requestMethod])) {
+                            $allow += $a;
+                            goto not_api_aua_presence_seances_delete_item;
+                        }
+
+                        return $ret;
+                        not_api_aua_presence_seances_delete_item:
+
+                        // api_aua_presence_seances_put_item
+                        $ret = $this->mergeDefaults(array('_route' => 'api_aua_presence_seances_put_item') + $matches, array('_controller' => 'api_platform.action.put_item', '_format' => null, '_api_resource_class' => 'App\\Entity\\AuaPresenceSeance', '_api_item_operation_name' => 'put'));
+                        if (!isset(($a = array('PUT' => 0))[$requestMethod])) {
+                            $allow += $a;
+                            goto not_api_aua_presence_seances_put_item;
+                        }
+
+                        return $ret;
+                        not_api_aua_presence_seances_put_item:
 
                         break;
                     default:
                         $routes = array(
                             45 => array(array('_route' => 'Liste_etudiant_present', '_controller' => 'App\\Controller\\ControlleurAffichageController::printScreen'), array('retour'), null, null),
-                            88 => array(array('_route' => 'badgeages_jours', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array('date'), null, null),
-                            121 => array(array('_route' => 'vuePresenceUpdate', '_controller' => 'App\\Controller\\ControlleurTestController::vuePresenceUpdate'), array('no_individu'), null, null),
+                            78 => array(array('_route' => 'vuePresenceUpdate', '_controller' => 'App\\Controller\\ControlleurLienController::vuePresenceUpdate'), array('no_individu'), null, null),
+                            121 => array(array('_route' => 'badgeages_jours', '_controller' => 'App\\Controller\\ControlleurStatistiquesController::badgeagesJour'), array('date'), null, null),
                             165 => array(array('_route' => 'api_entrypoint', '_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => '1', 'index' => 'index'), array('index', '_format'), null, null),
                             196 => array(array('_route' => 'api_doc', '_controller' => 'api_platform.action.documentation', '_api_respond' => '1', '_format' => ''), array('_format'), null, null),
                             232 => array(array('_route' => 'api_jsonld_context', '_controller' => 'api_platform.jsonld.action.context', '_api_respond' => '1', '_format' => 'jsonld'), array('shortName', '_format'), null, null),
-                            352 => array(array('_route' => '_twig_error_test', '_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'), array('code', '_format'), null, null),
+                            448 => array(array('_route' => '_twig_error_test', '_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'), array('code', '_format'), null, null),
                         );
 
                         list($ret, $vars, $requiredMethods, $requiredSchemes) = $routes[$m];
@@ -216,7 +284,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         return $ret;
                 }
 
-                if (352 === $m) {
+                if (448 === $m) {
                     break;
                 }
                 $regex = substr_replace($regex, 'F', $m - $offset, 1 + strlen($m));

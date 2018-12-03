@@ -146,6 +146,6 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
     </body>
 </html>
 
-", "base.html.twig", "/home/etudiant/M1/projet/blog/templates/base.html.twig");
+", "base.html.twig", "/home/etudiant/blog/templates/base.html.twig");
     }
 }

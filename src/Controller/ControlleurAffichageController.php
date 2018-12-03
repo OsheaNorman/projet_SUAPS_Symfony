@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\VuePresence;
 
-class ControlleurAffichageController extends ControlleurTestController
+class ControlleurAffichageController extends ControlleurLienController
 {
     //Les fonctions 
 	/** 

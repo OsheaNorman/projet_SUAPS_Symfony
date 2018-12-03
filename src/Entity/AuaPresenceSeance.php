@@ -3,56 +3,61 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * AuaPresenceSeance
- *
+ * @ApiResource
  * @ORM\Table(name="aua_presence_seance")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AuaPresenceSeanceRepository")
  */
 class AuaPresenceSeance
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="no_mifare_inverse", type="string", length=30, nullable=false)
-     */
-    private $noMifareInverse;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="temps", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $temps = 'CURRENT_TIMESTAMP';
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="entreesSorties", type="string", length=30, nullable=false)
-     */
-    private $entreessorties;
-
-    /**
-     * @var \AuaListeSeance
-     *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AuaListeSeance")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idSeance", referencedColumnName="idSeance")
-     * })
+     * @ORM\Column(name="idSeance", type="integer")
      */
-    private $idseance;
+    private $idSeance;
+
+    /**
+	 * @ORM\Id
+     * @ORM\Column(type="string", length=30)
+     */
+    private $no_mifare_inverse;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $temps;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(name="entreesSorties", type="string", length=30)
+     */
+    private $entreesSorties;
+
+
+
+    public function getIdSeance(): ?int
+    {
+        return $this->idSeance;
+    }
+
+    public function setIdSeance(int $idSeance): self
+    {
+        $this->idSeance = $idSeance;
+
+        return $this;
+    }
 
     public function getNoMifareInverse(): ?string
     {
-        return $this->noMifareInverse;
+        return $this->no_mifare_inverse;
     }
 
-    public function setNoMifareInverse(string $noMifareInverse): self
+    public function setNoMifareInverse(string $no_mifare_inverse): self
     {
-        $this->noMifareInverse = $noMifareInverse;
+        $this->no_mifare_inverse = $no_mifare_inverse;
 
         return $this;
     }
@@ -69,29 +74,15 @@ class AuaPresenceSeance
         return $this;
     }
 
-    public function getEntreessorties(): ?string
+    public function getEntreesSorties(): ?string
     {
-        return $this->entreessorties;
+        return $this->entreesSorties;
     }
 
-    public function setEntreessorties(string $entreessorties): self
+    public function setEntreesSorties(string $entreesSorties): self
     {
-        $this->entreessorties = $entreessorties;
+        $this->entreesSorties = $entreesSorties;
 
         return $this;
     }
-
-    public function getIdseance(): ?AuaListeSeance
-    {
-        return $this->idseance;
-    }
-
-    public function setIdseance(?AuaListeSeance $idseance): self
-    {
-        $this->idseance = $idseance;
-
-        return $this;
-    }
-
-
 }

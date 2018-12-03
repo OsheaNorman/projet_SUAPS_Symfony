@@ -769,6 +769,6 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
     </script>
     
 {% endblock %}
-", "controlleur_affichage/listeEtudiantPresent.html.twig", "/home/etudiant/M1/projet/blog/templates/controlleur_affichage/listeEtudiantPresent.html.twig");
+", "controlleur_affichage/listeEtudiantPresent.html.twig", "/home/etudiant/blog/templates/controlleur_affichage/listeEtudiantPresent.html.twig");
     }
 }
