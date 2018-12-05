@@ -6,6 +6,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- responsive -->
         <script src="{{ asset('javascript/jquery.js') }}"></script>
+		<script src="{{ asset('javascript/Chart.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
         <meta http-equiv="Refresh" content="6000"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         {% block stylesheets %}{% endblock %}
