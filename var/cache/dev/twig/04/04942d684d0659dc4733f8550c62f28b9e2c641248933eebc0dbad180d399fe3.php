@@ -37,29 +37,33 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
-        <link rel=\"stylesheet\" href=\"";
+        <script src=\"";
         // line 8
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("javascript/jquery.js"), "html", null, true);
+        echo "\"></script>
+        <link rel=\"stylesheet\" href=\"";
+        // line 9
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("bootstrap/css/bootstrap.min.css"), "html", null, true);
-        echo "\" /> <!-- Bootstrap CDN -->
+        echo "\" />
         <meta http-equiv=\"Refresh\" content=\"6000\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         ";
-        // line 10
-        $this->displayBlock('stylesheets', $context, $blocks);
         // line 11
+        $this->displayBlock('stylesheets', $context, $blocks);
+        // line 12
         echo "    </head>
     
     <body>
         <div>
             ";
-        // line 15
-        $this->displayBlock('body', $context, $blocks);
         // line 16
+        $this->displayBlock('body', $context, $blocks);
+        // line 17
         echo "        </div>
 
         ";
-        // line 18
-        $this->displayBlock('javascripts', $context, $blocks);
         // line 19
+        $this->displayBlock('javascripts', $context, $blocks);
+        // line 20
         echo "    </body>
 </html>
 
@@ -81,7 +85,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 10
+    // line 11
     public function block_stylesheets($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -92,7 +96,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 15
+    // line 16
     public function block_body($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -103,7 +107,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 18
+    // line 19
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -126,7 +130,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     public function getDebugInfo()
     {
-        return array (  107 => 18,  96 => 15,  85 => 10,  73 => 6,  63 => 19,  61 => 18,  57 => 16,  55 => 15,  49 => 11,  47 => 10,  42 => 8,  37 => 6,  30 => 1,);
+        return array (  111 => 19,  100 => 16,  89 => 11,  77 => 6,  67 => 20,  65 => 19,  61 => 17,  59 => 16,  53 => 12,  51 => 11,  46 => 9,  42 => 8,  37 => 6,  30 => 1,);
     }
 
     public function getSourceContext()
@@ -138,7 +142,8 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         <meta charset=\"UTF-8\">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
-        <link rel=\"stylesheet\" href=\"{{ asset('bootstrap/css/bootstrap.min.css') }}\" /> <!-- Bootstrap CDN -->
+        <script src=\"{{ asset('javascript/jquery.js') }}\"></script>
+        <link rel=\"stylesheet\" href=\"{{ asset('bootstrap/css/bootstrap.min.css') }}\" />
         <meta http-equiv=\"Refresh\" content=\"6000\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         {% block stylesheets %}{% endblock %}
     </head>

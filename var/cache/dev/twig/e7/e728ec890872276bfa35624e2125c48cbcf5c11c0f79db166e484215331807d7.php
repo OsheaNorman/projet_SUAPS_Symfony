@@ -100,7 +100,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
         echo " ";
         // line 20
         echo "
-        <div class=\"d-flex float-left\" style=\"width:100%;\">
+        <div id=\"refresh\" class=\"d-flex float-left\" style=\"width:100%;\">
             <!-- ######################## -->
             <!-- Première colonne affiché -->
             <!-- ######################## -->
@@ -330,16 +330,20 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
         }
         // line 112
         echo "
-        <div class=\"mon_footer d-flex justify-content-between align-items-center fixed-bottom mr-5\" style=\"margin-bottom:-25px\">
-            <div> 
-                <iframe src=\"https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=medium&timezone=Europe%2FParis\" width=\"100%\" height=\"115\" frameborder=\"0\" seamless></iframe> 
+        <div class=\"mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5\" style=\"margin-bottom:-5px\">
+            <div id=\"mon_timer\" class=\"d-flex\" style=\"font-size:200%\">
+                <div id=\"hours\"></div>
+                <div>:</div>
+                <div id=\"minutes\"></div>
+                <div>:</div>
+                <div id=\"secondes\"></div>
             </div>
             <div style=\"font-size:230%\">
                 ";
-        // line 118
-        echo twig_escape_filter($this->env, (isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 118, $this->source); })()), "html", null, true);
+        // line 122
+        echo twig_escape_filter($this->env, (isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 122, $this->source); })()), "html", null, true);
         echo " / ";
-        echo twig_escape_filter($this->env, (isset($context["capacite"]) || array_key_exists("capacite", $context) ? $context["capacite"] : (function () { throw new Twig_Error_Runtime('Variable "capacite" does not exist.', 118, $this->source); })()), "html", null, true);
+        echo twig_escape_filter($this->env, (isset($context["capacite"]) || array_key_exists("capacite", $context) ? $context["capacite"] : (function () { throw new Twig_Error_Runtime('Variable "capacite" does not exist.', 122, $this->source); })()), "html", null, true);
         echo "
             </div>
         </div>
@@ -351,16 +355,20 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
     }
 
-    // line 125
+    // line 129
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 126
+        // line 130
         echo "
     <script src=\"";
-        // line 127
+        // line 131
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("javascript/time.js"), "html", null, true);
+        echo "\"></script>
+    <script src=\"";
+        // line 132
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("javascript/script.js"), "html", null, true);
         echo "\"></script>
 
@@ -382,7 +390,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
     public function getDebugInfo()
     {
-        return array (  364 => 127,  361 => 126,  355 => 125,  340 => 118,  332 => 112,  328 => 110,  326 => 109,  323 => 108,  317 => 103,  307 => 99,  301 => 98,  297 => 97,  293 => 96,  290 => 95,  287 => 94,  283 => 93,  280 => 92,  276 => 91,  273 => 90,  269 => 89,  266 => 88,  263 => 86,  260 => 85,  256 => 84,  245 => 75,  235 => 71,  229 => 70,  225 => 69,  221 => 68,  218 => 67,  215 => 66,  211 => 65,  208 => 64,  204 => 63,  201 => 62,  197 => 61,  194 => 60,  191 => 58,  188 => 57,  184 => 56,  173 => 47,  163 => 43,  157 => 42,  153 => 41,  149 => 40,  146 => 39,  143 => 38,  139 => 37,  136 => 36,  132 => 35,  129 => 34,  125 => 33,  122 => 32,  119 => 30,  116 => 29,  112 => 28,  102 => 20,  98 => 19,  94 => 18,  90 => 17,  86 => 16,  82 => 15,  79 => 14,  75 => 12,  69 => 11,  59 => 6,  53 => 5,  41 => 3,  15 => 1,);
+        return array (  372 => 132,  368 => 131,  365 => 130,  359 => 129,  344 => 122,  332 => 112,  328 => 110,  326 => 109,  323 => 108,  317 => 103,  307 => 99,  301 => 98,  297 => 97,  293 => 96,  290 => 95,  287 => 94,  283 => 93,  280 => 92,  276 => 91,  273 => 90,  269 => 89,  266 => 88,  263 => 86,  260 => 85,  256 => 84,  245 => 75,  235 => 71,  229 => 70,  225 => 69,  221 => 68,  218 => 67,  215 => 66,  211 => 65,  208 => 64,  204 => 63,  201 => 62,  197 => 61,  194 => 60,  191 => 58,  188 => 57,  184 => 56,  173 => 47,  163 => 43,  157 => 42,  153 => 41,  149 => 40,  146 => 39,  143 => 38,  139 => 37,  136 => 36,  132 => 35,  129 => 34,  125 => 33,  122 => 32,  119 => 30,  116 => 29,  112 => 28,  102 => 20,  98 => 19,  94 => 18,  90 => 17,  86 => 16,  82 => 15,  79 => 14,  75 => 12,  69 => 11,  59 => 6,  53 => 5,  41 => 3,  15 => 1,);
     }
 
     public function getSourceContext()
@@ -407,7 +415,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
         {% set verte = 'rgb(75,191,115)' %} {# représente la couleurBackground verte #}
         {% set padding_left = '' %} {# avoir le même décalage pour toutes les div nom et prenom #}
 
-        <div class=\"d-flex float-left\" style=\"width:100%;\">
+        <div id=\"refresh\" class=\"d-flex float-left\" style=\"width:100%;\">
             <!-- ######################## -->
             <!-- Première colonne affiché -->
             <!-- ######################## -->
@@ -499,9 +507,13 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
             <div id=\"noStudent\">AUCUN ETUDIANT</div>
         {% endif %}
 
-        <div class=\"mon_footer d-flex justify-content-between align-items-center fixed-bottom mr-5\" style=\"margin-bottom:-25px\">
-            <div> 
-                <iframe src=\"https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=medium&timezone=Europe%2FParis\" width=\"100%\" height=\"115\" frameborder=\"0\" seamless></iframe> 
+        <div class=\"mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5\" style=\"margin-bottom:-5px\">
+            <div id=\"mon_timer\" class=\"d-flex\" style=\"font-size:200%\">
+                <div id=\"hours\"></div>
+                <div>:</div>
+                <div id=\"minutes\"></div>
+                <div>:</div>
+                <div id=\"secondes\"></div>
             </div>
             <div style=\"font-size:230%\">
                 {{ tailleDuTableauPresent }} / {{ capacite }}
@@ -513,6 +525,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
 {% block javascripts %}
 
+    <script src=\"{{ asset('javascript/time.js') }}\"></script>
     <script src=\"{{ asset('javascript/script.js') }}\"></script>
 
 {% endblock %}

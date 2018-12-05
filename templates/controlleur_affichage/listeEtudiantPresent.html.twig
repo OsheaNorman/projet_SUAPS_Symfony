@@ -18,7 +18,7 @@
         {% set verte = 'rgb(75,191,115)' %} {# représente la couleurBackground verte #}
         {% set padding_left = '' %} {# avoir le même décalage pour toutes les div nom et prenom #}
 
-        <div class="d-flex float-left" style="width:100%;">
+        <div id="refresh" class="d-flex float-left" style="width:100%;">
             <!-- ######################## -->
             <!-- Première colonne affiché -->
             <!-- ######################## -->
@@ -110,9 +110,13 @@
             <div id="noStudent">AUCUN ETUDIANT</div>
         {% endif %}
 
-        <div class="mon_footer d-flex justify-content-between align-items-center fixed-bottom mr-5" style="margin-bottom:-25px">
-            <div> 
-                <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=fr&size=medium&timezone=Europe%2FParis" width="100%" height="115" frameborder="0" seamless></iframe> 
+        <div class="mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5" style="margin-bottom:-5px">
+            <div id="mon_timer" class="d-flex" style="font-size:200%">
+                <div id="hours"></div>
+                <div>:</div>
+                <div id="minutes"></div>
+                <div>:</div>
+                <div id="secondes"></div>
             </div>
             <div style="font-size:230%">
                 {{ tailleDuTableauPresent }} / {{ capacite }}
@@ -124,6 +128,7 @@
 
 {% block javascripts %}
 
+    <script src="{{ asset('javascript/time.js') }}"></script>
     <script src="{{ asset('javascript/script.js') }}"></script>
 
 {% endblock %}
