@@ -165,9 +165,9 @@ class ControlleurLienController extends AbstractController
 
 	
 		//nom,prenom de l'individu a partir de no_individu
-		$queryEtud = "SELECT nom_usuel,prenom,photo FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
-        $queryPers = "SELECT nom_usuel,prenom,photo FROM aua_personnel WHERE no_individu = '$no_individu'";
-		$queryExte = "SELECT nom,prenom,photo FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu'";
+		$queryEtud = "SELECT nom_usuel,prenom FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
+        $queryPers = "SELECT nom_usuel,prenom FROM aua_personnel WHERE no_individu = '$no_individu'";
+		$queryExte = "SELECT nom,prenom FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu'";
         $rawQuery = "( ". $queryEtud . " ) UNION ( " . $queryPers . " ) UNION ( " . $queryExte . " ) ";
 		$entityManager = $this->getDoctrine()->getManager();
 		$queryPersonne = $entityManager->getConnection()->prepare($rawQuery);
@@ -189,7 +189,6 @@ class ControlleurLienController extends AbstractController
 		//pour chaque données recuperées précédemment on les stock dans des variables
 		$prenom = $resultPersonne['0']['prenom'];
 		$nom = $resultPersonne['0']['nom_usuel'];
-		$photo = $resultPersonne['0']['photo'];
 		$limite = $resultLimiteTemps['0']['limitePersonnes'];
 		$tempsSeance = $resultLimiteTemps['0']['tempsSeance'];
 
@@ -255,7 +254,7 @@ class ControlleurLienController extends AbstractController
 				//on renvoi à l'android un message (easter egg pour les enseignants de M1 informatique)
 				//supprimer le if et conserver le else pour retirer le message personnalisé 
 				if($no_mifare_inverse == "04548E32A73A80" || $no_mifare_inverse == "045C6CCA253980" || $no_mifare_inverse == "043637F2813A80" || $no_mifare_inverse == "0475511A543680"){
-					$codeRetour['reponse']='1Bienvenu Mr '.$nom;
+					$codeRetour['reponse']='1Bienvenue Mr '.$nom;
 					return new Response(json_encode($codeRetour));
 				}
 				else{
