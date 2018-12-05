@@ -4,53 +4,7 @@
 
 {% block stylesheets %}
 
-    <style>
-
-        body{
-            font-family: "Times New Roman";
-            font-stretch: semi-condensed;
-            letter-spacing: 2px;
-            font-weight: lighter;
-            font-variant: small-caps;
-            background-color:white;
-            color:black;
-        }
-
-        .div_etudiant{
-            border-radius: 15px;
-            box-shadow: 0px 2px 5px grey;
-            font-size:150%;
-            font-weight:bold;
-            height:1em;
-        }
-
-        .mon_footer{
-            font-size:180%;
-        }
-
-        .colonne{
-            color:#ECEEEF; :/* couleur blanc */
-        }
-
-        #noStudent{
-            font-size:550%;
-            color:rgb(68, 68, 68);
-            font-weight:bold;
-            text-align: center;
-            margin-top:20%;
-        }
-
-        #noStudent .letter {
-            display: inline-block;
-            line-height: 1em;
-        }
-
-        img{
-            height:100%;
-            width:100%;
-        }
- 
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 
 {% endblock %}
 
@@ -170,44 +124,6 @@
 
 {% block javascripts %}
 
-    <script src="jquery.js"></script>
-
-    <!-- Calcul de la hauteur et la largeur de la page en fonction du redimensionnement du screen -->
-
-    <script>
-        var Lscreen=document.body.offsetWidth; //Prend la largeur du screen selon son redimenssionnement
-        var screenLDivise = Lscreen / 3; //permet de les partager en 3 colonnes
-        var screenReduitL = screenLDivise - 10;
-
-        var Hscreen = window.scrollMaxY + document.documentElement.clientHeight; //Prend la hauteur du screen et du scroll
-        var screenHDivise = Hscreen / 13; //chiffre permettant de partager la hauteur de chaque div des étudiants en essayant de ne pas dépasser le bas de la page
-
-        var div_etudiant =  document.getElementsByClassName("div_etudiant");
-        var colonne =  document.getElementsByClassName("colonne");
-        var div_photo = document.getElementsByClassName("contenant_photo");
-        
-        /* On parcour toutes les classes colonne et on applique le redimensionnement des divs en 3 colonnes */
-        if(colonne.length > 0){
-            for (var i = 0; i < colonne.length; i++) {
-                colonne[i].style.width = screenReduitL + "px";
-            }
-        }
-
-        /* On parcour toutes les classes div_etudiant et on applique le redimensionnement des divs sur la hauteur selon la dimension actuelle du screen */
-        if(div_etudiant.length > 0){
-            for (var i = 0; i < div_etudiant.length; i++) {
-                div_etudiant[i].style.height = screenHDivise + "px";
-            }
-        }
-
-        /* redimensionne le conteneur des photos selon leurs div */
-        if(div_photo.length > 0){
-            for (var i = 0; i < div_photo.length; i++) {
-                div_photo[i].style.width = screenReduitL/8 + "px";
-                div_photo[i].style.height = screenHDivise-3 + "px";
-            }
-        }
-
-    </script>
+    <script src="{{ asset('javascript/script.js') }}"></script>
 
 {% endblock %}

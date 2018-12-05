@@ -37,27 +37,29 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
-        <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
-        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
+        <link rel=\"stylesheet\" href=\"";
+        // line 8
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("bootstrap/css/bootstrap.min.css"), "html", null, true);
+        echo "\" /> <!-- Bootstrap CDN -->
         <meta http-equiv=\"Refresh\" content=\"6000\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         ";
-        // line 11
+        // line 10
         $this->displayBlock('stylesheets', $context, $blocks);
-        // line 12
+        // line 11
         echo "    </head>
     
     <body>
         <div>
             ";
-        // line 16
+        // line 15
         $this->displayBlock('body', $context, $blocks);
-        // line 17
+        // line 16
         echo "        </div>
 
         ";
-        // line 19
+        // line 18
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 20
+        // line 19
         echo "    </body>
 </html>
 
@@ -79,7 +81,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 11
+    // line 10
     public function block_stylesheets($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -90,7 +92,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 16
+    // line 15
     public function block_body($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -101,7 +103,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
 
     }
 
-    // line 19
+    // line 18
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -117,9 +119,14 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         return "base.html.twig";
     }
 
+    public function isTraitable()
+    {
+        return false;
+    }
+
     public function getDebugInfo()
     {
-        return array (  105 => 19,  94 => 16,  83 => 11,  71 => 6,  61 => 20,  59 => 19,  55 => 17,  53 => 16,  47 => 12,  45 => 11,  37 => 6,  30 => 1,);
+        return array (  107 => 18,  96 => 15,  85 => 10,  73 => 6,  63 => 19,  61 => 18,  57 => 16,  55 => 15,  49 => 11,  47 => 10,  42 => 8,  37 => 6,  30 => 1,);
     }
 
     public function getSourceContext()
@@ -131,8 +138,7 @@ class __TwigTemplate_eb897de56fe9462ed0b9853bd6968afc484bb9f5f098b5fd4b4a9781361
         <meta charset=\"UTF-8\">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <!-- responsive -->
-        <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
-        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" /> <!-- Bootstrap CDN -->
+        <link rel=\"stylesheet\" href=\"{{ asset('bootstrap/css/bootstrap.min.css') }}\" /> <!-- Bootstrap CDN -->
         <meta http-equiv=\"Refresh\" content=\"6000\"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
         {% block stylesheets %}{% endblock %}
     </head>
