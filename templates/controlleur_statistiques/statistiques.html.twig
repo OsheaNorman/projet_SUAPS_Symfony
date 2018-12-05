@@ -167,16 +167,14 @@
 {% endblock %}
 
 {% block javascripts %}
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
-
     {# Librairie Chart.js pour les graphiques #}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>-->
 
     <script>
         var etiquettes = []; // contiendra les étiquettes du graphique - ex : 16h30-17h00
         var total_results = {{ resultat_creneau|length }};
         var resultat_creneau = {{ resultat_creneau|json_encode()|raw }};
-        //console.log(resultat_creneau);
+
         var hommes = [];
         var femmes = [];
 
@@ -185,7 +183,6 @@
             etiquette_str = etiquette_str + "-" + resultat_creneau[i].h_fin + "h" + resultat_creneau[i].min_fin;
             etiquettes.push(etiquette_str); // ces étiquettes figureront sur dans le fichier csv
 
-            //donnees.push(resultat_creneau[i].array_result.length); // ces données figureront dans le fichier csv
             hommes.push(resultat_creneau[i].array_result.hommes);
             femmes.push(resultat_creneau[i].array_result.femmes);
         }

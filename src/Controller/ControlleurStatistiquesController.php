@@ -202,9 +202,6 @@ class ControlleurStatistiquesController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/sexe/{no_individu}", name="sexe")
-     */
     public function getSexe($no_individu) {
         $manager = $this->getDoctrine()->getManager();
         $querySexeEtud = "SELECT sexe FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
@@ -225,7 +222,6 @@ class ControlleurStatistiquesController extends AbstractController
     }
 
     /**
-     * @Route("/entrees/{no_mifare_inverse}/{date}", name="entrees")
      * format de la date : YYYY-MM-DD
      * retourne un tableau des heures d'arrivées pour une personne
      */
@@ -243,7 +239,6 @@ class ControlleurStatistiquesController extends AbstractController
     }
 
     /**
-     * @Route("/sorties/{no_mifare_inverse}/{date}", name="sorties")
      * format de la date : YYYY-MM-DD
      * retourne un tableau des heures de sorties pour une personne
      */
