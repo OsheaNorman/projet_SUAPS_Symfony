@@ -10,7 +10,11 @@
         }
 
         #navbarSupportedContent {
-            padding-left: 80%;
+            padding-left: 75%;
+        }
+
+        #plage_min {
+            width: 20%;
         }
 
         #tab1, #durees {
@@ -40,14 +44,15 @@
 {% block body %}
 
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="/controlleur/statistiques/badgeages">SUAPS</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#" onclick="statistiquesAccueil()">SUAPS</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="form-inline my-2 my-lg-0" id="formulaire">
+                    <input id="plage_min" type="text" class="form-control mr-sm-2" placeholder="Plage" onchange="changePlage(this.value)"/>
                     <input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
                     <button class="btn btn-outline-success my-2 my-sm-0" onclick="badgeagesJour()">Résultat</button>
                 </div>
@@ -62,7 +67,7 @@
                 Vous pouvez toute fois changer de date pour visualiser la fréquentation par plages horaires de la salle pour une autre journée.</p>
                 <p>La durée d'une plage horaire est fixée à <strong>{{ plage_min }}</strong> minute(s).</p>
                 {% if ("now"|date("Y-m-d")) !=  date %}
-                    <a class="btn btn-primary btn-lg" href="/controlleur/statistiques/badgeages" role="button">Revenir à la date du jour</a>
+                    <a class="btn btn-primary btn-lg" href="#" onclick="statistiquesAccueil()" role="button">Revenir à la date du jour</a>
                 {% endif %}
             </div>
         </div>
@@ -77,7 +82,8 @@
                             <tr>
                                 <th>Début plage</th>
                                 <th>Fin plage</th>
-                                <th>Taux de présence</th>
+                                <th>Femmes</th>
+                                <th>Hommes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,7 +91,8 @@
                                 <tr>
                                     <td>{{ resultat_creneau[i]["h_debut"] }}h{{ resultat_creneau[i]["min_debut"]}}</td>
                                     <td>{{ resultat_creneau[i]["h_fin"] }}h{{ resultat_creneau[i]["min_fin"]}}</td>
-                                    <td>{{ resultat_creneau[i]["array_result"]|length }} personnes</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]["femmes"] }} femmes</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]["hommes"] }} hommes</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -105,10 +112,16 @@
             
             {# Variable qui contiendra la durée moyenne d'une séance #}
             {% set somme = 0 %}
+
+            {% set tab_durees = [] %}
             {% for i in 0..(temps_seance|length - 1) %}
-                {% set somme = somme + temps_seance[i] %} 
+                {% set tab_durees = tab_durees|merge( [temps_seance[i]["duree"]] ) %} 
             {% endfor %}
-            {% set moyenne = somme / (temps_seance|length) %}
+
+            {% for i in 0..(tab_durees|length - 1) %}
+                {% set somme = somme + tab_durees[i] %} 
+            {% endfor %}
+            {% set moyenne = somme / (tab_durees|length) %}
 
             <h2 class="display-4 text-center">Durées d'une séance</h2>
             <div id="durees" class="container">
@@ -118,7 +131,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Durée minimum</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
-                                <p class="card-text">{{ min(temps_seance) }}</p>
+                                <p class="card-text">{{ min(tab_durees) }}</p>
                             </div>
                         </div>
                     </div>
@@ -136,10 +149,16 @@
                             <div class="card-body">
                                 <h5 class="card-title">Durée maximum</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
-                                <p class="card-text">{{ max(temps_seance) }}</p>
+                                <p class="card-text">{{ max(tab_durees) }}</p>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="dataToCSV()">Exporter les données au format csv</button>
                 </div>
             </div>
         {% endif %}
@@ -148,48 +167,119 @@
 {% endblock %}
 
 {% block javascripts %}
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+
     {# Librairie Chart.js pour les graphiques #}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <script>
         var etiquettes = []; // contiendra les étiquettes du graphique - ex : 16h30-17h00
-        var donnees = []; // les données correspondantes aux étiquettes - tableau d'entiers
         var total_results = {{ resultat_creneau|length }};
         var resultat_creneau = {{ resultat_creneau|json_encode()|raw }};
+        //console.log(resultat_creneau);
+        var hommes = [];
+        var femmes = [];
 
         for (var i = 0 ; i < total_results ; i++) {
             var etiquette_str = resultat_creneau[i].h_debut + "h" + resultat_creneau[i].min_debut;
             etiquette_str = etiquette_str + "-" + resultat_creneau[i].h_fin + "h" + resultat_creneau[i].min_fin;
-            etiquettes.push(etiquette_str);
+            etiquettes.push(etiquette_str); // ces étiquettes figureront sur dans le fichier csv
 
-            donnees.push(resultat_creneau[i].array_result.length);
+            //donnees.push(resultat_creneau[i].array_result.length); // ces données figureront dans le fichier csv
+            hommes.push(resultat_creneau[i].array_result.hommes);
+            femmes.push(resultat_creneau[i].array_result.femmes);
         }
 
-        var ctx = document.getElementById('graphique').getContext('2d');
+        if ((hommes.length + femmes.length) !== 0) {
 
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'bar',
+            var ctx = document.getElementById('graphique').getContext('2d');
 
-            // The data for our dataset
-            data: {
-                labels: etiquettes,
-                datasets: [{
-                    label: "Nombre de personnes présentes sur plage horaire",
-                    backgroundColor: 'rgb(0, 120, 120)',
-                    borderColor: 'rgb(0, 120, 120)',
-                    data: donnees,
-                }]
-            },
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
 
-            // Configuration options go here
-            options: {
-                title: {
-                    display: true,
-                    text: "Vue graphique du taux de présence sur les plages horaires"
+                // The data for our dataset
+                data: {
+                    labels: etiquettes,
+                    datasets: [
+                        {
+                            label: "Femmes",
+                            backgroundColor: 'rgb(204, 51, 255)',
+                            borderColor: 'rgb(204, 51, 255)',
+                            data: femmes,
+                        },
+                        {
+                            label: "Hommes",
+                            backgroundColor: 'rgb(0, 120, 120)',
+                            borderColor: 'rgb(0, 120, 120)',
+                            data: hommes,
+                        }
+                    ]
+                },
+
+                // Configuration options go here
+                options: {
+                    title: {
+                        display: true,
+                        text: "Vue graphique du taux de présence sur les plages horaires"
+                    }
                 }
+            });
+        }
+
+        function dateToHour(date) {
+            if (date == "") {
+                return "";
             }
-        });
+            var d = new Date(date).toISOString().split("T")[1];
+            var split = d.split(":");
+            var str = split[0] + "h" + split[1];
+            return str;
+        }
+
+        // Gestion du téléchargement des données au format csv
+        
+        // https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
+
+        function dataToCSV() { // content, filename, mimetype
+            var csvContent = ""; // sera remplie à partir de donnees et etiquettes (qui ont une même taille)
+            var csvData = {{ csv_data|json_encode()|raw }};
+
+            csvContent = "no_individu;sexe;heure_arrivée;heure_sortie;temps_presence_minutes"; 
+
+            for (var i = 0 ; i < (csvData.length) ; i++) {
+                if (i != csvData.length - 1) {
+                    csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree + "\n";
+                } else {
+                    csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree;
+                }
+            };
+
+            // Nom du fichier à télécharger
+            var twig_date = {{ date|json_encode()|raw }};
+            var yyyy_mm_dd = new Date(twig_date).toISOString().split("T")[0];
+            var fileName = "taux-de-presence-" + yyyy_mm_dd + ".csv";
+
+            // téléchargement
+            var a = document.createElement("a");
+            var mimeType = "text/csv;encoding:utf-8";
+
+            if (navigator.msSaveBlob) { // IE10
+                navigator.msSaveBlob(new Blob([csvContent], {
+                type: mimeType
+                }), fileName);
+            } else if (URL && 'download' in a) { //html5 A[download]
+                a.href = URL.createObjectURL(new Blob([csvContent], {
+                type: mimeType
+                }));
+                a.setAttribute('download', fileName);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                location.href = 'data:application/octet-stream,' + encodeURIComponent(csvContent); // only this mime type is supported
+            }
+        }
     </script>
 
     <script>
@@ -207,13 +297,44 @@
             document.getElementById("jour").innerHTML = "du " + d_str;
         }
 
+        var default_plage_value = "30";
+
+        var plage = document.getElementById("plage_min");
+
+        // Initialisation du champ des plages horaires
+        if (plage.value == "") {
+            var currentPlage = localStorage.getItem("suaps_current_plage");
+            plage.value = (currentPlage !== null) ? currentPlage : default_plage_value;
+            localStorage.setItem("suaps_current_plage", plage.value);
+        }
+        console.log(plage.value);
+
+        function changePlage(value) {
+            if (plage.value == "" || isNaN(parseInt(plage.value))) {
+                return;
+            }
+            plage.value = value;
+            localStorage.setItem("suaps_current_plage", value);
+            badgeagesJour();
+        }
+
         function badgeagesJour() {
             jour = document.getElementById("date_jour").value;
             if (jour == "") {
-                alert("La date est requise");
+                alert("La date est requise !");
                 return;
             }
-            var url = "/controlleur/statistiques/badgeages/jour/" + jour;
+            if (plage.value == "" || isNaN(parseInt(plage.value))) {
+                alert("Il est nécessaire de renseigner la plage en minutes !");
+                return;
+            }
+            var url = "/controlleur/statistiques/badgeages/jour/" + jour + "/" + plage.value;
+            window.location = url;
+        }
+
+        function statistiquesAccueil() {
+            var url = "/controlleur/statistiques/badgeages";
+            url = url + "/" + plage.value;
             window.location = url;
         }
     </script>
