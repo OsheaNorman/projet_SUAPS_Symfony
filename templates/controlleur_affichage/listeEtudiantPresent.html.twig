@@ -33,7 +33,7 @@
         }
 
         #noStudent{
-            font-size:250%;
+            font-size:550%;
             color:rgb(68, 68, 68);
             font-weight:bold;
             text-align: center;
@@ -154,7 +154,6 @@
 
         {% if tailleDuTableauPresent == 0 %}
             <div id="noStudent">AUCUN ETUDIANT</div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
         {% endif %}
 
         <div class="mon_footer d-flex justify-content-between align-items-center fixed-bottom mr-5" style="margin-bottom:-25px">
@@ -209,32 +208,6 @@
             }
         }
 
-    </script>
-
-    <!-- Script récupérer sur le site : http://tobiasahlin.com/moving-letters/ -->
-    <!-- Permet d'animer le text lorsqu'il n'y plus d'étudiant -->
-    <script>
-        // Wrap every letter in a span
-        $('#noStudent').each(function(){
-        $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
-        });
-
-        anime.timeline({loop: true})
-        .add({
-            targets: '#noStudent .letter',
-            translateY: [-100,0],
-            easing: "easeOutExpo",
-            duration: 3000,
-            delay: function(el, i) {
-            return 30 * i;
-            }
-        }).add({
-            targets: '#noStudent',
-            opacity: 0,
-            duration: 1000,
-            easing: "easeOutExpo",
-            delay: 3000
-        });
     </script>
 
 {% endblock %}

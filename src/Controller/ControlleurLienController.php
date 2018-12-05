@@ -336,7 +336,7 @@ class ControlleurLienController extends AbstractController
 		$prenom = $request->request->get('prenom');
 
 		//attribution d'une photo par défault à l'individu 
-		$photo = fopen('/home/etudiant/blog/img/autre.png','rb');
+		$photo = fopen('../img/autre.png','rb');
 
 
 		//récuperation du temps de la séance sur la table aua_liste_seance

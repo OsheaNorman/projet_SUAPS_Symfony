@@ -86,7 +86,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
         }
 
         #noStudent{
-            font-size:250%;
+            font-size:550%;
             color:rgb(68, 68, 68);
             font-weight:bold;
             text-align: center;
@@ -372,10 +372,9 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
         if (((isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 155, $this->source); })()) == 0)) {
             // line 156
             echo "            <div id=\"noStudent\">AUCUN ETUDIANT</div>
-            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js\"></script>
         ";
         }
-        // line 159
+        // line 158
         echo "
         <div class=\"mon_footer d-flex justify-content-between align-items-center fixed-bottom mr-5\" style=\"margin-bottom:-25px\">
             <div> 
@@ -383,10 +382,10 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
             </div>
             <div style=\"font-size:230%\">
                 ";
-        // line 165
-        echo twig_escape_filter($this->env, (isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 165, $this->source); })()), "html", null, true);
+        // line 164
+        echo twig_escape_filter($this->env, (isset($context["tailleDuTableauPresent"]) || array_key_exists("tailleDuTableauPresent", $context) ? $context["tailleDuTableauPresent"] : (function () { throw new Twig_Error_Runtime('Variable "tailleDuTableauPresent" does not exist.', 164, $this->source); })()), "html", null, true);
         echo " / ";
-        echo twig_escape_filter($this->env, (isset($context["capacite"]) || array_key_exists("capacite", $context) ? $context["capacite"] : (function () { throw new Twig_Error_Runtime('Variable "capacite" does not exist.', 165, $this->source); })()), "html", null, true);
+        echo twig_escape_filter($this->env, (isset($context["capacite"]) || array_key_exists("capacite", $context) ? $context["capacite"] : (function () { throw new Twig_Error_Runtime('Variable "capacite" does not exist.', 164, $this->source); })()), "html", null, true);
         echo "
             </div>
         </div>
@@ -398,13 +397,13 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
     }
 
-    // line 172
+    // line 171
     public function block_javascripts($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 173
+        // line 172
         echo "
     <script src=\"jquery.js\"></script>
 
@@ -446,32 +445,6 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
     </script>
 
-    <!-- Script récupérer sur le site : http://tobiasahlin.com/moving-letters/ -->
-    <!-- Permet d'animer le text lorsqu'il n'y plus d'étudiant -->
-    <script>
-        // Wrap every letter in a span
-        \$('#noStudent').each(function(){
-        \$(this).html(\$(this).text().replace(/([^\\x00-\\x80]|\\w)/g, \"<span class='letter'>\$&</span>\"));
-        });
-
-        anime.timeline({loop: true})
-        .add({
-            targets: '#noStudent .letter',
-            translateY: [-100,0],
-            easing: \"easeOutExpo\",
-            duration: 3000,
-            delay: function(el, i) {
-            return 30 * i;
-            }
-        }).add({
-            targets: '#noStudent',
-            opacity: 0,
-            duration: 1000,
-            easing: \"easeOutExpo\",
-            delay: 3000
-        });
-    </script>
-
 ";
         
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
@@ -490,7 +463,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
     public function getDebugInfo()
     {
-        return array (  408 => 173,  402 => 172,  387 => 165,  379 => 159,  374 => 156,  372 => 155,  369 => 154,  363 => 149,  353 => 145,  347 => 144,  343 => 143,  339 => 142,  336 => 141,  333 => 140,  329 => 139,  326 => 138,  322 => 137,  319 => 136,  315 => 135,  312 => 134,  309 => 132,  306 => 131,  302 => 130,  291 => 121,  281 => 117,  275 => 116,  271 => 115,  267 => 114,  264 => 113,  261 => 112,  257 => 111,  254 => 110,  250 => 109,  247 => 108,  243 => 107,  240 => 106,  237 => 104,  234 => 103,  230 => 102,  219 => 93,  209 => 89,  203 => 88,  199 => 87,  195 => 86,  192 => 85,  189 => 84,  185 => 83,  182 => 82,  178 => 81,  175 => 80,  171 => 79,  168 => 78,  165 => 76,  162 => 75,  158 => 74,  148 => 66,  144 => 65,  140 => 64,  136 => 63,  132 => 62,  128 => 61,  125 => 60,  121 => 58,  115 => 57,  59 => 6,  53 => 5,  41 => 3,  15 => 1,);
+        return array (  407 => 172,  401 => 171,  386 => 164,  378 => 158,  374 => 156,  372 => 155,  369 => 154,  363 => 149,  353 => 145,  347 => 144,  343 => 143,  339 => 142,  336 => 141,  333 => 140,  329 => 139,  326 => 138,  322 => 137,  319 => 136,  315 => 135,  312 => 134,  309 => 132,  306 => 131,  302 => 130,  291 => 121,  281 => 117,  275 => 116,  271 => 115,  267 => 114,  264 => 113,  261 => 112,  257 => 111,  254 => 110,  250 => 109,  247 => 108,  243 => 107,  240 => 106,  237 => 104,  234 => 103,  230 => 102,  219 => 93,  209 => 89,  203 => 88,  199 => 87,  195 => 86,  192 => 85,  189 => 84,  185 => 83,  182 => 82,  178 => 81,  175 => 80,  171 => 79,  168 => 78,  165 => 76,  162 => 75,  158 => 74,  148 => 66,  144 => 65,  140 => 64,  136 => 63,  132 => 62,  128 => 61,  125 => 60,  121 => 58,  115 => 57,  59 => 6,  53 => 5,  41 => 3,  15 => 1,);
     }
 
     public function getSourceContext()
@@ -530,7 +503,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
         }
 
         #noStudent{
-            font-size:250%;
+            font-size:550%;
             color:rgb(68, 68, 68);
             font-weight:bold;
             text-align: center;
@@ -651,7 +624,6 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
         {% if tailleDuTableauPresent == 0 %}
             <div id=\"noStudent\">AUCUN ETUDIANT</div>
-            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js\"></script>
         {% endif %}
 
         <div class=\"mon_footer d-flex justify-content-between align-items-center fixed-bottom mr-5\" style=\"margin-bottom:-25px\">
@@ -708,33 +680,7 @@ class __TwigTemplate_b60af60022afbc94182e8559484b4153d373bf0ba41fc2ca903a01b366f
 
     </script>
 
-    <!-- Script récupérer sur le site : http://tobiasahlin.com/moving-letters/ -->
-    <!-- Permet d'animer le text lorsqu'il n'y plus d'étudiant -->
-    <script>
-        // Wrap every letter in a span
-        \$('#noStudent').each(function(){
-        \$(this).html(\$(this).text().replace(/([^\\x00-\\x80]|\\w)/g, \"<span class='letter'>\$&</span>\"));
-        });
-
-        anime.timeline({loop: true})
-        .add({
-            targets: '#noStudent .letter',
-            translateY: [-100,0],
-            easing: \"easeOutExpo\",
-            duration: 3000,
-            delay: function(el, i) {
-            return 30 * i;
-            }
-        }).add({
-            targets: '#noStudent',
-            opacity: 0,
-            duration: 1000,
-            easing: \"easeOutExpo\",
-            delay: 3000
-        });
-    </script>
-
 {% endblock %}
-", "controlleur_affichage/listeEtudiantPresent.html.twig", "/home/etudiant/blog/templates/controlleur_affichage/listeEtudiantPresent.html.twig");
+", "controlleur_affichage/listeEtudiantPresent.html.twig", "/home/etudiant/M1/projet/blog/templates/controlleur_affichage/listeEtudiantPresent.html.twig");
     }
 }
