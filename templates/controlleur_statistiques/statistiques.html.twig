@@ -82,7 +82,8 @@
                             <tr>
                                 <th>Début plage</th>
                                 <th>Fin plage</th>
-                                <th>Taux de présence</th>
+                                <th>Femmes</th>
+                                <th>Hommes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,7 +91,8 @@
                                 <tr>
                                     <td>{{ resultat_creneau[i]["h_debut"] }}h{{ resultat_creneau[i]["min_debut"]}}</td>
                                     <td>{{ resultat_creneau[i]["h_fin"] }}h{{ resultat_creneau[i]["min_fin"]}}</td>
-                                    <td>{{ resultat_creneau[i]["array_result"]|length }} personnes</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]["femmes"] }} femmes</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]["hommes"] }} hommes</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -110,10 +112,16 @@
             
             {# Variable qui contiendra la durée moyenne d'une séance #}
             {% set somme = 0 %}
+
+            {% set tab_durees = [] %}
             {% for i in 0..(temps_seance|length - 1) %}
-                {% set somme = somme + temps_seance[i] %} 
+                {% set tab_durees = tab_durees|merge( [temps_seance[i]["duree"]] ) %} 
             {% endfor %}
-            {% set moyenne = somme / (temps_seance|length) %}
+
+            {% for i in 0..(tab_durees|length - 1) %}
+                {% set somme = somme + tab_durees[i] %} 
+            {% endfor %}
+            {% set moyenne = somme / (tab_durees|length) %}
 
             <h2 class="display-4 text-center">Durées d'une séance</h2>
             <div id="durees" class="container">
@@ -123,7 +131,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Durée minimum</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
-                                <p class="card-text">{{ min(temps_seance) }}</p>
+                                <p class="card-text">{{ min(tab_durees) }}</p>
                             </div>
                         </div>
                     </div>
@@ -141,7 +149,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Durée maximum</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
-                                <p class="card-text">{{ max(temps_seance) }}</p>
+                                <p class="card-text">{{ max(tab_durees) }}</p>
                             </div>
                         </div>
                     </div>
@@ -150,7 +158,7 @@
 
             <div class="container">
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="dataToCSV()">Importer les données au format csv</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="dataToCSV()">Exporter les données au format csv</button>
                 </div>
             </div>
         {% endif %}
@@ -166,19 +174,23 @@
 
     <script>
         var etiquettes = []; // contiendra les étiquettes du graphique - ex : 16h30-17h00
-        var donnees = []; // les données correspondantes aux étiquettes - tableau d'entiers
         var total_results = {{ resultat_creneau|length }};
         var resultat_creneau = {{ resultat_creneau|json_encode()|raw }};
+        //console.log(resultat_creneau);
+        var hommes = [];
+        var femmes = [];
 
         for (var i = 0 ; i < total_results ; i++) {
             var etiquette_str = resultat_creneau[i].h_debut + "h" + resultat_creneau[i].min_debut;
             etiquette_str = etiquette_str + "-" + resultat_creneau[i].h_fin + "h" + resultat_creneau[i].min_fin;
             etiquettes.push(etiquette_str); // ces étiquettes figureront sur dans le fichier csv
 
-            donnees.push(resultat_creneau[i].array_result.length); // ces données figureront dans le fichier csv
+            //donnees.push(resultat_creneau[i].array_result.length); // ces données figureront dans le fichier csv
+            hommes.push(resultat_creneau[i].array_result.hommes);
+            femmes.push(resultat_creneau[i].array_result.femmes);
         }
 
-        if (donnees.length !== 0) {
+        if ((hommes.length + femmes.length) !== 0) {
 
             var ctx = document.getElementById('graphique').getContext('2d');
 
@@ -189,12 +201,20 @@
                 // The data for our dataset
                 data: {
                     labels: etiquettes,
-                    datasets: [{
-                        label: "Nombre de personnes présentes sur plage horaire",
-                        backgroundColor: 'rgb(0, 120, 120)',
-                        borderColor: 'rgb(0, 120, 120)',
-                        data: donnees,
-                    }]
+                    datasets: [
+                        {
+                            label: "Femmes",
+                            backgroundColor: 'rgb(204, 51, 255)',
+                            borderColor: 'rgb(204, 51, 255)',
+                            data: femmes,
+                        },
+                        {
+                            label: "Hommes",
+                            backgroundColor: 'rgb(0, 120, 120)',
+                            borderColor: 'rgb(0, 120, 120)',
+                            data: hommes,
+                        }
+                    ]
                 },
 
                 // Configuration options go here
@@ -207,17 +227,31 @@
             });
         }
 
+        function dateToHour(date) {
+            if (date == "") {
+                return "";
+            }
+            var d = new Date(date).toISOString().split("T")[1];
+            var split = d.split(":");
+            var str = split[0] + "h" + split[1];
+            return str;
+        }
+
         // Gestion du téléchargement des données au format csv
         
         // https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
 
         function dataToCSV() { // content, filename, mimetype
             var csvContent = ""; // sera remplie à partir de donnees et etiquettes (qui ont une même taille)
-            for (var i = 0 ; i < (donnees.length) ; i++) {
-                if (i != donnees.length - 1) {
-                    csvContent = csvContent + etiquettes[i] + ";" + donnees[i] + "\n";
+            var csvData = {{ csv_data|json_encode()|raw }};
+
+            csvContent = "no_individu;sexe;heure_arrivée;heure_sortie;temps_presence_minutes"; 
+
+            for (var i = 0 ; i < (csvData.length) ; i++) {
+                if (i != csvData.length - 1) {
+                    csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree + "\n";
                 } else {
-                    csvContent = csvContent + etiquettes[i] + ";" + donnees[i];
+                    csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree;
                 }
             };
 
