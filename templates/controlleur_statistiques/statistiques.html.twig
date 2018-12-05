@@ -242,7 +242,7 @@
             var csvContent = ""; // sera remplie à partir de donnees et etiquettes (qui ont une même taille)
             var csvData = {{ csv_data|json_encode()|raw }};
 
-            csvContent = "no_individu;sexe;heure_arrivée;heure_sortie;temps_presence_minutes"; 
+            csvContent = "no_individu;sexe;heure_arrivée;heure_sortie;temps_presence_minutes\n"; 
 
             for (var i = 0 ; i < (csvData.length) ; i++) {
                 if (i != csvData.length - 1) {
