@@ -139,13 +139,13 @@ class ControlleurLienController extends AbstractController
 			$codeRetour['reponse']='0Personne non inscrite.';
 			return new Response(json_encode($codeRetour));		
 	    }
-	//---------------------------------------------------------- Récupérations des données sur 
+	//---------------------------------------------------------- Récupérations des données sur :
 
-		//la logique interne 
+		//-la logique interne 
 		$vuePresenceData = self::LogiqueInterne();
 		
 
-		//no_mifare_inverse à partir de no_individu
+		//-le no_mifare_inverse à partir de no_individu
 		$queryEtud = "SELECT no_mifare_inverse FROM aua_etudiant_unicampus WHERE no_individu = '$no_individu'";
 		$queryPers = "SELECT no_mifare_inverse FROM aua_personnel_unicampus WHERE no_individu = '$no_individu'";
 		$queryAutre = "SELECT no_mifare_inverse FROM aua_autre_unicampus WHERE no_individu = '$no_individu'";
@@ -156,7 +156,7 @@ class ControlleurLienController extends AbstractController
 		$resultNumeroMifare = $queryNumeroMifare->fetchAll();
 		
 		
-		//la limite de personnes max et le temps de la seance 
+		//-la limite de personnes max et le temps de la seance 
 		$rawQuery = "SELECT limitePersonnes,tempsSeance FROM aua_liste_seance";
 		$entityManager = $this->getDoctrine()->getManager();
 		$queryLimiteTemps = $entityManager->getConnection()->prepare($rawQuery);
@@ -164,7 +164,7 @@ class ControlleurLienController extends AbstractController
         $resultLimiteTemps = $queryLimiteTemps->fetchAll();
 
 	
-		//nom,prenom de l'individu a partir de no_individu
+		//-le nom,prenom de l'individu a partir de no_individu
 		$queryEtud = "SELECT nom_usuel,prenom FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
         $queryPers = "SELECT nom_usuel,prenom FROM aua_personnel WHERE no_individu = '$no_individu'";
 		$queryExte = "SELECT nom,prenom FROM aua_exterieur_sport WHERE no_exterieur = '$no_individu'";

@@ -21,7 +21,11 @@ body{
 }
 
 .colonne{
+<<<<<<< HEAD
     color:#ECEEEF;/* couleur blanc */
+=======
+    color:#ECEEEF; /* couleur blanc */
+>>>>>>> 42582757e6ece8a78017a0ea79fa6b8e8dcde781
 }
 
 #noStudent{

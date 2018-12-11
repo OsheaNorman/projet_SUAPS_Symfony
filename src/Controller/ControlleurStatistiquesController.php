@@ -24,12 +24,13 @@ class ControlleurStatistiquesController extends AbstractController
 
     /**
      * @Route("/controlleur/statistiques/badgeages/jour/{date}/{plage}", name="badgeages_jours")
+     * Fonction qui va retourner les données sur la page web statistiques.html.twig 
      */
     public function badgeagesJour($date, $plage)
     {
         // $date du type : "YYYY-MM-DD"
+        // $plage est en minutes
 
-        // récupération de la date sans l'heure
         $data_array = array(); // Le résultat final à retourner
 
         $plage_min = $plage;
@@ -40,8 +41,11 @@ class ControlleurStatistiquesController extends AbstractController
 
         $statement = $manager->getConnection()->prepare($query);
         $statement->execute();
-        $badge_in = $statement->fetchAll();
+        $badge_in = $statement->fetchAll(); // tous les badgeages d'entrée pour ce jour
 
+        // s'il n'y a pas eu de badgeages, pas besoin de faire des traitements approfondis
+        // sinon, on subdivise la journée en plusieurs plages et sur chaque plage, on 
+        // calcule le nombre d'hommes et de femmes qui étaient présents.
         if (count($badge_in) != 0) {
             $debut_seance = new \DateTime($badge_in[0]["temps"]);
             $fin_seance = new \DateTime($badge_in[count($badge_in) - 1]["temps"]);
@@ -49,12 +53,17 @@ class ControlleurStatistiquesController extends AbstractController
             $debut = date_format($debut_seance, "H:i");
             $fin = date_format($fin_seance, "H:i");
 
+            // Calcul de la 1ère et dernière heure de badgeage dans la journée
+            // Par exemple si la première personne a badgé à 10h20 ou 10h34 etc. la première heure sera 10h.
+            // C'est à partir de cette heure là que nous commençerons à subdiviser la journée  en plusieurs plages.
+            // Pour la dernière heure, si la dernière personne a badgé à 18h01 par exemple, la dernière heure sera 19h.
             $debut_heure = preg_split("/[:]/",$debut)[0];
             $fin_heure = preg_split("/[:]/",$fin)[0] + 1;
 
             $debut_seance = $debut_seance->setTime($debut_heure, 0);
             $fin_seance = $fin_seance->setTime($fin_heure, 0);
 
+            // Subdivision de la journée en plages horaires + nombre d'hommes et de femmes présents sur chaque tranche
             while ($debut_seance < $fin_seance) {
                 $resultat_creneau = array();
 
@@ -95,6 +104,10 @@ class ControlleurStatistiquesController extends AbstractController
         ]);
     }
 
+    /**
+     * Sur une intervalle donnée, cette fonction donne le nombre d'hommes et de femmes présents
+     * dans la salle de sport
+     */
     public function badgeagesTranchesHoraires($heure_debut, $heure_fin) {
 
         // $heure_debut et $heure_fin du type : "AAAA-MM-DD hh:mm:ss"
@@ -125,6 +138,14 @@ class ControlleurStatistiquesController extends AbstractController
         return $compteur;
     }
 
+    /**
+     * Pour une date donnée, cette fonction retourne pour toutes les personnes présentes
+     * à la salle, le numéro de la carte "no_individu", le "sexe" et le "temps" passé dans la salle.
+     * Ce temps sera en minutes.
+     * Ces données sont renvoyées dans un tableau associatif.
+     * Par exemple, si une personne est venue à la salle plusieurs fois dans la journée, il y aura aussi tous les temps
+     * qu'il a passé à la salle; une durée pour chaque passage.
+     */
     public function tempsSeance($date) {
         $date_format = $date . "%";
 
@@ -169,7 +190,6 @@ class ControlleurStatistiquesController extends AbstractController
                 for ($i = 0; $i < $min ; $i++) {
                     $duree = $this->dureeSeance($temps_in[$i], $temps_out[$i]);
                     $profil["duree"] = $duree; // new add
-                    //array_push($temps_seance, $duree);
                     array_push($temps_seance, $profil);
                 }
             }
@@ -181,6 +201,8 @@ class ControlleurStatistiquesController extends AbstractController
     /**
      * @Route("/no_individu/{no_mifare_inverse}", name="no_individu")
      * Un no_mifare inverse correspond à un no_individu. Un et un seul
+     * Si le numéro n'est pas unique retourne "Numéro qui n'est pas unique"
+     * @return string
      */
     public function getNoIndividu($no_mifare_inverse) {
         $manager = $this->getDoctrine()->getManager();
@@ -202,6 +224,11 @@ class ControlleurStatistiquesController extends AbstractController
         }
     }
 
+    /**
+     * A partir d'un numéro de carte d'une personne qui est le "no_individu"
+     * retourne une chaîne de caractères correspondant au sexe de la personne
+     * @return string
+     */
     public function getSexe($no_individu) {
         $manager = $this->getDoctrine()->getManager();
         $querySexeEtud = "SELECT sexe FROM aua_etudiant WHERE no_etudiant = '$no_individu'";
@@ -224,6 +251,7 @@ class ControlleurStatistiquesController extends AbstractController
     /**
      * format de la date : YYYY-MM-DD
      * retourne un tableau des heures d'arrivées pour une personne
+     * @return array
      */
     public function getHeureIN($no_mifare_inverse, $date) {
         $date_format = $date . "%";
@@ -241,6 +269,7 @@ class ControlleurStatistiquesController extends AbstractController
     /**
      * format de la date : YYYY-MM-DD
      * retourne un tableau des heures de sorties pour une personne
+     * @return array
      */
     public function getHeureOUT($no_mifare_inverse, $date) {
         $date_format = $date . "%";
@@ -258,20 +287,25 @@ class ControlleurStatistiquesController extends AbstractController
     /**
      * format temps_in et temps_out : YYYY-MM-DD hh:mm:ss
      * retourne la durée d'une séance pour une personne en minutes
+     * @return float
      */
     public function dureeSeance($temps_in, $temps_out) {
         $in = new \DateTime($temps_in);
         $out = new \DateTime($temps_out);
 
-        $diff = $out->diff($in)->h * 60;
-        $diff += $out->diff($in)->i;
-        //$diff += $out->diff($in)->s / 60;
+        $diff = $out->diff($in)->h * 3600;
+        $diff += $out->diff($in)->i * 60;
+        $diff += $out->diff($in)->s;
 
-        $diff = round($diff, 2); // arrondir à 2 chiffres après la virgule
+        $diff = round($diff / 60, 2);
 
         return $diff;
     }
 
+    /**
+     * Tester si un sexe/dénomination donnés en argument correspond à un sexe d'homme
+     * @return boolean
+     */
     public function isMan($sexe) {
         if ($sexe == 'M' || $sexe == 'm.') {
             return true;
@@ -279,6 +313,10 @@ class ControlleurStatistiquesController extends AbstractController
         return false;
     }
 
+    /**
+     * Tester si un sexe/dénomination donnés en argument correspond à un sexe d'une femme
+     * @return boolean
+     */
     public function isWoman($sexe) {
         if ($sexe == "F" || $sexe == "mme") {
             return true;
@@ -288,6 +326,7 @@ class ControlleurStatistiquesController extends AbstractController
 
     /**
      * retourne l'ensemble des données qui seront exportées au format csv
+     * @return array
      */
     public function csvData($date) {
         $data_result = array();
