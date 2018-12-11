@@ -4,16 +4,29 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- responsive -->
+
+        <!-- responsive -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- jQuery -->
         <script src="{{ asset('javascript/jquery.js') }}"></script>
+
+        <!-- Chart.js -->
 		<script src="{{ asset('javascript/Chart.min.js') }}"></script>
+
+        <!-- Bootstrap -->
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
-        <meta http-equiv="Refresh" content="6000"> <!-- Réactualise la page tous les 2 minutes = 120 secondes -->
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+
+        <!-- La page se réactualise automatiquement -->
+        <meta http-equiv="Refresh" content="6">
+
         {% block stylesheets %}{% endblock %}
     </head>
     
     <body>
         <div>
+            <!-- Les affichages web seront dans ce bloc -->
             {% block body %}{% endblock %}
         </div>
 

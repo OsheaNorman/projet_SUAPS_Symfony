@@ -10,7 +10,7 @@
         }
 
         #navbarSupportedContent {
-            padding-left: 75%;
+            padding-left: 65%;
         }
 
         #plage_min {
@@ -169,8 +169,6 @@
 
 {% block javascripts %}
     {# Librairie Chart.js pour les graphiques #}
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>-->
-
     <script>
         var etiquettes = []; // contiendra les étiquettes du graphique - ex : 16h30-17h00
         var total_results = {{ resultat_creneau|length }};
