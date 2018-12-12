@@ -18,8 +18,8 @@
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
-        <!-- La page se réactualise automatiquement -->
-        <meta http-equiv="Refresh" content="6">
+        <!-- Instruction de la réactualisation de la page dans ce block -->
+        {% block refresh %}{% endblock %}
 
         {% block stylesheets %}{% endblock %}
     </head>
