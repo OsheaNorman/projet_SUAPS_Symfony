@@ -10,10 +10,10 @@
 
 {% block refresh %}
     <!-- La page se réactualise automatiquement -->
-    <meta http-equiv="Refresh" content="6">
+    <meta http-equiv="Refresh" content="5" onload="startTime()">
 {% endblock %}
 
-{% block body %}
+{% block body  %}
 
     <div class="container-fluid pt-3 text-left text-capitalize">
         {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
@@ -109,19 +109,15 @@
             </div>
         </div>
 
-        {# S'il n'y a pas d'étudiant, je met un petit affichage : AUCUN ETUDIANTS #}
+        {# S'il n'y a pas d'étudiant, on met un petit affichage : AUCUN ETUDIANT #}
 
         {% if tailleDuTableauPresent == 0 %}
             <div id="noStudent">AUCUN ETUDIANT</div>
         {% endif %}
 
-        <div class="mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5" style="margin-bottom:-5px">
+        <div  class="mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5" style="margin-bottom:-5px">
             <div id="mon_timer" class="d-flex" style="font-size:200%">
-                <div id="hours"></div>
-                <div>:</div>
-                <div id="minutes"></div>
-                <div>:</div>
-                <div id="secondes"></div>
+                <div id="txt">Temps</div>
             </div>
             <div style="font-size:230%">
                 {{ tailleDuTableauPresent }} / {{ capacite }}
@@ -135,5 +131,16 @@
 
     <script src="{{ asset('javascript/time.js') }}"></script>
     <script src="{{ asset('javascript/script.js') }}"></script>
+<script>
+  var t = setInterval(myTimer, 1000);
+  function myTimer() {
+  var d = new Date();
+  document.getElementById("txt").innerHTML = d.toLocaleTimeString();
+}
 
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
 {% endblock %}
