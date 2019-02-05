@@ -1,6 +1,4 @@
 #!/bin/bash
-
-git checkout develop
 composer require symfony/http-foundation
 composer require symfony/http-kernel
 composer require api
@@ -12,7 +10,3 @@ mysql --user=root --password=root SUAPS < SUAPS.sql
 mysql --user="root" --password="root" --execute="GRANT ALL PRIVILEGES ON SUAPS.* TO 'user'@'localhost' IDENTIFIED BY 'password'";
 #Remplace la connection pour la base de donnée
 sed -i -e 's/DATABASE_URL=mysql:\/\/db_user:db_password@127.0.0.1:3306\/db_name/DATABASE_URL=mysql:\/\/user:password@127.0.0.1:3306\/SUAPS/g' .env
-
-python serveurBroadcast.py & 
-
-php bin/console server:start *:8080
