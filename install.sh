@@ -1,4 +1,6 @@
 #!/bin/bash
+
+git checkout develop
 composer require symfony/http-foundation
 composer require symfony/http-kernel
 composer require api
