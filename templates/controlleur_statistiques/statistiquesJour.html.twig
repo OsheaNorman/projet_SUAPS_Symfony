@@ -1,0 +1,327 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+        .statistiques {
+            text-align:center;
+        }
+
+        #navbarSupportedContent {
+            padding-left: 60%;
+        }
+
+        #tab1, #durees {
+            margin-top: 30px;
+        }
+
+        table {
+            text-align: center;
+        }
+
+        .row {
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 400%;
+        }
+
+        #durees {
+            margin-bottom: 7%;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        {# Bar de navigation #}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#" onclick="statistiquesAccueil()">SUAPS</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="form-inline my-2 my-lg-0" id="formulaire">
+                    <div style="color: #ffffff;">Début  &nbsp;</div><input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
+                    <div style="color: #ffffff;">Fin &nbsp;</div><input id="date_jour2" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
+                    <div style="color: #ffffff;">Pas &nbsp;</div><select  id="pas" class="selectpicker" onchange="badgeagesJour()">
+                    <option value="jour">Jour</option>
+                    <option value="minute">Minute</option>
+                    </select>
+                    <button class="btn btn-outline-success my-2 my-sm-0" onclick="badgeagesJour()">Résultat</button>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div id="jumbotron-en-tete" class="jumbotron">
+                <h1 class="display-4">Statistiques</h1>
+                <p class="lead"> Statistiques sur la fréquentation de la salle de musculation du SUAPS - Université d'Angers</p>
+                <hr class="my-4">
+                <p>Vous avez <strong>{{ nb_badgeages }}</strong> badgeage(s) d'entrées pour la période <span><strong id="jour">d'aujourd'hui</strong></span>. <br/>
+                Vous pouvez toute fois changer de date pour visualiser la fréquentation par plages horaires de la salle pour une autre journée.</p>
+                {% if ("now"|date("Y-m-d")) !=  date %}
+                    <a class="btn btn-primary btn-lg" href="#" onclick="statistiquesAccueil()" role="button">Revenir à la date du jour</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="container">
+            {% if (resultat_creneau|length) != 0 %}
+            <div class="container">
+                <h2 class="display-3 text-center">Taux de présence sur les plages horaires</h2>
+                <div class="table-responsive">
+                    <table id="tab1" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Jour</th>
+                                <th>Femmes</th>
+                                <th>Hommes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in 0..(resultat_creneau|length - 1)%}
+                                <tr>
+                                    <td>{{ resultat_creneau[i]["d_debut"] }}/{{ resultat_creneau[i]["m_debut"]}}</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]["femmes"] }} femmes</td>
+                                    <td>{{ resultat_creneau[i]["array_result"]["hommes"] }} hommes</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {# Représentation graphique #}
+            <div class="container">
+                <canvas id="graphique"></canvas>
+            </div>
+            {% endif %}
+        </div>
+
+        <div id="durees" class="container">
+        {% if (temps_seance|length) != 0 %}
+            
+            {# Variable qui contiendra la durée moyenne d'une séance #}
+            {% set somme = 0 %}
+
+            {% set tab_durees = [] %}
+            {% for i in 0..(temps_seance|length - 1) %}
+                {% set tab_durees = tab_durees|merge( [temps_seance[i]["duree"]] ) %} 
+            {% endfor %}
+
+            {% for i in 0..(tab_durees|length - 1) %}
+                {% set somme = somme + tab_durees[i] %} 
+            {% endfor %}
+            {% set moyenne = somme / (tab_durees|length) %}
+
+            <h2 class="display-4 text-center">Durées d'une séance</h2>
+            <div id="durees" class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Durée minimum</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
+                                <p class="card-text">{{ min(tab_durees) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Durée moyenne</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
+                                <p class="card-text">{{ moyenne|round(2, 'floor') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Durée maximum</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">(en minutes)</h6>
+                                <p class="card-text">{{ max(tab_durees) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="dataToCSV()">Exporter les données au format csv</button>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {# Librairie Chart.js pour les graphiques #}
+    <script>
+        var etiquettes = []; // contiendra les étiquettes du graphique - ex : 16h30-17h00
+        var total_results = {{ resultat_creneau|length }};
+        var resultat_creneau = {{ resultat_creneau|json_encode()|raw }};
+
+        var hommes = [];
+        var femmes = [];
+
+        for (var i = 0 ; i < total_results ; i++) {
+            var etiquette_str = resultat_creneau[i].d_debut + "/" + resultat_creneau[i].m_debut;
+            //etiquette_str = etiquette_str + "-" + resultat_creneau[i].d_fin + "/" + resultat_creneau[i].m_fin;
+            etiquettes.push(etiquette_str); // ces étiquettes figureront sur dans le fichier csv
+
+            hommes.push(resultat_creneau[i].array_result.hommes);
+            femmes.push(resultat_creneau[i].array_result.femmes);
+        }
+
+        if ((hommes.length + femmes.length) !== 0) {
+
+            var ctx = document.getElementById('graphique').getContext('2d');
+
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
+
+                // The data for our dataset
+                data: {
+                    labels: etiquettes,
+                    datasets: [
+                        {
+                            label: "Femmes",
+                            backgroundColor: 'rgb(204, 51, 255)',
+                            borderColor: 'rgb(204, 51, 255)',
+                            data: femmes,
+                        },
+                        {
+                            label: "Hommes",
+                            backgroundColor: 'rgb(0, 120, 120)',
+                            borderColor: 'rgb(0, 120, 120)',
+                            data: hommes,
+                        }
+                    ]
+                },
+
+                // Configuration options go here
+                options: {
+                    title: {
+                        display: true,
+                        text: "Vue graphique du taux de présence sur les plages horaires"
+                    }
+                }
+            });
+        }
+
+        function dateToHour(date) {
+            if (date == "") {
+                return "";
+            }
+            var d = new Date(date).toISOString().split("T")[1];
+            var split = d.split(":");
+            var str = split[0] + "h" + split[1];
+            return str;
+        }
+
+        // Gestion du téléchargement des données au format csv
+        
+        // https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
+
+        function dataToCSV() { // content, filename, mimetype
+            var csvContent = ""; // sera remplie à partir de donnees et etiquettes (qui ont une même taille)
+            var csvData = {{ csv_data|json_encode()|raw }};
+
+            csvContent = "no_individu;sexe;heure_arrivée;heure_sortie;temps_presence_minutes\n"; 
+
+            for (var i = 0 ; i < (csvData.length) ; i++) {
+                if (i != csvData.length - 1) {
+                    csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree + "\n";
+                } else {
+                    csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree;
+                }
+            };
+
+            // Nom du fichier à télécharger
+            var twig_date = {{ date|json_encode()|raw }};
+            var yyyy_mm_dd = new Date(twig_date).toISOString().split("T")[0];
+            var fileName = "taux-de-presence-" + yyyy_mm_dd + ".csv";
+
+            // téléchargement
+            var a = document.createElement("a");
+            var mimeType = "text/csv;encoding:utf-8";
+
+            if (navigator.msSaveBlob) { // IE10
+                navigator.msSaveBlob(new Blob([csvContent], {
+                type: mimeType
+                }), fileName);
+            } else if (URL && 'download' in a) { //html5 A[download]
+                a.href = URL.createObjectURL(new Blob([csvContent], {
+                type: mimeType
+                }));
+                a.setAttribute('download', fileName);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                location.href = 'data:application/octet-stream,' + encodeURIComponent(csvContent); // only this mime type is supported
+            }
+        }
+    </script>
+
+    <script>
+        twig_date = {{ date|json_encode()|raw }};
+        twig_date2 = {{ date2|json_encode()|raw }};
+        
+        // Récupération de la date du jours, au format ISO. ex : 2018-11-09T21:24:56.629Z
+        var d = new Date(twig_date).toISOString().split("T")[0]; // Extraction de la date seulement : 2018-11-09
+        var d2 = new Date(twig_date2).toISOString().split("T")[0]; // Extraction de la date seulement : 2018-11-09
+        document.getElementById("date_jour").value = d;
+        document.getElementById("date_jour2").value = d2;
+
+        if (twig_date == twig_date2) {
+            d_str = new Date(twig_date).toLocaleDateString("fr-FR");
+            document.getElementById("jour").innerHTML = "du " + d_str;
+        }
+        else{
+            d_str = new Date(twig_date).toLocaleDateString("fr-FR");
+            d_str2 = new Date(twig_date2).toLocaleDateString("fr-FR");
+            document.getElementById("jour").innerHTML = "du " + d_str + " au " + d_str2;  
+        }
+
+        function badgeagesJour() {
+            jour = document.getElementById("date_jour").value;
+            jour2 = document.getElementById("date_jour2").value;
+            pas = document.getElementById("pas").value;
+            if (jour == "") {
+                alert("La date est requise !");
+                return;
+            }
+            if (jour2 == "") {
+                jour2=jour;
+            }
+            if (jour2 == jour) {
+                jour2=jour;
+            }
+            if (jour > jour2) {
+                alert("La date de début doit être inférieure à la date de fin.");
+                return;
+            }
+
+            var url = "/controlleur/statistiques/badgeages/"+ pas +"/" + jour + "/" + jour2 + "/1";
+            window.location = url;
+        }
+
+        function statistiquesAccueil() {
+            var url = "/controlleur/statistiques/badgeages/jour";
+            window.location = url;
+        }
+    </script>
+
+{% endblock %}

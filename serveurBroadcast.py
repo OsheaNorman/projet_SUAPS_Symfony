@@ -11,21 +11,10 @@ s.bind((host, port))
 
 while 1:
     try:
-    	#Le socket ecoute la reception d'un message.
-	message, address = s.recvfrom(8192) 
-	#print "Got data from", address
-	#print "Le message est ", message
-	# Acknowledge it.
-	#Apres reception, le socket envoie un message a l'adresse
-	if(message=="AppSUAPS"):
-		s.sendto("SUAPS MUSCULATION", address) 
+       message, address = s.recvfrom(8192)
+       if(message=="AppSUAPS"):
+            s.sendto("SUAPS MUSCULATION", address) 
     except (KeyboardInterrupt, SystemExit):
-	raise
+        raise
     except:
-	traceback.print_exc()
-	
-	
-	
-	 
-
-
+        traceback.print_exc()

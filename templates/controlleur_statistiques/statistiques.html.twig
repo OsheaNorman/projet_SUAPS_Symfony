@@ -10,7 +10,7 @@
         }
 
         #navbarSupportedContent {
-            padding-left: 65%;
+            padding-left: 50%;
         }
 
         #plage_min {
@@ -53,8 +53,13 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="form-inline my-2 my-lg-0" id="formulaire">
-                    <input id="plage_min" type="text" class="form-control mr-sm-2" placeholder="Plage" onchange="changePlage(this.value)"/>
-                    <input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
+                     <div style="color: #ffffff;">Début &nbsp;</div><input id="date_jour" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
+                     <div style="color: #ffffff;">Fin &nbsp;</div><input id="date_jour2" class="form-control mr-sm-2" type="date" placeholder="Entrer une date" aria-label="Entrer une date" value="" onchange="badgeagesJour()"/>
+                    <div style="color: #ffffff;">Plage &nbsp;</div><input id="plage_min" type="text" class="form-control mr-sm-2" placeholder="Plage" onchange="changePlage(this.value)"/>
+                     <div style="color: #ffffff;">Pas &nbsp;</div><select  id="pas" class="selectpicker" onchange="badgeagesJour()">
+                    <option value="minute">Minute</option>
+                    <option value="jour">Jour</option>
+                    </select>
                     <button class="btn btn-outline-success my-2 my-sm-0" onclick="badgeagesJour()">Résultat</button>
                 </div>
             </div>
@@ -64,9 +69,9 @@
                 <h1 class="display-4">Statistiques</h1>
                 <p class="lead"> Statistiques sur la fréquentation de la salle de musculation du SUAPS - Université d'Angers</p>
                 <hr class="my-4">
-                <p>Vous avez <strong>{{ nb_badgeages }}</strong> badgeage(s) d'entrées pour la journée <span><strong id="jour">d'aujourd'hui</strong></span>. <br/>
+                <p>Vous avez <strong>{{ nb_badgeages }}</strong> badgeage(s) d'entrées pour la période <span><strong id="jour">d'aujourd'hui</strong></span>. <br/>
                 Vous pouvez toute fois changer de date pour visualiser la fréquentation par plages horaires de la salle pour une autre journée.</p>
-                <p>La durée d'une plage horaire est fixée à <strong>{{ plage_min }}</strong> minute(s).</p>
+                <p>La durée d'une plage horaire est fixée à <strong>{{ plage_min }}</strong> minutes(s).</p>
                 {% if ("now"|date("Y-m-d")) !=  date %}
                     <a class="btn btn-primary btn-lg" href="#" onclick="statistiquesAccueil()" role="button">Revenir à la date du jour</a>
                 {% endif %}
@@ -280,17 +285,22 @@
 
     <script>
         twig_date = {{ date|json_encode()|raw }};
-
+        twig_date2 = {{ date2|json_encode()|raw }};
+        
         // Récupération de la date du jours, au format ISO. ex : 2018-11-09T21:24:56.629Z
         var d = new Date(twig_date).toISOString().split("T")[0]; // Extraction de la date seulement : 2018-11-09
+        var d2 = new Date(twig_date2).toISOString().split("T")[0]; // Extraction de la date seulement : 2018-11-09
         document.getElementById("date_jour").value = d;
+        document.getElementById("date_jour2").value = d2;
 
-        if (new Date().toISOString().split("T")[0] == twig_date) {
-            // la date récupéré c'est la date du jour courant
-            document.getElementById("jour").innerHTML = "d'aujourd'hui";
-        } else {
+        if (twig_date == twig_date2) {
             d_str = new Date(twig_date).toLocaleDateString("fr-FR");
             document.getElementById("jour").innerHTML = "du " + d_str;
+        }
+        else{
+            d_str = new Date(twig_date).toLocaleDateString("fr-FR");
+            d_str2 = new Date(twig_date2).toLocaleDateString("fr-FR");
+            document.getElementById("jour").innerHTML = "du " + d_str + " au " + d_str2;  
         }
 
         var default_plage_value = "30";
@@ -315,20 +325,32 @@
 
         function badgeagesJour() {
             jour = document.getElementById("date_jour").value;
+            jour2 = document.getElementById("date_jour2").value;
+            pas = document.getElementById("pas").value;
             if (jour == "") {
                 alert("La date est requise !");
+                return;
+            }
+            if (jour2 == "") {
+                jour2=jour;
+            }
+            if (jour2 == jour) {
+                jour2=jour;
+            }
+            if (jour > jour2) {
+                alert("La date de début doit être inférieure à la date de fin.");
                 return;
             }
             if (plage.value == "" || isNaN(parseInt(plage.value))) {
                 alert("Il est nécessaire de renseigner la plage en minutes !");
                 return;
             }
-            var url = "/controlleur/statistiques/badgeages/jour/" + jour + "/" + plage.value;
+            var url = "/controlleur/statistiques/badgeages/"+ pas +"/" + jour + "/" + jour2 + "/" + plage.value;
             window.location = url;
         }
 
         function statistiquesAccueil() {
-            var url = "/controlleur/statistiques/badgeages";
+            var url = "/controlleur/statistiques/badgeages/heure";
             url = url + "/" + plage.value;
             window.location = url;
         }
