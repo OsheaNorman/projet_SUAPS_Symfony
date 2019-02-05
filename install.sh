@@ -4,7 +4,7 @@ composer require symfony/http-kernel
 composer require api
 
 #Dump de la base
-mysql --user=root --password=root SUAPS < SUAPS.sql
+mysql --user=root --password=root < SUAPS.sql
 
 #Creation de l'utilisateur
 mysql --user="root" --password="root" --execute="GRANT ALL PRIVILEGES ON SUAPS.* TO 'user'@'localhost' IDENTIFIED BY 'password'";
