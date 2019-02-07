@@ -13,14 +13,14 @@
     <meta http-equiv="Refresh" content="10" onload="startTime()">
 {% endblock %}
 
-{% block body  %}
+{% block body   %}
 
-    <div class="container-fluid pt-3 text-left text-capitalize">
+    <div class="container-fluid pt-3 text-left text-capitalize" >
         {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
         {% set couleurBackground = '' %} {# variable contenant la couleurBackground lorsque le temps de la séance d'un étudiant est dépassé #}
-        {% set rouge = 'rgb(217,83,79)' %} {# représente la couleurBackground rouge #}
-        {% set orange = 'rgb(240,173,78)' %} {# représente la couleurBackground orange #}
-        {% set verte = 'rgb(75,191,115)' %} {# représente la couleurBackground verte #}
+        {% set rouge = 'rgb(175, 55, 58)' %} {# représente la couleurBackground rouge #}
+        {% set orange = 'rgb(213, 118, 34)' %} {# représente la couleurBackground orange #}
+        {% set verte = 'rgb(75,170,115)' %} {# représente la couleurBackground verte #}
         {% set padding_left = '' %} {# avoir le même décalage pour toutes les div nom et prenom #}
 
         <div id="refresh" class="d-flex float-left" style="width:100%;">

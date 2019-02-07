@@ -12,6 +12,7 @@ s.bind((host, port))
 while 1:
     try:
        message, address = s.recvfrom(8192)
+       print(message)
        if(message=="AppSUAPS"):
             s.sendto("SUAPS MUSCULATION", address) 
     except (KeyboardInterrupt, SystemExit):
