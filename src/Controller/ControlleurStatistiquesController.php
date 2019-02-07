@@ -10,10 +10,10 @@ use App\Entity\AuaPresenceSeance;
 class ControlleurStatistiquesController extends AbstractController
 {
     /**
-     * @Route("/controlleur/statistiques/badgeages/minute", name="statistiques_badgeages_heure")
+     * @Route("/statistiques", name="statistiques_badgeages_heure")
      * 
      * Point d'entrée pour tout ce qui concerne les statistiques
-     * Par défaut cette fonction redirige vers les statistiques du jours courant
+     * Par défaut cette fonction redirige vers les statistiques du jours courant en fonction des minutes.
      */
     public function index() {
         
@@ -25,18 +25,17 @@ class ControlleurStatistiquesController extends AbstractController
    /**
      * @Route("/controlleur/statistiques/badgeages/jour", name="statistiques_badgeages_jours")
      * 
-     * Point d'entrée pour tout ce qui concerne les statistiques
-     * Par défaut cette fonction redirige vers les statistiques du jours courant
+     * Redirige vers les statistiques du jours courant en fonction des heures.
      */
     public function index_jours() {
         
         $date_du_jour = new \DateTime();
         $date_du_jour_str = $date_du_jour->format("Y-m-d");
-        return $this->redirectToRoute("badgeages_jours", array("date" => $date_du_jour_str,"date2" => $date_du_jour_str, "plage" => 30));
+        return $this->redirectToRoute("badgeages_jours", array("date" => $date_du_jour_str,"date2" => $date_du_jour_str, "plage" => 1));
     }
     /**
      * @Route("/controlleur/statistiques/badgeages/minute/{date}/{date2}/{plage}", name="badgeages_heures")
-     * Fonction qui va retourner les données sur la page web statistiques.html.twig 
+     * Fonction qui va retourner les données sur la page web statistiques.html.twig en fonction des heures
      */
     public function badgeagesHeure($date,$date2, $plage)
     {
@@ -120,7 +119,7 @@ class ControlleurStatistiquesController extends AbstractController
 
     /**
      * @Route("/controlleur/statistiques/badgeages/jour/{date}/{date2}/{plage}", name="badgeages_jours")
-     * Fonction qui va retourner les données sur la page web statistiques.html.twig 
+     * Fonction qui va retourner les données sur la page web statistiques.html.twig  en fonction des jours.
      */
 public function badgeagesJour($date,$date2, $plage)
     {

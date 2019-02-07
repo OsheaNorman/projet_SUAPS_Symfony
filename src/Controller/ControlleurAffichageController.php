@@ -33,13 +33,11 @@ class ControlleurAffichageController extends ControlleurLienController
     }
     
     /**
-     * @Route("/controlleur/affichage", name="controlleur_affichage")
+     * @Route("/affichage", name="controlleur_affichage")
      */
     public function index()
     {
-        return $this->render('controlleur_test/index.html.twig', [
-            'controller_name' => 'ControlleurAffichageController',
-        ]);
+        return $this->redirectToRoute("Liste_etudiant_present",array("retour" => 0));
     }
 
 	/**

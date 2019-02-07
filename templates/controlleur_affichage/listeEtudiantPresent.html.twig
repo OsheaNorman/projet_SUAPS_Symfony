@@ -10,7 +10,7 @@
 
 {% block refresh %}
     <!-- La page se réactualise automatiquement -->
-    <meta http-equiv="Refresh" content="5" onload="startTime()">
+    <meta http-equiv="Refresh" content="10" onload="startTime()">
 {% endblock %}
 
 {% block body  %}
@@ -117,7 +117,7 @@
 
         <div  class="mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5" style="margin-bottom:-5px">
             <div id="mon_timer" class="d-flex" style="font-size:200%">
-                <div id="txt">Temps</div>
+                <div id="txt"></div>
             </div>
             <div style="font-size:230%">
                 {{ tailleDuTableauPresent }} / {{ capacite }}

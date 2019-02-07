@@ -11,3 +11,5 @@
 ###< symfony/web-server-bundle ###
 
 install\.sh
+
+SUAPS\.sql
