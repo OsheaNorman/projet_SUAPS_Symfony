@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <!-- responsive -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- jQuery -->
+        <script src="{{ asset('javascript/jquery.js') }}"></script>
+
+        <!-- Chart.js -->
+		<script src="{{ asset('javascript/Chart.min.js') }}"></script>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+
+        <!-- Instruction de la réactualisation de la page dans ce block -->
+        {% block refresh %}{% endblock %}
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    
+    <body style="background-color: #D9D9D9">
+        <div>
+            <!-- Les affichages web seront dans ce bloc -->
+            {% block body %}{% endblock %}
+        </div>
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+

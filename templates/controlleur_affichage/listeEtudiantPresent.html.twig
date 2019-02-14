@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ liste_presence }}{% endblock %}
+
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="/css/style.css">
+
+{% endblock %}
+
+{% block refresh %}
+    <!-- La page se réactualise automatiquement -->
+    <meta http-equiv="Refresh" content="10" onload="startTime()">
+{% endblock %}
+
+{% block body   %}
+
+    <div class="container-fluid pt-3 text-left text-capitalize" >
+        {% set compteur = 0 %} {# compteur mis à jour lors du badgeage #}
+        {% set couleurBackground = '' %} {# variable contenant la couleurBackground lorsque le temps de la séance d'un étudiant est dépassé #}
+        {% set rouge = 'rgb(175, 55, 58)' %} {# représente la couleurBackground rouge #}
+        {% set orange = 'rgb(213, 118, 34)' %} {# représente la couleurBackground orange #}
+        {% set verte = 'rgb(75,170,115)' %} {# représente la couleurBackground verte #}
+        {% set padding_left = '' %} {# avoir le même décalage pour toutes les div nom et prenom #}
+
+        <div id="refresh" class="d-flex float-left" style="width:100%;">
+            <!-- ######################## -->
+            <!-- Première colonne affiché -->
+            <!-- ######################## -->
+
+            <div class="d-flex w-100">
+                <div class="colonne d-flex flex-column">
+                    {% for present in premiereColonne %}
+                        {% set compteur = compteur + 1 %}
+
+                        {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {% if present.duree >= tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
+                        {% elseif present.duree >= present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
+                        {% else %}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
+                        {% endif %}
+
+                        <div class="div_etudiant d-flex align-items-center pl-2 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div class="contenant_photo"><img src="data:image/png;base64, {{ present.photo }}" alt="Phot"></div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
+                            <div class="mr-1 ml-2">{{ present.duree }}</span></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- ######################## -->
+            <!-- Deuxieme colonne affiché -->
+            <!-- ######################## -->
+
+            <div class="d-flex w-100">
+                <div class="colonne d-flex flex-column">
+                    {% for present in deuxiemeColonne %}
+                        {% set compteur = compteur + 1 %}
+
+                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {% if present.duree >= tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
+                        {% elseif present.duree >= present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
+                        {% else %}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
+                        {% endif %}
+
+                        <div class="div_etudiant d-flex align-items-center pl-2 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div class="contenant_photo"><img src="data:image/png;base64, {{ present.photo }}" alt="Phot"></div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
+                            <div class="mr-1 ml-2">{{ present.duree }}</span></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- ######################## -->
+            <!-- Troisieme colonne affiché -->
+            <!-- ######################## -->
+
+            <div class="d-flex w-100">
+                <div class="colonne d-flex flex-column">
+                    {% for present in troisiemeColonne %}
+                        {% set compteur = compteur + 1 %}
+
+                         {# Changement de couleurBackground lorsque l'étudiant dépasse le temps minimum de la séance #}
+                        {% if present.duree >= tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = rouge %} {# couleur du background en rouge #}
+                        {% elseif present.duree >= present.orange or minute15|date('H:i') > tempsMinimums|date('H:i') %}
+                            {% set couleurBackground = orange %} {# couleur du background en orange #}
+                        {% else %}
+                            {% set couleurBackground = verte %} {# couleur du background en vert #}
+                        {% endif %}
+
+                        <div class="div_etudiant d-flex align-items-center pl-2 pr-3 mb-2 mr-2" style="background-color:{{ couleurBackground }};">
+                            <div class="contenant_photo"><img src="data:image/png;base64, {{ present.photo }}" alt="Phot"></div>
+                            <div class="pl-3 flex-grow-1" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ present.nom }} {{ present.prenom }}</div>
+                            <div class="mr-1 ml-2">{{ present.duree }}</span></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {# S'il n'y a pas d'étudiant, on met un petit affichage : AUCUN ETUDIANT #}
+
+        {% if tailleDuTableauPresent == 0 %}
+            <div id="noStudent">AUCUN ETUDIANT</div>
+        {% endif %}
+
+        <div  class="mon_footer d-flex justify-content-between align-items-center fixed-bottom ml-5 mr-5" style="margin-bottom:-5px">
+            <div id="mon_timer" class="d-flex" style="font-size:200%">
+                <div id="txt"></div>
+            </div>
+            <div style="font-size:230%">
+                {{ tailleDuTableauPresent }} / {{ capacite }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('javascript/time.js') }}"></script>
+    <script src="{{ asset('javascript/script.js') }}"></script>
+<script>
+  var t = setInterval(myTimer, 1000);
+  function myTimer() {
+  var d = new Date();
+  document.getElementById("txt").innerHTML = d.toLocaleTimeString();
+}
+
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
+{% endblock %}

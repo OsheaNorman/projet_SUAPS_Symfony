@@ -1,0 +1,70 @@
+body{
+    font-family: "Times New Roman";
+    font-stretch: semi-condensed;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    font-variant: small-caps;
+    background-color:white;
+    color:black;
+}
+
+.div_etudiant{
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px grey;
+    font-size:150%;
+    font-weight:bold;
+    height:1em;
+}
+
+.mon_footer{
+    font-size:180%;
+}
+
+.colonne{
+    color:#ECEEEF; /* couleur blanc */
+}
+
+#noStudent{
+    font-size:550%;
+    color:rgb(68, 68, 68);
+    font-weight:bold;
+    text-align: center;
+    margin-top:20%;
+}
+
+#noStudent .letter {
+    display: inline-block;
+    line-height: 1em;
+}
+
+img{
+    height:100%;
+    width:100%;
+}
+
+#hours{
+    background-color: rgba(51, 51, 51,1.4);
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px grey;
+    color: white;
+    margin-bottom: 13px;
+    padding:2px;
+}
+
+#minutes{
+    background-color: rgba(51, 51, 51);
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px grey;
+    color: white;
+    margin-bottom: 13px;
+    padding:2px;
+}
+
+#secondes{
+    background-color: rgb(205, 205, 205);
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px grey;
+    color: rgb(29, 29, 29);
+    margin-bottom: 13px;
+    padding:2px;
+}
