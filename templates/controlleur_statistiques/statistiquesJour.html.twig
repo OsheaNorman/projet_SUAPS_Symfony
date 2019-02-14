@@ -215,7 +215,14 @@
                     title: {
                         display: true,
                         text: "Vue graphique du taux de présence sur les plages horaires"
-                    }
+                    },
+        scales: {
+          yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+          }]
+}
                 }
             });
         }
@@ -241,6 +248,7 @@
             csvContent = "no_individu;sexe;heure_arrivée;heure_sortie;temps_presence_minutes\n"; 
 
             for (var i = 0 ; i < (csvData.length) ; i++) {
+                print(csvData[i].no_individu);
                 if (i != csvData.length - 1) {
                     csvContent = csvContent + csvData[i].no_individu + ";" + csvData[i].sexe + ";" + dateToHour(csvData[i].heure_entree) + ";" + dateToHour(csvData[i].heure_sortie) + ";" + csvData[i].duree + "\n";
                 } else {

@@ -192,7 +192,7 @@ public function badgeagesJour($date,$date2, $plage)
 
         return $this->render('controlleur_statistiques/statistiquesJour.html.twig', [
             'nb_badgeages' => count($badge_in),
-           // 'plage_min' => $plage_min,
+            'plage_min' => $plage,
             'date' => $date,
             'date2' => $date2,
             'resultat_creneau' => $data_array,
@@ -232,6 +232,7 @@ public function badgeagesJour($date,$date2, $plage)
         $compteur["hommes"] = $hommes;
         $compteur["femmes"] = $femmes;
 
+
         return $compteur;
     }
 
@@ -244,8 +245,8 @@ public function badgeagesJour($date,$date2, $plage)
      * qu'il a passé à la salle; une durée pour chaque passage.
      */
     public function tempsSeance($date,$date2) {
-        $date_format = $date . "%";
-        $date_format2 = $date2 . "%";
+        $date_format = $date . " 00:00:00";
+        $date_format2 = $date2 . " 23:59:59";
 
         $manager = $this->getDoctrine()->getManager();
         $query = "SELECT DISTINCT no_mifare_inverse FROM aua_presence_seance WHERE temps between '$date_format' AND '$date_format2'"; // toutes les personnes présentes pour ce jour
@@ -352,8 +353,8 @@ public function badgeagesJour($date,$date2, $plage)
      * @return array
      */
     public function getHeureIN($no_mifare_inverse, $date, $date2) {
-        $date_format = $date . "%";
-        $date_format2 = $date2 . "%";
+        $date_format = $date . " 00:00:00";
+        $date_format2 = $date2 . " 23:59:59";
 
         $manager = $this->getDoctrine()->getManager();
         $query = "SELECT temps FROM aua_presence_seance WHERE no_mifare_inverse = '$no_mifare_inverse' AND entreesSorties LIKE 'IN' AND temps between '$date_format' AND '$date_format2' ORDER BY temps";
@@ -371,8 +372,8 @@ public function badgeagesJour($date,$date2, $plage)
      * @return array
      */
     public function getHeureOUT($no_mifare_inverse, $date, $date2) {
-        $date_format = $date . "%";
-        $date_format2 = $date2 . "%";
+        $date_format = $date . " 00:00:00";
+        $date_format2 = $date2 . " 23:59:59";
 
         $manager = $this->getDoctrine()->getManager();
         $query = "SELECT temps FROM aua_presence_seance WHERE no_mifare_inverse = '$no_mifare_inverse' AND entreesSorties LIKE 'OUT' AND temps between '$date_format' AND '$date_format2' ORDER BY temps";
@@ -431,8 +432,8 @@ public function badgeagesJour($date,$date2, $plage)
     public function csvData($date,$date2) {
         $data_result = array();
 
-        $date_format = $date . "%";
-        $date_format2 = $date2 . "%";
+        $date_format = $date . " 00:00:00";
+        $date_format2 = $date2 . " 23:59:59";
         $manager = $this->getDoctrine()->getManager();
         $query = "SELECT no_mifare_inverse FROM aua_presence_seance WHERE temps between '$date_format' AND '$date_format2' AND entreesSorties LIKE 'IN' ORDER BY temps";
 

@@ -223,6 +223,13 @@
                     title: {
                         display: true,
                         text: "Vue graphique du taux de présence sur les plages horaires"
+                    },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                            }
+                        }]
                     }
                 }
             });
@@ -345,7 +352,10 @@
                 alert("Il est nécessaire de renseigner la plage en minutes !");
                 return;
             }
-            var url = "/controlleur/statistiques/badgeages/"+ pas +"/" + jour + "/" + jour2 + "/" + "1";
+            if (pas == "jour"){
+                plage.value="1";
+            }
+            var url = "/controlleur/statistiques/badgeages/"+ pas +"/" + jour + "/" + jour2 + "/" + plage.value;
             window.location = url;
         }
 

@@ -101,6 +101,7 @@ class ControlleurLienController extends AbstractController
     {
 		//récuperation des données depuis l'application android 
 		$no_mifare_inverse = $request->request->get('numeroCarte');
+		print($no_mifare_inverse);
 
         //On vérifie que le no_mifare_inverse se trouve dans l'une des 3 tables :
         //aua_etudiant_unicampus, aua_personnel_unicampus, aua_autre_unicampus
