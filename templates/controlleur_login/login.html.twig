@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block stylesheets %}
+
+     <!--============================= CSS de la page Authentification ===========================-->
+
+    <link rel="stylesheet" type="text/css" href="login_style/css/util.css">
+    <link rel="stylesheet" type="text/css" href="login_style/css/main.css">
+
+    <!--===============================================================================================-->
+
+{% endblock %}
+
+{% block body %}
+ <!--============================= Template de la page Authentification ===========================-->
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-85 p-b-20">
+
+                <form class="login100-form validate-form" method="post">
+
+					<span class="login100-form-title p-b-70">
+						Authentification
+					</span>
+                    <!-- =================== on test si la variable 'erreur' est déja definie pour afficher le message d'erreur -->
+                    {%  if erreur is defined %}
+                       <div class="alert alert-danger">
+                            <strong>Erreur : </strong> Identifiant ou mot de passe incorrect
+                        </div>
+
+                    {% endif %}
+                    <!--===============================================================================================-->
+                    <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Enter username">
+                        <input class="input100" type="text" name="utilisateur">
+                        <span class="focus-input100" data-placeholder="Identifiant"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+                        <input class="input100" type="password" name="motdepasse">
+                        <span class="focus-input100" data-placeholder="Mot de passe"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">
+                            Se connecter
+                        </button>
+                    </div>
+
+                    <ul class="login-more p-t-190">
+                        <li class="m-b-8">
+
+                            <a href="https://valident.univ-angers.fr/valident/PersonnelMdp" class="txt2">
+                                Mot de passe oublié ?
+                            </a>
+                        </li>
+
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+     <script src="login_style/js/main.js"></script>
+
+{% endblock %}
