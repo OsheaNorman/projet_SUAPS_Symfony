@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\VuePresence;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+
 
 class ControlleurAffichageController extends ControlleurLienController
 {
@@ -44,9 +47,17 @@ class ControlleurAffichageController extends ControlleurLienController
      * @Route("/controlleur/listePersonne/{retour}",name="Liste_etudiant_present")
 	*/
 	//Cette route permet de réaliser l'affichage sur l'écran et l'application android 
-    public function printScreen($retour)
+    public function printScreen($retour,SessionInterface $session)
     {
-		$tableVuePresence = $this->LogiqueInterne();
+
+
+        // Récupération de la variable session 'utilisateur' pour tester si l'utilisateur est authentifié
+        $session_utilisateur = $session->get("utilisateur");
+
+
+        if(isset($session_utilisateur)){
+
+            $tableVuePresence = $this->LogiqueInterne();
 
 		//variable pour stocker la date actuelle (NOW)
 		$dateActuelle = new \DateTime();
@@ -119,5 +130,10 @@ class ControlleurAffichageController extends ControlleurLienController
 				'tailleDuTableauPresent' => $tailleDuTableauPresent
         	]);
 		}
+
+        }else{
+
+            return $this->redirectToRoute("login");
+        }
 	}
 }
