@@ -1,6 +1,7 @@
 #!/bin/bash
 composer require symfony/http-foundation
 composer require symfony/http-kernel
+composer require guzzlehttp/guzzle
 composer require api
 
 #Dump de la base
